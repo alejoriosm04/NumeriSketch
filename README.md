@@ -56,4 +56,4 @@
     python manage.py runserver
     ```
 
-3. **Open your browser and go to `http://http://127.0.0.1:8000/` to access NumeriSketch.
+3. **Open your browser and go to `http://http://127.0.0.1:8000/` to access NumeriSketch.**
