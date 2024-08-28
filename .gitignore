@@ -1,0 +1,71 @@
+# Python bytecode
+*.pyc
+__pycache__/
+
+# Logs
+*.log
+*.pot
+*.py[co]
+*.so
+*.egg
+*.egg-info
+*.pid
+*.swp
+
+# Django specific
+*.sqlite3
+db.sqlite3
+.env
+*.env
+env/
+venv/
+venv.bak/
+instance/
+local_settings.py
+.envrc
+.mypy_cache/
+
+# Migrations
+**/migrations/
+**/migrations/*.pyc
+**/migrations/*.py
+
+# Static and media files
+/staticfiles/
+/media/
+
+# Coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+.nox/
+.coverage.*
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Jupyter Notebooks
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+
+# macOS
+.DS_Store
+
+# Backup files
+*.bak
+*.tmp
+*.old
+*.orig
