@@ -1,6 +1,6 @@
 # NumeriSketch
 
-**NumeriSketch** is a web-based application designed to visualize and graph various numerical methods covered in the course "Numerical Analysis" (ST0256) taught at EAFIT University by Prof. Julian Rendon. This project provides an intuitive and interactive way to explore complex mathematical concepts.
+**NumeriSketch** is a web-based application designed to visualize and graph various numerical methods covered in the course "Numerical Analysis" (ST0256) taught at EAFIT University by Prof. Julian Rendon. This project provides an intuitive and interactive way to explore complex mathematical concepts
 
 ## Table of Contents
 
