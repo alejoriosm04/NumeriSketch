@@ -1,7 +1,7 @@
 {% load static %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="#" style="font-family: 'Poppins', sans-serif; font-weight: 500; color: #007bff;">
+      <a class="navbar-brand" href="{% url 'home' %}" style="font-family: 'Poppins', sans-serif; font-weight: 500; color: #007bff;">
         NumeriSketch
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -10,7 +10,7 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link active" href="#" style="font-family: 'Poppins', sans-serif; color: white;">Inicio</a>
+            <a class="nav-link active" href="{% url 'home' %}" style="font-family: 'Poppins', sans-serif; color: white;">Inicio</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/bisection/" style="font-family: 'Poppins', sans-serif; color: white;">Bisección</a>
@@ -19,7 +19,7 @@
             <a class="nav-link" href="/false_position/" style="font-family: 'Poppins', sans-serif; color: white;">Regla Falsa</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/fixed_point/" style="font-family: 'Poppins', sans-serif; color: white;">Punto Fijo</a>
+            <a class="nav-link" href="{% url 'fixed_point' %}" style="font-family: 'Poppins', sans-serif; color: white;">Punto Fijo</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/newton_raphson/" style="font-family: 'Poppins', sans-serif; color: white;">Newton-Raphson</a>
