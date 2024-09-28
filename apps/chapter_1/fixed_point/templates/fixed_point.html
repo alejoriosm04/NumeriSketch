@@ -85,14 +85,12 @@
       <div class="results-c"></div>
       <ul>
         {% if error %}
-        <!-- Display error messages if there are any -->
         <ul>
           {% for message in msg %}
           <li><p class="result-msg error">{{ message }}</p></li>
           {% endfor %}
         </ul>
         {% else %}
-        <!-- Display messages when there are no errors -->
         <ul>
           {% for message in msg %}
           <li><p class="result-msg no-error">{{ message }}</p></li>

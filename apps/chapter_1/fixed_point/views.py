@@ -12,13 +12,13 @@ import os
 def generate_graph(x0, fx, gx, s, safe_dict):
     x_vals = np.linspace(x0 - 2, x0 + 2, 400)
     f_vals = [eval(fx, {"x": val, "math": math, "__builtins__": {}}, safe_dict) for val in x_vals]
-    gx_vals = [eval(gx, {"x": val, "math": math, "__builtins__": {}}, safe_dict) for val in x_vals]
+    #gx_vals = [eval(gx, {"x": valg, "math": math, "__builtins__": {}}, safe_dict) for valg in x_vals]
 
     plt.figure(figsize=(10, 6))
     plt.plot(x_vals, f_vals, label='f(x)')
-    plt.plot(x_vals, gx_vals, label='g(x)')
+    #plt.plot(x_vals, gx_vals, label='g(x)')
     plt.scatter([s], [eval(fx, {"x": s, "math": math, "__builtins__": {}}, safe_dict)], color='red', zorder=5, label='Solution Point')
-    plt.title('Graph of f(x) and g(x)')
+    plt.title('Graph of f(x)')
     plt.xlabel('x')
     plt.ylabel('y')
     plt.legend()
@@ -32,9 +32,23 @@ def generate_graph(x0, fx, gx, s, safe_dict):
     # Save the figure
     graph_path = os.path.join(graph_dir, 'graph.png')
     plt.savefig(graph_path)
+
+
+    #return os.path.join('graphs', 'graph.png') 
+
+    # Save the figure in SVG format
+    svg_path = os.path.join(graph_dir, 'graph.svg')
+    plt.savefig(svg_path, format='svg')
+
     plt.close()
 
-    return os.path.join('graphs', 'graph.png') 
+
+    return {
+        'png': os.path.join('graphs', 'graph.png'),
+        'svg': os.path.join('graphs', 'graph.svg')
+    }
+    
+
 
 
 def fixed_point(request):
@@ -97,6 +111,8 @@ def fixed_point(request):
             N.append(c)
             s = None
 
+            print(f"Error: {context['tol']}", f" f: {f}", f"C: {c}" ,f" Niter: {context['niter']}")
+
             while Error > context['tol'] and f != 0 and c < context['niter']:
                 x = eval(context['gx'], {"x": x, "math": math, "__builtins__": {}}, safe_dict)
                 fe = eval(context['fx'], {"x": x, "math": math, "__builtins__": {}}, safe_dict)
@@ -108,6 +124,10 @@ def fixed_point(request):
                 N.append(c)
                 E.append(Error)
 
+                print(f"X: {xn}")
+
+            
+
             data = {
                 "iteration": N,
                 "x_n": xn,
@@ -117,7 +137,11 @@ def fixed_point(request):
             df = pd.DataFrame(data)
             context['table'] = df.to_dict(orient='records')
 
-            if fe == 0:
+            if(f == 0):
+                s=0
+                context['error'] = False
+                context['msg'].append(f"0 is a solution for {str(context['fx'])}")
+            elif fe == 0:
                 s = x
                 context['msg'].append(f"{s} es raíz de f(x)")
                 context['error'] = False
@@ -127,7 +151,8 @@ def fixed_point(request):
                 context['error'] = False
             else:
                 context['msg'].append(f"Fracaso en {context['niter']} iteraciones.")
-                context['graph'] =  generate_graph(context['x0'], context['fx'], context['gx'], x, safe_dict)
+                
+                #context['graph'] =  generate_graph(context['x0'], context['fx'], context['gx'], x, safe_dict)
 
             
             if(s != None):  
@@ -136,5 +161,6 @@ def fixed_point(request):
 
         except Exception as e:
             context['msg'].append(f"Error: {str(e)}")
+
 
     return render(request, 'fixed_point.html', context)
