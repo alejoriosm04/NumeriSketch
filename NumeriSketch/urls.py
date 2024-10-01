@@ -23,6 +23,6 @@ urlpatterns = [
     path('fixed_point/', include('apps.chapter_1.fixed_point.urls')),
     # path('bisection/', include('apps.chapter_1.bisection.urls')),
     # path('false_position/', include('apps.chapter_1.false_position.urls')),
-    # ath('newton_raphson/', include('apps.chapter_1.newton_raphson.urls')),
+    path('newton_raphson/', include('apps.chapter_1.newton_raphson.urls')),
     # path('multiple_roots/', include('apps.chapter_1.multiple_roots.urls')),
 ]

@@ -69,3 +69,6 @@ coverage.xml
 *.tmp
 *.old
 *.orig
+
+# Static files graphs
+/static/graphs/
