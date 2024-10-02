@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-nj#1*u4)_*)!#i-^jn+op%@85d!+9ih&mnnlql=@fo*1#(wr9k
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['numerisketch.zeabur.app']
+ALLOWED_HOSTS = ['numerisketch.zeabur.app', '127.0.0.1', 'localhost']
 
 
 # Application definition
