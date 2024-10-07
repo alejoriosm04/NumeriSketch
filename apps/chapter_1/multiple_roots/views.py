@@ -10,6 +10,30 @@ from django.shortcuts import render
 def multiple_roots(request):
     context = {}
 
+    # Diccionario seguro para evaluar expresiones matemáticas
+    safe_dict = {
+        'sin': math.sin,
+        'cos': math.cos,
+        'tan': math.tan,
+        'pi': math.pi,
+        'e': math.e,
+        'log': math.log,
+        'log10': math.log10,
+        'log2': math.log2,
+        'exp': math.exp,
+        'sqrt': math.sqrt,
+        'abs': abs,
+        'asin': math.asin,
+        'acos': math.acos,
+        'atan': math.atan,
+        'atan2': math.atan2,
+        'sinh': math.sinh,
+        'cosh': math.cosh,
+        'tanh': math.tanh,
+        'gamma': math.gamma,
+        'lgamma': math.lgamma
+    }
+
     if request.method == 'POST':
         try:
             # Obtener valores del formulario
@@ -37,7 +61,7 @@ def multiple_roots(request):
             # Inicializar variables para iteraciones
             iteration = 0
             xn = [x0]
-            fn = [eval(fx, {"x": x0, "math": math}, {'sin': math.sin, 'cos': math.cos, 'tan': math.tan, 'pi': math.pi, 'e': math.e, 'log': math.log, 'exp': math.exp, 'sqrt': math.sqrt, 'abs': abs})]
+            fn = [eval(fx, {"x": x0, "math": math}, safe_dict)]
             errors = [100]  # La primera iteración no tiene error
             error = None
             root = None
@@ -45,9 +69,9 @@ def multiple_roots(request):
 
             # Iterar usando el método de Raíces Múltiples
             while iteration < niter:
-                f_value = eval(fx, {"x": x0, "math": math}, {'sin': math.sin, 'cos': math.cos, 'tan': math.tan, 'pi': math.pi, 'e': math.e, 'log': math.log, 'exp': math.exp, 'sqrt': math.sqrt, 'abs': abs})
-                df_value = eval(dfx, {"x": x0, "math": math}, {'sin': math.sin, 'cos': math.cos, 'tan': math.tan, 'pi': math.pi, 'e': math.e, 'log': math.log, 'exp': math.exp, 'sqrt': math.sqrt, 'abs': abs})
-                ddf_value = eval(ddfx, {"x": x0, "math": math}, {'sin': math.sin, 'cos': math.cos, 'tan': math.tan, 'pi': math.pi, 'e': math.e, 'log': math.log, 'exp': math.exp, 'sqrt': math.sqrt, 'abs': abs})
+                f_value = eval(fx, {"x": x0, "math": math}, safe_dict)
+                df_value = eval(dfx, {"x": x0, "math": math}, safe_dict)
+                ddf_value = eval(ddfx, {"x": x0, "math": math}, safe_dict)
 
                 if df_value == 0 and ddf_value == 0:
                     context['msg'] = [f"La primera y segunda derivadas son cero en x = {x0}, el método no puede continuar."]
@@ -65,7 +89,7 @@ def multiple_roots(request):
 
                 # Guardar valores de la iteración
                 xn.append(x1)
-                fn.append(eval(fx, {"x": x1, "math": math}, {'sin': math.sin, 'cos': math.cos, 'tan': math.tan, 'pi': math.pi, 'e': math.e, 'log': math.log, 'exp': math.exp, 'sqrt': math.sqrt, 'abs': abs}))
+                fn.append(eval(fx, {"x": x1, "math": math}, safe_dict))
                 errors.append(error)
 
                 # Actualizar valor para la siguiente iteración
@@ -99,7 +123,7 @@ def multiple_roots(request):
             # Generar gráfico
             fig, ax = plt.subplots()
             x_vals = np.linspace(xn[0] - 2, xn[0] + 2, 400)
-            y_vals = [eval(fx, {"x": val, "math": math}, {'sin': math.sin, 'cos': math.cos, 'tan': math.tan, 'pi': math.pi, 'e': math.e, 'log': math.log, 'exp': math.exp, 'sqrt': math.sqrt, 'abs': abs}) for val in x_vals]
+            y_vals = [eval(fx, {"x": val, "math": math}, safe_dict) for val in x_vals]
             ax.plot(x_vals, y_vals, label='f(x)')
             ax.axhline(0, color='gray', lw=1)  # Línea en y = 0
 
