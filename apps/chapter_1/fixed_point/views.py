@@ -49,8 +49,6 @@ def generate_graph(x0, fx, gx, s, safe_dict):
     }
     
 
-
-
 def fixed_point(request):
     context = {
         'x0': 0,
@@ -58,6 +56,7 @@ def fixed_point(request):
         'niter': 0,
         'fx': '',
         'gx': '',
+        'error_type': 'absoluto',  # Valor por defecto
         'msg': [],
         'table': None,
         'error': True,
@@ -95,6 +94,7 @@ def fixed_point(request):
             context['niter'] = int(request.POST.get('niter'))
             context['fx'] = request.POST.get('fx').replace('^', '**')
             context['gx'] = request.POST.get('gx').replace('^', '**')
+            context['error_type'] = request.POST.get('error_type')  # Obtener el tipo de error seleccionado
 
             x = context['x0']
             f = eval(context['fx'], {"x": x, "math": math, "__builtins__": {}}, safe_dict)
@@ -111,8 +111,6 @@ def fixed_point(request):
             N.append(c)
             s = None
 
-            print(f"Error: {context['tol']}", f" f: {f}", f"C: {c}" ,f" Niter: {context['niter']}")
-
             while Error > context['tol'] and f != 0 and c < context['niter']:
                 x = eval(context['gx'], {"x": x, "math": math, "__builtins__": {}}, safe_dict)
                 fe = eval(context['fx'], {"x": x, "math": math, "__builtins__": {}}, safe_dict)
@@ -120,13 +118,15 @@ def fixed_point(request):
                 fn.append(fe)
                 xn.append(x)
                 c = c + 1
-                Error = abs(xn[c] - xn[c-1])
+
+                # Calcular el error dependiendo del tipo seleccionado
+                if context['error_type'] == "relativo":
+                    Error = abs((xn[c] - xn[c-1]) / xn[c])
+                else:
+                    Error = abs(xn[c] - xn[c-1])
+
                 N.append(c)
                 E.append(Error)
-
-                print(f"X: {xn}")
-
-            
 
             data = {
                 "iteration": N,
@@ -140,27 +140,23 @@ def fixed_point(request):
             if(f == 0):
                 s=0
                 context['error'] = False
-                context['msg'].append(f"0 is a solution for {str(context['fx'])}")
+                context['msg'].append(f"0 es una solución para {str(context['fx'])}")
             elif fe == 0:
                 s = x
                 context['msg'].append(f"{s} es raíz de f(x)")
                 context['error'] = False
             elif Error < context['tol']:
                 s = x
-                context['msg'].append(f"{s} es una aproximación de una raíz de f(x) con una tolerancia {context['tol']}")
+                context['root'] = s
+                context['msg'].append(f"{s} es una aproximación de una raíz de f(x) con una tolerancia de {context['tol']}")
                 context['error'] = False
             else:
                 context['msg'].append(f"Fracaso en {context['niter']} iteraciones.")
                 
-                #context['graph'] =  generate_graph(context['x0'], context['fx'], context['gx'], x, safe_dict)
-
-            
             if(s != None):  
-                context['graph'] =  generate_graph(context['x0'], context['fx'], context['gx'], s, safe_dict)
-
+                context['graph'] = generate_graph(context['x0'], context['fx'], context['gx'], s, safe_dict)
 
         except Exception as e:
             context['msg'].append(f"Error: {str(e)}")
-
 
     return render(request, 'fixed_point.html', context)
