@@ -1,278 +1,327 @@
-{% extends "base/base.html" %} {% load static %} {% block content %}
+{% extends "base/base.html" %} 
+{% load static %} 
+{% block content %}
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- Page Content -->
-<div class="container">
-  <div class="row">
-    <div class="col-lg-12 text-center">
+<div class="container mt-5 pt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 text-center">
+      <!-- Título -->
       <h1 class="mt-5 section-t">Método de Punto Fijo</h1>
       <p class="lead">
-        Resuelve ecuaciones no lineales usando el método de punto fijo.
+        El método de Punto Fijo es una técnica numérica utilizada para encontrar soluciones aproximadas a ecuaciones no lineales. El método se basa en transformar la ecuación original f(x) en una función g(x) y encontrar el valor de x tal que g(x) = x.
       </p>
+
+      <!-- Botón para mostrar/ocultar ayuda -->
+      <button class="btn btn-info mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#helpSection" aria-expanded="false" aria-controls="helpSection">
+        Mostrar Ayuda
+      </button>
+
+      <!-- Sección de ayuda desplegable -->
+      <div class="collapse mt-3" id="helpSection">
+        <div class="card card-body">
+          <h3 class="text-center">Consideraciones Importantes</h3>
+          <ul class="list-group list-group-flush text-center">
+            <li class="list-group-item">Las funciones deben ser continuas y diferenciables.</li>
+            <li class="list-group-item">Asegúrate de que la función tenga una raíz.</li>
+            <li class="list-group-item">El valor inicial es importante para el método.</li>
+            <li class="list-group-item">La tolerancia debe tener un valor positivo.</li>
+            <li class="list-group-item">El número de iteraciones debe ser positivo.</li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-lg-12 text-center">
-      <form method="POST" action="{% url 'fixed_point' %}">
-        {% csrf_token %}
-        <div class="form-group">
-          <div class="row">
-            <div class="col">
-              <label for="x0">X0: </label>
-              <input
-                type="number"
-                id="x0"
-                name="x0"
-                step="any"
-                placeholder="Ejemplo: 2.5"
-                required
-              />
-            </div>
-            <div class="col">
-              <label for="tol">Tolerancia: </label>
-              <input
-                type="number"
-                id="tol"
-                name="tol"
-                step="any"
-                placeholder="Ejemplo: 1e-6"
-                required
-              />
-            </div>
-            <div class="col">
-              <label for="niter">Número de iteraciones: </label>
-              <input
-                type="number"
-                id="niter"
-                name="niter"
-                step="any"
-                placeholder="Ejemplo: 100"
-                required
-              />
+
+  <!-- Formulario -->
+  <div class="row justify-content-center mt-4">
+    <div class="col-lg-8">
+      <div class="card p-4 shadow-lg">
+        <form method="POST" action="{% url 'fixed_point' %}">
+          {% csrf_token %}
+          <div class="form-group mb-3">
+            <div class="row">
+              <div class="col">
+                <label for="x0">X0:</label>
+                <input type="number" id="x0" name="x0" class="form-control rounded shadow-sm" step="any"
+                       placeholder="Ejemplo: 2.5" value="{{ x0|default:'' }}" required>
+              </div>
+              <div class="col">
+                <label for="tol">Tolerancia:</label>
+                <input type="number" id="tol" name="tol" class="form-control rounded shadow-sm" step="any"
+                       placeholder="Ejemplo: 1e-6" value="{{ tol|default:'' }}" required>
+              </div>
+              <div class="col">
+                <label for="niter">Número de Iteraciones:</label>
+                <input type="number" id="niter" name="niter" class="form-control rounded shadow-sm" step="any"
+                       placeholder="Ejemplo: 100" value="{{ niter|default:'' }}" required>
+              </div>
             </div>
           </div>
-          <label for="fx">Función f(x):</label>
-          <input
-            type="text"
-            class="form-control"
-            id="fx"
-            name="fx"
-            placeholder="Ejemplo: x^2 - 3"
-            required
-          />
-          <br />
-          <label for="gx">Función g(x):</label>
-          <input
-            type="text"
-            class="form-control"
-            id="gx"
-            name="gx"
-            placeholder="Ejemplo: (x^2+3)/(2x)"
-            required
-          />
-        </div>
+          <div class="form-group mb-3">
+            <label for="fx">Función f(x):</label>
+            <input type="text" id="fx" name="fx" class="form-control rounded shadow-sm"
+                   placeholder="Ejemplo: x^2 - 3" value="{{ fx|default:'' }}" required>
+          </div>
+          <div class="form-group mb-3">
+            <label for="gx">Función g(x):</label>
+            <input type="text" id="gx" name="gx" class="form-control rounded shadow-sm"
+                   placeholder="Ejemplo: (x^2+3)/(2*x)" value="{{ gx|default:'' }}" required>
+          </div>
 
-        <button type="submit" class="btn btn-primary">Calcular</button>
-      </form>
+          <div class="form-group mb-3">
+            <label for="error_type">Tipo de Error:</label>
+            <select id="error_type" name="error_type" class="form-control shadow-sm">
+              <option value="absoluto" {% if error_type == "absoluto" %}selected{% endif %}>Absoluto</option>
+              <option value="relativo" {% if error_type == "relativo" %}selected{% endif %}>Relativo</option>
+            </select>
+          </div>
 
-      <!-- Display messages -->
-      <h2 class="mt-5">Resultados:</h2>
+          <!-- Botón de calcular -->
+          <button type="submit" class="btn btn-primary btn-lg w-100 shadow-sm">Calcular</button>
 
-      <h4><b>F(x):</b> {% if fx %} {{fx}} {% endif%}</h4>
-      <h4><b>G(x):</b> {% if gx %} {{gx}} {% endif%}</h4>
+          <!-- Botón de limpiar (reset) -->
+          <button type="button" class="btn btn-secondary btn-lg w-100 mt-3 shadow-sm" onclick="resetForm()">Limpiar</button>
+        </form>
+      </div>
+    </div>
+  </div>
 
-      
+  <!-- Resultados -->
+  <div class="row justify-content-center mt-5">
+    <div class="col-lg-8">
+      <h2 class="mt-4">Resultados:</h2>
+      <div class="card p-3 shadow-sm">
+        <h4><b>F(x):</b> {% if fx %} {{fx}} {% endif%}</h4>
+        <h4><b>G(x):</b> {% if gx %} {{gx}} {% endif%}</h4>
 
-      <div class="results-c"></div>
-      <ul>
+        <!-- Mensajes -->
         {% if error %}
-        <ul>
+        <div class="alert alert-danger mt-3">
           {% for message in msg %}
-          <li><p class="result-msg error">{{ message }}</p></li>
+          <p>{{ message }}</p>
           {% endfor %}
-        </ul>
+        </div>
         {% else %}
-        <ul>
+        <div class="alert alert-success mt-3">
           {% for message in msg %}
-          <li><p class="result-msg no-error">{{ message }}</p></li>
+          <p>{{ message }}</p>
           {% endfor %}
-        </ul>
+        </div>
+        {% if root is not None %} 
+        <h4 class="mt-3">Raíz aproximada: <b>{{ root }}</b></h4> 
         {% endif %}
-      </ul>
+        {% endif %}
+      </div>
 
       {% if graph %}
-      <div class="plot">
-        <img src="{% static 'graphs/graph.png' %}" alt="Graph of f(x) and g(x)" />
+      <div class="plot mt-4">
+        <img src="{% static graph.png %}" alt="Graph of f(x)" class="img-fluid shadow" />
       </div>
       {% endif %}
 
-      <!-- Mostrar tabla de iteraciones y errores -->
-      {% if table %}
+    </div>
+  </div>
+
+  <!-- Tabla de Iteraciones -->
+  {% if table %}
+  <div class="row justify-content-center mt-5">
+    <div class="col-lg-8">
       <h4>Tabla de Iteraciones:</h4>
-      <table class="table table-bordered">
-        <thead>
-          <tr>
-            <th>Iteración</th>
-            <th>x_n</th>
-            <th>f(x_n)</th>
-            <th>Error</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for row in table %}
-          <tr style="border: 1px solid black;">
-            <td>{{ row.iteration }}</td>
-            <td>{{ row.x_n }}</td>
-            <td>{{ row.fx_n }}</td>
-            <td>{{ row.error }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-      {% endif %}
+      <div class="table-responsive">
+        <table class="table table-striped table-hover shadow-sm">
+          <thead class="table-dark">
+            <tr>
+              <th>Iteración</th>
+              <th>x_n</th>
+              <th>f(x_n)</th>
+              <th>Error</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in table %}
+              <tr>
+                <td>{{ row.iteration }}</td>
+                <td>{{ row.x_n }}</td>
+                <td>{{ row.fx_n }}</td>
+                <td>{{ row.error }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  {% endif %}
 
-      <!-- Display examples -->
-      <div class="examples mt-5">
-        <div class="row">
-          <div class="col text-center">
-            <h2>Sintaxis permitidas</h2>
+  <!-- Mostrar ejemplos -->
+  <div class="examples mt-5">
+    <div class="row">
+      <div class="col text-center">
+        <h2>Sintaxis permitidas</h2>
 
-            <p>Las funciones y constantes permitidas son las siguientes:</p>
-            <div class="table-responsive">
-              <table class="table table-bordered mx-auto" style="width: auto;">
-                <thead>
-                  <tr>
-                    <th>Nombre</th>
-                    <th>Sintaxis</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Constante Pi</td>
-                    <td><code>pi</code></td>
-                  </tr>
-                  <tr>
-                    <td>Constante Euler (e)</td>
-                    <td><code>e</code></td>
-                  </tr>
-                  <tr>
-                    <td>Exponencial</td>
-                    <td><code>exp(x)</code></td>
-                  </tr>
-                  <tr>
-                    <td>Logaritmo Natural</td>
-                    <td><code>log(x)</code></td>
-                  </tr>
-                  <tr>
-                    <td>Raíz Cuadrada</td>
-                    <td><code>sqrt(x)</code></td>
-                  </tr>
-                  <tr>
-                    <td>Valor Absoluto</td>
-                    <td><code>abs(x)</code></td>
-                  </tr>
-                  <tr>
-                    <td>Seno</td>
-                    <td><code>sin(x)</code></td>
-                  </tr>
-                  <tr>
-                    <td>Coseno</td>
-                    <td><code>cos(x)</code></td>
-                  </tr>
-                  <tr>
-                    <td>Tangente</td>
-                    <td><code>tan(x)</code></td>
-                  </tr>
-                  <tr>
-                    <td>Arcoseno</td>
-                    <td><code>asin(x)</code></td>
-                  </tr>
-                  <tr>
-                    <td>Arcocoseno</td>
-                    <td><code>acos(x)</code></td>
-                  </tr>
-                  <tr>
-                    <td>Arcotangente</td>
-                    <td><code>atan(x)</code></td>
-                  </tr>
-                  <tr>
-                    <td>Arcotangente de 2 argumentos</td>
-                    <td><code>atan2(y, x)</code></td>
-                  </tr>
-                  <tr>
-                    <td>Seno Hiperbólico</td>
-                    <td><code>sinh(x)</code></td>
-                  </tr>
-                  <tr>
-                    <td>Coseno Hiperbólico</td>
-                    <td><code>cosh(x)</code></td>
-                  </tr>
-                  <tr>
-                    <td>Tangente Hiperbólica</td>
-                    <td><code>tanh(x)</code></td>
-                  </tr>
-                  <tr>
-                    <td>Logaritmo en base 2</td>
-                    <td><code>log2(x)</code></td>
-                  </tr>
-                  <tr>
-                    <td>Logaritmo en base 10</td>
-                    <td><code>log10(x)</code></td>
-                  </tr>
-                  <tr>
-                    <td>Función Gamma</td>
-                    <td><code>gamma(x)</code></td>
-                  </tr>
-                  <tr>
-                    <td>Logaritmo de la Función Gamma</td>
-                    <td><code>lgamma(x)</code></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+        <p>Las funciones y constantes permitidas son las siguientes:</p>
+        <div class="table-responsive">
+          <table class="table table-bordered mx-auto" style="width: auto;">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Sintaxis</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Constante Pi</td>
+                <td><code>pi</code></td>
+              </tr>
+              <tr>
+                <td>Constante Euler (e)</td>
+                <td><code>e</code></td>
+              </tr>
+              <tr>
+                <td>Exponencial</td>
+                <td><code>exp(x)</code></td>
+              </tr>
+              <tr>
+                <td>Logaritmo Natural</td>
+                <td><code>log(x)</code></td>
+              </tr>
+              <tr>
+                <td>Raíz Cuadrada</td>
+                <td><code>sqrt(x)</code></td>
+              </tr>
+              <tr>
+                <td>Valor Absoluto</td>
+                <td><code>abs(x)</code></td>
+              </tr>
+              <tr>
+                <td>Seno</td>
+                <td><code>sin(x)</code></td>
+              </tr>
+              <tr>
+                <td>Coseno</td>
+                <td><code>cos(x)</code></td>
+              </tr>
+              <tr>
+                <td>Tangente</td>
+                <td><code>tan(x)</code></td>
+              </tr>
+              <tr>
+                <td>Arcoseno</td>
+                <td><code>asin(x)</code></td>
+              </tr>
+              <tr>
+                <td>Arcocoseno</td>
+                <td><code>acos(x)</code></td>
+              </tr>
+              <tr>
+                <td>Arcotangente</td>
+                <td><code>atan(x)</code></td>
+              </tr>
+              <tr>
+                <td>Arcotangente de 2 argumentos</td>
+                <td><code>atan2(y, x)</code></td>
+              </tr>
+              <tr>
+                <td>Seno Hiperbólico</td>
+                <td><code>sinh(x)</code></td>
+              </tr>
+              <tr>
+                <td>Coseno Hiperbólico</td>
+                <td><code>cosh(x)</code></td>
+              </tr>
+              <tr>
+                <td>Tangente Hiperbólica</td>
+                <td><code>tanh(x)</code></td>
+              </tr>
+              <tr>
+                <td>Logaritmo en base 2</td>
+                <td><code>log2(x)</code></td>
+              </tr>
+              <tr>
+                <td>Logaritmo en base 10</td>
+                <td><code>log10(x)</code></td>
+              </tr>
+              <tr>
+                <td>Función Gamma</td>
+                <td><code>gamma(x)</code></td>
+              </tr>
+              <tr>
+                <td>Logaritmo de la Función Gamma</td>
+                <td><code>lgamma(x)</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
 
-          <div class="col">
-            <h2>Ejemplos permitidos</h2>
-            <p>
-              Tenga en cuenta que para operar una constante por una variable
-              debe usar el operador "*" <b>Ejemplo: </b><code>3*x</code>
-            </p>
-            <h3>
-              A continuación, se muestran algunos ejemplos de funciones válidas
-              que puedes usar:
-            </h3>
-            <div class="example">
-              <h4>Ejemplos para f(x):</h4>
-              <ul>
-                <li><code>sin(x) + x^2 - 3*x</code></li>
-                <li><code>cos(x) - x^2 + 2*x</code></li>
-                <li><code>log(x + 1) + sqrt(x)</code></li>
-                <li><code>exp(x) - pi*x</code></li>
-              </ul>
-            </div>
-            <div class="example">
-              <h4>Ejemplos para g(x):</h4>
-              <ul>
-                <li><code>(x^2 + 3)/(2*x)</code></li>
-                <li><code>sqrt(x + 2)</code></li>
-                <li><code>(sin(x) + 1)/x</code></li>
-                <li><code>(exp(x) - 1)/(2 + x)</code></li>
-              </ul>
-            </div>
-          </div>
+      <div class="col text-center">
+        <h2>Ejemplos permitidos</h2>
+        <p>
+          Tenga en cuenta que para operar una constante por una variable
+          debe usar el operador "*" <b>Ejemplo: </b><code>3*x</code>
+        </p>
+        <h4>
+          A continuación, se muestran algunos ejemplos de funciones válidas
+          que puedes usar:
+        </h4>
+        <div class="example">
+          <h4>Ejemplos para f(x):</h4>
+            <ul>
+              <li><code>sin(x) + x^2 - 3*x</code></li>
+              <li><code>cos(x) - x^2 + 2*x</code></li>
+              <li><code>log(x + 1) + sqrt(x)</code></li>
+              <li><code>exp(x) - pi*x</code></li>
+            </ul>
+        </div>
+        <div class="example">
+          <h4>Ejemplos para g(x):</h4>
+            <ul>
+              <li><code>(x^2 + 3)/(2*x)</code></li>
+              <li><code>sqrt(x + 2)</code></li>
+              <li><code>(sin(x) + 1)/x</code></li>
+              <li><code>(exp(x) - 1)/(2 + x)</code></li>
+            </ul>
         </div>
       </div>
     </div>
-
-    <style>
-      .table-bordered th,
-      .table-bordered td {
-        border: 1px solid #252627; /* Adjust color as needed */
-      }
-      .table-bordered th {
-        background-color: #3a3b3b; /* Optional: Add background color for header cells */
-      }
-    </style>
-    {% endblock %}
   </div>
 </div>
+
+<script>
+  // Función para limpiar los campos del formulario
+  function resetForm() {
+    document.getElementById("x0").value = "";
+    document.getElementById("tol").value = "";
+    document.getElementById("niter").value = "";
+    document.getElementById("fx").value = "";
+    document.getElementById("gx").value = "";
+  }
+</script>
+
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .table-bordered th, .table-bordered td {
+    border: 1px solid #dee2e6;
+  }
+  .table-bordered th {
+    background-color: #3a3b3b;
+    color: white;
+  }
+  .card {
+    border-radius: 1rem;
+  }
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+</style>
+
+{% endblock %}
