@@ -52,12 +52,12 @@
               </div>
               <div class="col">
                 <label for="tol">Tolerancia:</label>
-                <input type="number" id="tol" name="tol" class="form-control rounded shadow-sm" step="any"
+                <input type="number" id="tol" name="tol" class="form-control rounded shadow-sm" step="any" min="0"
                        placeholder="Ejemplo: 1e-6" value="{{ tol|default:'' }}" required>
               </div>
               <div class="col">
                 <label for="niter">Número de Iteraciones:</label>
-                <input type="number" id="niter" name="niter" class="form-control rounded shadow-sm" step="any"
+                <input type="number" id="niter" name="niter" class="form-control rounded shadow-sm" step="any" min="1"
                        placeholder="Ejemplo: 100" value="{{ niter|default:'' }}" required>
               </div>
             </div>
