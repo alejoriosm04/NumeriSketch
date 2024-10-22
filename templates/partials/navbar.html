@@ -1,33 +1,80 @@
 {% load static %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="{% url 'home' %}" style="font-family: 'Poppins', sans-serif; font-weight: 500; color: #007bff;">
+      <a class="navbar-brand" href="{% url 'home' %}">
         NumeriSketch
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
+
+    
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
+          
           <li class="nav-item">
-            <a class="nav-link active" href="{% url 'home' %}" style="font-family: 'Poppins', sans-serif; color: white;">Inicio</a>
+            <a class="nav-link active" href="{% url 'home' %}">Inicio</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/bisection/" style="font-family: 'Poppins', sans-serif; color: white;">Bisección</a>
+
+          <!-- Capítulo 1 Dropdown Menu -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="chapter1Dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Capítulo 1
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="chapter1Dropdown">
+              <li><a class="dropdown-item" href="/bisection/">Bisección</a></li>
+              <li><a class="dropdown-item" href="/false_position/">Regla Falsa</a></li>
+              <li><a class="dropdown-item" href="{% url 'fixed_point' %}">Punto Fijo</a></li>
+              <li><a class="dropdown-item" href="/newton_raphson/">Newton-Raphson</a></li>
+              <li><a class="dropdown-item" href="/multiple_roots/">Raíces Múltiples</a></li>
+            </ul>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/false_position/" style="font-family: 'Poppins', sans-serif; color: white;">Regla Falsa</a>
+          
+          <!-- Capítulo 2 Dropdown Menu -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="chapter2Dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Capítulo 2
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="chapter2Dropdown">
+              <li><a class="dropdown-item" href="/gauss_seidel/">Gauss-Seidel</a></li>
+              <!-- Add more methods as needed -->
+            </ul>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'fixed_point' %}" style="font-family: 'Poppins', sans-serif; color: white;">Punto Fijo</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/newton_raphson/" style="font-family: 'Poppins', sans-serif; color: white;">Newton-Raphson</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/multiple_roots/" style="font-family: 'Poppins', sans-serif; color: white;">Raíces Múltiples</a>
-          </li>
+          
         </ul>
       </div>
     </div>
 </nav>
+
+<style>
+
+.navbar-brand {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    color: #007bff !important;
+}
+
+.navbar-nav .nav-link {
+    font-family: 'Poppins', sans-serif;
+    color: white !important;
+}
+
+
+.navbar-nav .dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+
+.dropdown-menu {
+    background-color: #343a40; 
+}
+
+.dropdown-item {
+    color: white;
+}
+
+.dropdown-item:hover {
+    background-color: #007bff;
+    color: white;
+}
+</style>

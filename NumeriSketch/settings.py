@@ -42,6 +42,10 @@ INSTALLED_APPS = [
     'apps.chapter_1.fixed_point',
     'apps.chapter_1.multiple_roots',
     'apps.chapter_1.newton_raphson',
+
+    'apps.chapter_2.gauss_seidel',
+
+
 ]
 
 MIDDLEWARE = [
