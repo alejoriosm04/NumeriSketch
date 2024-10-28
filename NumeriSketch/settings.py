@@ -47,6 +47,11 @@ INSTALLED_APPS = [
     'apps.chapter_2.gauss_seidel',
     'apps.chapter_2.sor',
     
+    'apps.chapter_3.vandermonde',
+    'apps.chapter_3.newton_int',
+    'apps.chapter_3.lagrange',
+    'apps.chapter_3.spline',
+    
     'apps.chapter_2',
 ]
 
