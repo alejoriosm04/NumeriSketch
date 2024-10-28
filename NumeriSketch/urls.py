@@ -27,6 +27,6 @@ urlpatterns = [
     path('multiple_roots/', include('apps.chapter_1.multiple_roots.urls')),
     
     path('jacobi/', include('apps.chapter_2.jacobi.urls')),
-    # path('gauss_seidel/', include('apps.chapter_2.gauss_seidel.urls')),
+    path('gauss_seidel/', include('apps.chapter_2.gauss_seidel.urls')),
     # path('sor/', include('apps.chapter_2.sor.urls')),
 ]
