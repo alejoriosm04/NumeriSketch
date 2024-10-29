@@ -1,0 +1,351 @@
+{% extends "base/base.html" %} {% load static %} {% block content %}
+<div class="container pt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 text-center">
+      <h1 class="mt-5 section-t">Método de Gauss-Seidel</h1>
+
+      <!-- Matrix Size Selector -->
+      <h2 class="mt-5">Tamaño matriz:</h2>
+      <select
+        id="matrix_size"
+        class="form-control"
+        onchange="generateMatrixInputs()"
+      >
+        <option value="" selected disabled
+          >Selecciona el tamaño de la matriz</option
+        >
+        <option value="2">2 x 2</option>
+        <option value="3">3 x 3</option>
+        <option value="4">4 x 4</option>
+        <option value="5">5 x 5</option>
+        <option value="6">6 x 6</option>
+      </select>
+
+      <!-- Input for matrix text -->
+      <div class="mt-4">
+        <h3>Ingresa la matriz y vectores b y x0</h3>
+        <textarea
+          id="matrix_text"
+          class="form-control"
+          rows="3"
+          placeholder="[1 2 3; 4 5 6][1 2 3][4 5 6]"
+        ></textarea>
+        <button class="btn btn-primary mt-2" onclick="fillMatrixFromText()">
+          Llenar matriz
+        </button>
+      </div>
+
+      <!-- Container for dynamically generated inputs -->
+      <div id="matrix_inputs" class="mt-4"></div>
+
+      <!-- Inputs for additional parameters -->
+      <div class="mt-4">
+        <h3>Parámetros Adicionales</h3>
+        <input
+          type="number"
+          id="tolerance"
+          class="form-control"
+          placeholder="Tolerancia"
+          value="1e-5"
+          step="any"
+        />
+        <input
+          type="number"
+          id="max_iterations"
+          class="form-control mt-2"
+          placeholder="Máximo de iteraciones"
+          value="10"
+        />
+      </div>
+
+      <!-- Calculate Button -->
+      <button class="btn btn-success mt-2" onclick="calculateAndSend()">
+        Calcular
+      </button>
+
+      <!-- Result Table -->
+      <div id="solution" class="mt-4"></div>
+
+      <!-- Display Results from JSON Response -->
+      <div id="result_table" class="mt-4">
+        <h3>Resultados del Método de Gauss-Seidel</h3>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Iteración</th>
+              <th>x Valores</th>
+              <th>Error Absoluto</th>
+              <th>Error Relativo</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for iteration in iterations %}
+            <tr>
+              <td>{{ iteration.iteration }}</td>
+              <td>[{{ iteration.x_values|join:", " }}]</td>
+              <td>{{ iteration.absolute_error }}</td>
+              <td>{{ iteration.relative_error }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <h4>Radio Espectral: {{ spectral_radius }}</h4>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function generateMatrixInputs() {
+    const matrixSize = document.getElementById("matrix_size").value;
+    const container = document.getElementById("matrix_inputs");
+
+    // Clear any existing inputs
+    container.innerHTML = "";
+
+    // Ensure a valid size is selected
+    if (!matrixSize) return;
+
+    // Generate input fields for matrix A
+    let html = '<div class="row">';
+    html += '<div class="col-md-8">';
+    html += "<h3>Matriz de Coeficientes (A)</h3>";
+    html +=
+      '<div class="table-responsive"><table class="table table-bordered">';
+
+    for (let i = 0; i < matrixSize; i++) {
+      html += "<tr>";
+      for (let j = 0; j < matrixSize; j++) {
+        html += `<td><input type="number" class="form-control matrix-input" value="1" placeholder="A[${
+          i + 1
+        }][${j + 1}]" required></td>`;
+      }
+      html += "</tr>";
+    }
+
+    html += "</table></div></div>";
+
+    // Generate input fields for vectors b and x0
+    html += '<div class="col-md-4">';
+    html += '<div class="d-flex justify-content-between">';
+    html += '<div class="me-2">';
+    html += "<h3>Vector b</h3>";
+    html +=
+      '<div class="table-responsive"><table class="table table-bordered"><tbody>';
+
+    for (let i = 0; i < matrixSize; i++) {
+      html += "<tr>";
+      html += `<td><input type="number" class="form-control" value="1" placeholder="b[${
+        i + 1
+      }]" required></td>`;
+      html += "</tr>";
+    }
+
+    html += "</tbody></table></div></div>";
+
+    // Generate vector x0 inputs
+    html += "<div>";
+    html += "<h3>Vector x0</h3>";
+    html +=
+      '<div class="table-responsive"><table class="table table-bordered"><tbody>';
+
+    for (let i = 0; i < matrixSize; i++) {
+      html += "<tr>";
+      html += `<td><input type="number" class="form-control" value="0" placeholder="x0[${
+        i + 1
+      }]" required></td>`;
+      html += "</tr>";
+    }
+
+    html += "</tbody></table></div></div>";
+    html += "</div>"; // Close flex container
+    html += "</div>"; // Close column
+
+    // Add the generated HTML to the container
+    container.innerHTML += html;
+  }
+
+  function fillMatrixFromText() {
+    const matrixText = document.getElementById("matrix_text").value.trim();
+    const matrixSize = document.getElementById("matrix_size").value;
+
+    // Regex for parsing the input
+    const regex = /^\[\s*(.*?)\s*\]\[\s*(.*?)\s*\]\[\s*(.*?)\s*\]$/;
+
+    const matches = matrixText.match(regex);
+
+    if (!matches) {
+      alert("Formato de entrada no válido. Usa: [1 2 3; 4 5 6][1 2 3][4 5 6]");
+      return;
+    }
+
+    const matrixPart = matches[1].trim();
+    const vectorBPart = matches[2].trim();
+    const initialGuessPart = matches[3].trim();
+
+    // Process the matrix input
+    const rows = matrixPart.split(";").map((row) =>
+      row
+        .trim()
+        .split(" ")
+        .map((val) => val.trim())
+    );
+
+    if (rows.length !== parseInt(matrixSize)) {
+      alert(
+        "El número de filas en la matriz no coincide con el tamaño seleccionado."
+      );
+      return;
+    }
+
+    let index = 0;
+
+    // Fill the matrix inputs
+    const matrixInputs = document.querySelectorAll(".matrix-input");
+    for (let i = 0; i < rows.length; i++) {
+      const values = rows[i];
+      if (values.length !== parseInt(matrixSize)) {
+        alert(
+          "El número de columnas en la fila " +
+            (i + 1) +
+            " no coincide con el tamaño seleccionado."
+        );
+        return;
+      }
+      for (let j = 0; j < values.length; j++) {
+        if (matrixInputs[index]) {
+          matrixInputs[index].value = values[j];
+        }
+        index++;
+      }
+    }
+
+    // Fill vector b
+    const vectorBInputs = document.querySelectorAll(
+      'input[type="number"][placeholder^="b["]'
+    );
+    const vectorBValues = vectorBPart.split(" ").map((val) => val.trim());
+    for (let i = 0; i < vectorBInputs.length; i++) {
+      if (vectorBInputs[i]) {
+        vectorBInputs[i].value = vectorBValues[i] || ""; // Use an empty string if value is undefined
+      }
+    }
+
+    // Fill initial guesses x0
+    const vectorX0Inputs = document.querySelectorAll(
+      'input[type="number"][placeholder^="x0["]'
+    );
+    const initialGuessValues = initialGuessPart
+      .split(" ")
+      .map((val) => val.trim());
+    for (let i = 0; i < vectorX0Inputs.length; i++) {
+      if (vectorX0Inputs[i]) {
+        vectorX0Inputs[i].value = initialGuessValues[i] || ""; // Use an empty string if value is undefined
+      }
+    }
+  }
+
+  function calculateAndSend() {
+    const matrix = []; // Initialize an array to store the matrix
+    const vectorB = []; // Initialize an array to store vector B
+    const initialGuess = []; // Initialize an array to store the initial guess
+    const tolerance = parseFloat(document.getElementById("tolerance").value); // Get tolerance value
+    const maxIterations = parseInt(
+      document.getElementById("max_iterations").value
+    ); // Get max iterations value
+
+    // Get matrix size from the select element
+    const matrixSize = document.getElementById("matrix_size").value;
+
+    // Get matrix inputs
+    const matrixInputs = document.querySelectorAll(".matrix-input");
+    for (let i = 0; i < matrixInputs.length; i++) {
+      if (i % matrixSize == 0) {
+        matrix.push([]); // Start a new row
+      }
+      matrix[Math.floor(i / matrixSize)].push(
+        parseFloat(matrixInputs[i].value)
+      );
+    }
+
+    // Get vector B inputs
+    const vectorBInputs = document.querySelectorAll(
+      'input[type="number"][placeholder^="b["]'
+    );
+    for (let i = 0; i < vectorBInputs.length; i++) {
+      vectorB.push(parseFloat(vectorBInputs[i].value));
+    }
+
+    // Get initial guess inputs
+    const vectorX0Inputs = document.querySelectorAll(
+      'input[type="number"][placeholder^="x0["]'
+    );
+    for (let i = 0; i < vectorX0Inputs.length; i++) {
+      initialGuess.push(parseFloat(vectorX0Inputs[i].value));
+      console.log(initialGuess);
+    }
+
+    // Make the POST request to the server
+    fetch("/gauss_seidel/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": "{{ csrf_token }}", // CSRF token for security
+      },
+      body: JSON.stringify({
+        matrix: matrix,
+        vectorB: vectorB,
+        initialGuess: initialGuess,
+        tolerance: tolerance,
+        maxIterations: maxIterations,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          console.error("Server Error:", data.error);
+          return; // Exit if there's an error
+        }
+
+        const solutionDiv = document.getElementById("solution");
+        const resultTable = document.getElementById("result_table");
+
+        // Clear previous results
+        solutionDiv.innerHTML = "";
+        resultTable.style.display = "block";
+
+        // Ensure solution is defined before attempting to use it
+        if (data.solution) {
+          solutionDiv.innerHTML += `<h3>Solución:</h3><p>[${data.solution.join(
+            ", "
+          )}]</p>`;
+        } else {
+          console.error("Solution data is not available.");
+        }
+
+        // Populate result table
+        const tbody = resultTable.querySelector("tbody");
+        tbody.innerHTML = ""; // Clear previous rows
+
+        data.iterations.forEach((iteration) => {
+          const row = `<tr>
+            <td>${iteration.iteration}</td>
+            <td>[${iteration.x_values.join(", ")}]</td>
+            <td>${iteration.absolute_error}</td>
+            <td>${iteration.relative_error}</td>
+        </tr>`;
+          tbody.innerHTML += row;
+        });
+
+        // Display spectral radius
+        resultTable.querySelector("h4").innerText = `Radio Espectral: ${
+          data.spectral_radius || "N/A"
+        }`;
+      })
+
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
+</script>
+{% endblock %}

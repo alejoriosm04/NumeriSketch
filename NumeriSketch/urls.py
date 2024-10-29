@@ -37,3 +37,4 @@ urlpatterns = [
     path('spline/', include('apps.chapter_3.spline.urls')),
 
 ]
+    
