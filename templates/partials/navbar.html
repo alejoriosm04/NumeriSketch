@@ -39,8 +39,8 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="chapter2Dropdown">
               <li><a class="dropdown-item" href="{% url 'jacobi' %}">Jacobi</a></li>
-              <li><a class="dropdown-item" href="#">Gauss-Seidel</a></li>
-              <li><a class="dropdown-item" href="#">SOR</a></li>
+              <li><a class="dropdown-item" href="{% url 'gauss_seidel' %}">Gauss-Seidel</a></li>
+              <li><a class="dropdown-item" href="{% url 'sor' %}">SOR</a></li>
             </ul>
           </li>
 
@@ -50,8 +50,10 @@
               Capítulo 3
             </a>
             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="chapter3Dropdown">
-              <li><a class="dropdown-item" href="#">Método 1</a></li>
-              <li><a class="dropdown-item" href="#">Método 2</a></li>
+              <li><a class="dropdown-item" href="{% url 'vandermonde' %}">Valdermonde</a></li>
+              <li><a class="dropdown-item" href="{% url 'newton_int' %}">Newton int</a></li>
+              <li><a class="dropdown-item" href="{% url 'lagrange' %}">Lagrange</a></li>
+              <li><a class="dropdown-item" href="{% url 'spline' %}">Spline</a></li>
             </ul>
           </li>
 
