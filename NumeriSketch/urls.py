@@ -29,4 +29,10 @@ urlpatterns = [
     path('jacobi/', include('apps.chapter_2.jacobi.urls')),
     # path('gauss_seidel/', include('apps.chapter_2.gauss_seidel.urls')),
     # path('sor/', include('apps.chapter_2.sor.urls')),
+    
+    path('vandermonde/', include('apps.chapter_3.vandermonde.urls')),
+    path('newton_int/', include('apps.chapter_3.newton_int.urls')),
+    path('lagrange/', include('apps.chapter_3.lagrange.urls')),
+    path('splint/', include('apps.chapter_3.splint.urls')),
+
 ]
