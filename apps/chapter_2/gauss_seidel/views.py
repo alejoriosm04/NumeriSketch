@@ -1,3 +1,7 @@
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import numpy as np
+import json
 from django.shortcuts import render
 import numpy as np
 import matplotlib.pyplot as plt  # Asegúrate de importar matplotlib
@@ -87,47 +91,47 @@ def gauss_seidel(request):
     return render(request, 'gauss_seidel.html', context)
 
 
-    def gauss_seidel_method(A, b, x0, tol=1e-5, max_iter=20):
+def gauss_seidel_method(A, b, x0, tol=1e-5, max_iter=20):
 
-        A = np.array(A, dtype=float)
-        b = np.array(b, dtype=float)
-        x = np.array(x0, dtype=float)
-        n = len(b)
+    A = np.array(A, dtype=float)
+    b = np.array(b, dtype=float)
+    x = np.array(x0, dtype=float)
+    n = len(b)
+    
+    norm_val = np.inf
+    itr = 0 
+
+    matrices_by_iteration = []
+    iteration_table = []
+
+    while norm_val > tol and itr < max_iter:
+        x_old = np.copy(x) 
+        x_new = np.copy(x) 
         
-        norm_val = np.inf
-        itr = 0 
-
-        matrices_by_iteration = []
-        iteration_table = []
-
-        while norm_val > tol and itr < max_iter:
-            x_old = np.copy(x) 
-            x_new = np.copy(x) 
+        for i in range(n):
+            sigma = 0
             
-            for i in range(n):
-                sigma = 0
-                
-                for j in range(i):
-                    sigma += A[i, j] * x_new[j]
-                
-                for j in range(i + 1, n):
-                    sigma += A[i, j] * x_old[j]
-
-                x_new[i] = (1 / A[i, i]) * (b[i] - sigma)
-
-            norm_val = np.linalg.norm(x_new - x, ord=np.inf)  # Norma infinita
-            if norm_val < tol:
-                print("Iteration table: ", iteration_table)
-                return x_new, norm_val, matrices_by_iteration, iteration_table
+            for j in range(i):
+                sigma += A[i, j] * x_new[j]
             
-            x = np.copy(x_new)
-            itr += 1 
+            for j in range(i + 1, n):
+                sigma += A[i, j] * x_old[j]
+
+            x_new[i] = (1 / A[i, i]) * (b[i] - sigma)
+
+        norm_val = np.linalg.norm(x_new - x, ord=np.inf)  # Norma infinita
+        if norm_val < tol:
+            print("Iteration table: ", iteration_table)
+            return x_new, norm_val, matrices_by_iteration, iteration_table
+        
+        x = np.copy(x_new)
+        itr += 1 
 
 
-            iteration_table.append((itr, x_new.copy(), norm_val)) 
-            matrices_by_iteration.append(x.copy())
+        iteration_table.append((itr, x_new.copy(), norm_val)) 
+        matrices_by_iteration.append(x.copy())
 
-        return x, norm_val, matrices_by_iteration, iteration_table
+    return x, norm_val, matrices_by_iteration, iteration_table
 
 
 def graph_system(A, b, path_png='static/graphs/sistema.png', path_svg='static/graphs/sistema.svg'):

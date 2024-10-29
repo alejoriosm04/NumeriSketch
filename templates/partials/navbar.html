@@ -10,6 +10,8 @@
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
+
+    
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
 
@@ -40,7 +42,7 @@
             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="chapter2Dropdown">
               <li><a class="dropdown-item" href="{% url 'jacobi' %}">Jacobi</a></li>
               <li><a class="dropdown-item" href="{% url 'gauss_seidel' %}">Gauss-Seidel</a></li>
-              <li><a class="dropdown-item" href="#">SOR</a></li>
+              <li><a class="dropdown-item" href="{% url 'sor' %}">SOR</a></li>
             </ul>
           </li>
 
@@ -50,8 +52,10 @@
               Capítulo 3
             </a>
             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="chapter3Dropdown">
-              <li><a class="dropdown-item" href="#">Método 1</a></li>
-              <li><a class="dropdown-item" href="#">Método 2</a></li>
+              <li><a class="dropdown-item" href="{% url 'vandermonde' %}">Valdermonde</a></li>
+              <li><a class="dropdown-item" href="{% url 'newton_int' %}">Newton int</a></li>
+              <li><a class="dropdown-item" href="{% url 'lagrange' %}">Lagrange</a></li>
+              <li><a class="dropdown-item" href="{% url 'spline' %}">Spline</a></li>
             </ul>
           </li>
 
@@ -59,3 +63,36 @@
       </div>
     </div>
 </nav>
+
+<style>
+
+.navbar-brand {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    color: #007bff !important;
+}
+
+.navbar-nav .nav-link {
+    font-family: 'Poppins', sans-serif;
+    color: white !important;
+}
+
+
+.navbar-nav .dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+
+.dropdown-menu {
+    background-color: #343a40; 
+}
+
+.dropdown-item {
+    color: white;
+}
+
+.dropdown-item:hover {
+    background-color: #007bff;
+    color: white;
+}
+</style>
