@@ -9,7 +9,7 @@
   <div class="container text-center">
     <h1 class="display-4 fw-bold">Bienvenido a <span style="color: #007bff;">NumeriSketch</span></h1>
     <h2 class="mt-3">Una herramienta interactiva para métodos numéricos</h2>
-    <a href="#services" class="btn-get-started scrollto btn btn-primary mt-4">Comienza ahora</a>
+    <a href="#services" class="btn-get-started scrollto btn btn-primary mt-4" style="font-family: 'Poppins', sans-serif;">Comienza ahora</a>
   </div>
 </section>
 <!-- End Hero Section -->
@@ -17,35 +17,75 @@
 <!-- Services Section -->
 <section id="services" class="services section">
   <div class="container">
+    <!-- Capítulo 1: Métodos Iterativos -->
+    <h3 class="text-center mt-5" style="font-family: 'Poppins', sans-serif;">Capítulo 1: Métodos Iterativos</h3>
     <div class="row">
       <div class="col-lg-4 col-md-6 icon-box">
         <div class="icon"><i class="bi bi-graph-up"></i></div>
-        <h4 class="title"><a href="/bisection/">Método de Bisección</a></h4>
+        <h4 class="title"><a href="{% url 'bisection' %}">Método de Bisección</a></h4>
         <p class="description">Resuelve ecuaciones no lineales usando el método de bisección.</p>
       </div>
 
       <div class="col-lg-4 col-md-6 icon-box">
         <div class="icon"><i class="bi bi-gear"></i></div>
-        <h4 class="title"><a href="/false_position/">Regla Falsa</a></h4>
+        <h4 class="title"><a href="{% url 'false_position' %}">Regla Falsa</a></h4>
         <p class="description">Implementación de la regla falsa para encontrar raíces de ecuaciones.</p>
       </div>
 
       <div class="col-lg-4 col-md-6 icon-box">
         <div class="icon"><i class="bi bi-calculator"></i></div>
-        <h4 class="title"><a href="/fixed_point/">Punto Fijo</a></h4>
+        <h4 class="title"><a href="{% url 'fixed_point' %}">Punto Fijo</a></h4>
         <p class="description">Método de punto fijo para resolver ecuaciones no lineales.</p>
       </div>
 
       <div class="col-lg-4 col-md-6 icon-box">
         <div class="icon"><i class="bi bi-arrow-repeat"></i></div>
-        <h4 class="title"><a href="/newton_raphson/">Newton-Raphson</a></h4>
+        <h4 class="title"><a href="{% url 'newton_raphson' %}">Newton-Raphson</a></h4>
         <p class="description">Método de Newton-Raphson para encontrar raíces.</p>
       </div>
 
       <div class="col-lg-4 col-md-6 icon-box">
         <div class="icon"><i class="bi bi-puzzle"></i></div>
-        <h4 class="title"><a href="/multiple_roots/">Raíces Múltiples</a></h4>
+        <h4 class="title"><a href="{% url 'multiple_roots' %}">Raíces Múltiples</a></h4>
         <p class="description">Solución de ecuaciones con raíces múltiples.</p>
+      </div>
+    </div>
+
+    <!-- Capítulo 2: Métodos de Solución de Sistemas de Ecuaciones -->
+    <h3 class="text-center mt-5" style="font-family: 'Poppins', sans-serif;">Capítulo 2: Métodos de Solución de Sistemas de Ecuaciones</h3>
+    <div class="row">
+      <div class="col-lg-4 col-md-6 icon-box">
+        <div class="icon"><i class="bi bi-diagram-3"></i></div>
+        <h4 class="title"><a href="{% url 'jacobi' %}">Método de Jacobi</a></h4>
+        <p class="description">Solución iterativa de sistemas de ecuaciones lineales usando el método de Jacobi.</p>
+      </div>
+
+      <div class="col-lg-4 col-md-6 icon-box">
+        <div class="icon"><i class="bi bi-diagram-3"></i></div>
+        <h4 class="title"><a href="">Método de Gauss-Seidel</a></h4>
+        <p class="description">Solución iterativa de sistemas de ecuaciones lineales usando el método de Gauss-Seidel.</p>
+      </div>
+
+      <div class="col-lg-4 col-md-6 icon-box">
+        <div class="icon"><i class="bi bi-diagram-3"></i></div>
+        <h4 class="title"><a href="">Método SOR</a></h4>
+        <p class="description">Método de Sobrerrelajación Sucesiva (SOR) para resolver sistemas de ecuaciones lineales.</p>
+      </div>
+    </div>
+
+    <!-- Capítulo 3: Otros Métodos -->
+    <h3 class="text-center mt-5" style="font-family: 'Poppins', sans-serif;">Capítulo 3</h3>
+    <div class="row">
+      <div class="col-lg-4 col-md-6 icon-box">
+        <div class="icon"><i class="bi bi-hourglass-split"></i></div>
+        <h4 class="title"><a href="#">Método 1</a></h4>
+        <p class="description">Descripción del Método 1 (Próximamente).</p>
+      </div>
+
+      <div class="col-lg-4 col-md-6 icon-box">
+        <div class="icon"><i class="bi bi-hourglass-split"></i></div>
+        <h4 class="title"><a href="#">Método 2</a></h4>
+        <p class="description">Descripción del Método 2 (Próximamente).</p>
       </div>
     </div>
   </div>

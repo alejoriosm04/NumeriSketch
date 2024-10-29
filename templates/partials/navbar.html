@@ -1,8 +1,11 @@
 {% load static %}
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+<head>
+  <link rel="stylesheet" href="{% static 'assets/css/navbar.css' %}">
+</head>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm">
     <div class="container">
       <a class="navbar-brand" href="{% url 'home' %}">
-        NumeriSketch
+        <img src="{% static 'assets/img/numeri_sketch_logo_2.png' %}" alt="NumeriSketch Logo" style="height: 40px;">
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -11,36 +14,51 @@
     
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          
+
+          <!-- Menú Inicio -->
           <li class="nav-item">
-            <a class="nav-link active" href="{% url 'home' %}">Inicio</a>
+            <a class="nav-link active" href="{% url 'home' %}" style="font-family: 'Poppins', sans-serif; font-size: 1rem; color: white;">Inicio</a>
           </li>
 
-          <!-- Capítulo 1 Dropdown Menu -->
+          <!-- Capítulo 1 -->
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="chapter1Dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="#" id="chapter1Dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-family: 'Poppins', sans-serif; font-size: 1rem; color: white;">
               Capítulo 1
             </a>
-            <ul class="dropdown-menu" aria-labelledby="chapter1Dropdown">
-              <li><a class="dropdown-item" href="/bisection/">Bisección</a></li>
-              <li><a class="dropdown-item" href="/false_position/">Regla Falsa</a></li>
+            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="chapter1Dropdown">
+              <li><a class="dropdown-item" href="{% url 'bisection' %}">Bisección</a></li>
+              <li><a class="dropdown-item" href="{% url 'false_position' %}">Regla Falsa</a></li>
               <li><a class="dropdown-item" href="{% url 'fixed_point' %}">Punto Fijo</a></li>
-              <li><a class="dropdown-item" href="/newton_raphson/">Newton-Raphson</a></li>
-              <li><a class="dropdown-item" href="/multiple_roots/">Raíces Múltiples</a></li>
+              <li><a class="dropdown-item" href="{% url 'newton_raphson' %}">Newton-Raphson</a></li>
+              <li><a class="dropdown-item" href="{% url 'multiple_roots' %}">Raíces Múltiples</a></li>
             </ul>
           </li>
-          
-          <!-- Capítulo 2 Dropdown Menu -->
+
+          <!-- Capítulo 2 -->
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="chapter2Dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="#" id="chapter2Dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-family: 'Poppins', sans-serif; font-size: 1rem; color: white;">
               Capítulo 2
             </a>
-            <ul class="dropdown-menu" aria-labelledby="chapter2Dropdown">
-              <li><a class="dropdown-item" href="/gauss_seidel/">Gauss-Seidel</a></li>
-              <!-- Add more methods as needed -->
+            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="chapter2Dropdown">
+              <li><a class="dropdown-item" href="{% url 'jacobi' %}">Jacobi</a></li>
+              <li><a class="dropdown-item" href="{% url 'gauss_seidel' %}">Gauss-Seidel</a></li>
+              <li><a class="dropdown-item" href="{% url 'sor' %}">SOR</a></li>
             </ul>
           </li>
-          
+
+          <!-- Capítulo 3 -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="chapter3Dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-family: 'Poppins', sans-serif; font-size: 1rem; color: white;">
+              Capítulo 3
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="chapter3Dropdown">
+              <li><a class="dropdown-item" href="{% url 'vandermonde' %}">Valdermonde</a></li>
+              <li><a class="dropdown-item" href="{% url 'newton_int' %}">Newton int</a></li>
+              <li><a class="dropdown-item" href="{% url 'lagrange' %}">Lagrange</a></li>
+              <li><a class="dropdown-item" href="{% url 'spline' %}">Spline</a></li>
+            </ul>
+          </li>
+
         </ul>
       </div>
     </div>

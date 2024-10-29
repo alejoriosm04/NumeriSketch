@@ -1,0 +1,45 @@
+.navbar {
+    font-family: 'Poppins', sans-serif;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: white;
+    transition: color 0.3s;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: #007bff;
+}
+
+.nav-item.dropdown .nav-link {
+    color: white;
+    transition: color 0.3s;
+}
+
+.nav-item.dropdown:hover .nav-link {
+    color: #007bff;
+    background-color: transparent;
+    transition: color 0.3s ease;
+}
+
+.nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+    transition: all 0.3s ease;
+}
+
+.navbar .dropdown-menu {
+    border-radius: 5px;
+    background-color: #343a40;
+}
+
+.dropdown-menu-dark .dropdown-item {
+    font-size: 1rem;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.dropdown-menu-dark .dropdown-item:hover {
+    background-color: #007bff;
+    color: white;
+}
