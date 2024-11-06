@@ -65,12 +65,12 @@
           <div class="form-group mb-3">
             <label for="fx">Función f(x):</label>
             <input type="text" id="fx" name="fx" class="form-control rounded shadow-sm"
-                   placeholder="Ejemplo: x^2 - 3" value="{{ fx|default:'' }}" required>
+                   placeholder="Ejemplo: cos(x)-x" value="{{ fx|default:'' }}" required>
           </div>
           <div class="form-group mb-3">
             <label for="gx">Función g(x):</label>
             <input type="text" id="gx" name="gx" class="form-control rounded shadow-sm"
-                   placeholder="Ejemplo: (x^2+3)/(2*x)" value="{{ gx|default:'' }}" required>
+                   placeholder="Ejemplo: cos(x)" value="{{ gx|default:'' }}" required>
           </div>
 
           <div class="form-group mb-3">
@@ -117,11 +117,28 @@
         {% endif %}
         {% endif %}
       </div>
+      <div class="mt-4 alert alert-danger">
+        Si el resultado no converge en el valor esperado es probable que la g(x) no sea una buena aproximación a la raíz de f(x). En ese caso, por favor intente con otra función g(x).
+      </div>
 
       {% if graph %}
-      <div class="plot mt-4">
-        <img src="{% static graph.png %}" alt="Graph of f(x)" class="img-fluid shadow" />
+      <div class="plot mt-4 text-center mb-5">
+        <h3>Gráfica del Sistema</h3>
+        <img src="{% static 'graphs/fixed_point.png' %}" alt="Gráfica del Sistema de Ecuaciones" class="img-fluid" />
+        
+        <div class="row">
+          <div class="col-lg-6">
+              <a class="btn btn-primary w-100 mt-3" href="{% static 'graphs/fixed_point.png' %}" download="fixed_point.png">
+                  Descargar PNG
+              </a>
+          </div>
+          <div class="col-lg-6">
+              <a class="btn btn-primary w-100 mt-3" href="{% static 'graphs/fixed_point.svg' %}" download="fixed_point.svg">
+                  Descargar SVG
+              </a>
+          </div>
       </div>
+      
       {% endif %}
 
     </div>
