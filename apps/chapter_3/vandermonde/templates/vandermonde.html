@@ -70,10 +70,26 @@
         {% endfor %}
       </tbody>
     </table>
-    {% endif %} {% if polynomial %}
+    {% endif %} 
+
+    {% if string_polynomial %}
     <div class="mt-6 mb-5">
       <h2 class="text-2xl font-semibold">Polinomio Interpolante:</h2>
-      <p class="mt-2 text-xl alert alert-success">{{ polynomial }}</p>
+      <p class="mt-2 text-xl alert alert-success">{{ string_polynomial }}</p>
+      <table class="mt-4 table-auto table w-full mt-6">
+        <thead>
+          <tr class="bg-black text-white text-bold">
+            <th class="px-4 py-2">Polinomio</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for coef in polynomial %}
+          <tr>
+            <td class="px-4 py-2">{{ coef }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
 
       {% if graph %}
       <h2 class="text-2xl font-semibold mt-6">Gráfica del Polinomio</h2>
