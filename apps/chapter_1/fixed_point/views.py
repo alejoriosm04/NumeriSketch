@@ -32,20 +32,20 @@ def generate_graph(x0, fx, gx, s, safe_dict):
         os.makedirs(graph_dir)
 
     # Save the figure
-    graph_path = os.path.join(graph_dir, 'graph.png')
+    graph_path = os.path.join(graph_dir, 'fixed_point.png')
     plt.savefig(graph_path)
 
     # return os.path.join('graphs', 'graph.png')
 
     # Save the figure in SVG format
-    svg_path = os.path.join(graph_dir, 'graph.svg')
+    svg_path = os.path.join(graph_dir, 'fixed_point.svg')
     plt.savefig(svg_path, format='svg')
 
     plt.close()
 
     return {
-        'png': os.path.join('graphs', 'graph.png'),
-        'svg': os.path.join('graphs', 'graph.svg')
+        'png': os.path.join('graphs', 'fixed_point.png'),
+        'svg': os.path.join('graphs', 'fixed_point.svg')
     }
 
 
@@ -131,16 +131,6 @@ def fixed_point(request):
                 N.append(c)
                 E.append(Error)
 
-            data = {
-                "iteration": N,
-                "x_n": xn,
-                "fx_n": fn,
-                "error": E
-            }
-            df = pd.DataFrame(data)
-            context['table'] = df.to_dict(orient='records')
-            print("Table: ", context['table'])
-
             if fe == 0:
                 s = x
                 context['msg'].append(f"{s} es raíz de f(x)")
@@ -158,5 +148,15 @@ def fixed_point(request):
 
         except Exception as e:
             context['msg'].append(f"Error: {str(e)}")
+        
+        data = {
+            "iteration": N,
+            "x_n": xn,
+            "fx_n": fn,
+            "error": E
+        }
+        df = pd.DataFrame(data)
+        context['table'] = df.to_dict(orient='records')
+        print("Table: ", context['table'])
 
     return render(request, 'fixed_point.html', context)
