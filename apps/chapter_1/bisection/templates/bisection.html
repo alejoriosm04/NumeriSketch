@@ -79,17 +79,13 @@
               <option value="decimal_places" {% if precision_type == "decimal_places" %}selected{% endif %}>Decimales Correctos</option>
             </select>
           </div>
-          <div class="form-group mb-3">
-            <label for="precision_value">Número de Cifras/Decimales:</label>
-            <input type="number" id="precision_value" name="precision_value" class="form-control rounded shadow-sm" min="1"
-                   step="1" placeholder="Ejemplo: 5" value="{{ precision_value|default:'' }}" required>
-          </div>
+      
 
           <!-- Botón de calcular -->
           <button type="submit" class="btn btn-primary btn-lg w-100 shadow-sm">Calcular</button>
 
-          <!-- Botón de limpiar (reset) -->
-          <button type="reset" class="btn btn-secondary btn-lg w-100 mt-3 shadow-sm">Limpiar</button>
+          <button type="button" class="btn btn-secondary btn-lg w-100 mt-3 shadow-sm" onclick="resetFormInputs()">Limpiar</button>
+
         </form>
 
       </div>
@@ -122,12 +118,18 @@
         {% endif %}
       </div>
 
-      <!-- Gráfico -->
-      {% if graph %}
-      <div class="plot mt-4">
-        <img src="data:image/png;base64,{{ graph }}" class="img-fluid shadow" alt="Graph of f(x)">
-      </div>
-      {% endif %}
+     <!-- Mostrar gráfica si está disponible -->
+{% if graph_png and graph_svg %}
+<div class="mt-4 text-center">
+  <h3>Gráfica de la Función:</h3>
+  <img src="{% static 'graphs/bisection_graph.png' %}" alt="Gráfica de la Función" class="img-fluid" />
+  <div class="mt-3">
+    <a href="{% static 'graphs/bisection_graph.png' %}" download="bisection_graph.png" class="btn btn-custom btn-primary me-2">Descargar como PNG</a>
+    <a href="{% static 'graphs/bisection_graph.svg' %}" download="bisection_graph.svg" class="btn btn-custom btn-orange">Descargar como SVG</a>
+  </div>
+</div>
+{% endif %}
+
     </div>
   </div>
 
@@ -306,6 +308,54 @@
     background-color: #007bff;
     border-color: #007bff;
   }
+  .btn-custom {
+    width: 220px; /* Ancho uniforme */
+    height: 50px; /* Altura uniforme */
+    font-size: 16px; /* Tamaño de texto uniforme */
+    font-weight: bold;
+    text-align: center;
+    border-radius: 5px;
+  }
+
+  .btn-primary {
+    background-color: #007bff; /* Azul */
+    border: none;
+  }
+
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+
+  .btn-orange {
+    background-color: #ff9800; /* Naranja */
+    color: white;
+    border: none;
+  }
+
+  .btn-orange:hover {
+    background-color: #e68900; /* Naranja más oscuro */
+  }
+
+  .btn-orange:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(255, 152, 0, 0.5);
+  }
 </style>
+<script>
+  function resetFormInputs() {
+    // Limpiar todos los campos de entrada en el formulario
+    document.querySelectorAll('form input, form select').forEach(input => {
+      if (input.type === 'number' || input.type === 'text') {
+        input.value = '';  // Resetear valores de los campos de texto y número
+      } else if (input.tagName === 'SELECT') {
+        input.selectedIndex = 0;  // Volver al primer valor de los select
+      }
+    });
+
+    // Opcional: Eliminar mensajes dinámicos
+    document.querySelectorAll('.alert').forEach(alert => alert.remove());
+  }
+</script>
+
 
 {% endblock %}
