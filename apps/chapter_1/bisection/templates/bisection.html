@@ -309,9 +309,9 @@
     border-color: #007bff;
   }
   .btn-custom {
-    width: 220px; /* Ancho uniforme */
-    height: 50px; /* Altura uniforme */
-    font-size: 16px; /* Tamaño de texto uniforme */
+    width: 220px; 
+    height: 50px; 
+    font-size: 16px; 
     font-weight: bold;
     text-align: center;
     border-radius: 5px;
@@ -327,13 +327,13 @@
   }
 
   .btn-orange {
-    background-color: #ff9800; /* Naranja */
+    background-color: #ff9800; 
     color: white;
     border: none;
   }
 
   .btn-orange:hover {
-    background-color: #e68900; /* Naranja más oscuro */
+    background-color: #e68900; 
   }
 
   .btn-orange:focus {
@@ -343,16 +343,15 @@
 </style>
 <script>
   function resetFormInputs() {
-    // Limpiar todos los campos de entrada en el formulario
     document.querySelectorAll('form input, form select').forEach(input => {
       if (input.type === 'number' || input.type === 'text') {
-        input.value = '';  // Resetear valores de los campos de texto y número
+        input.value = '';  
       } else if (input.tagName === 'SELECT') {
-        input.selectedIndex = 0;  // Volver al primer valor de los select
+        input.selectedIndex = 0;  
       }
     });
 
-    // Opcional: Eliminar mensajes dinámicos
+  
     document.querySelectorAll('.alert').forEach(alert => alert.remove());
   }
 </script>
