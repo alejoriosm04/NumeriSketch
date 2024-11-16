@@ -6,11 +6,7 @@
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-<<<<<<< HEAD
-    <dc:date>2024-11-06T13:08:13.314614</dc:date>
-=======
-    <dc:date>2024-11-15T00:19:17.554743</dc:date>
->>>>>>> feature/jacobi-bisection-fix
+    <dc:date>2024-11-16T10:11:38.395124</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -44,35 +40,23 @@ z
    <g id="matplotlib.axis_1">
     <g id="xtick_1">
      <g id="line2d_1">
-      <path d="M 72 384.48 
-L 72 51.84 
-<<<<<<< HEAD
-" clip-path="url(#p3db3fb6440)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
+      <path d="M 92.290909 384.48 
+L 92.290909 51.84 
+" clip-path="url(#pe695e74eee)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
      </g>
      <g id="line2d_2">
       <defs>
-       <path id="m4afe082867" d="M 0 0 
-=======
-" clip-path="url(#p3f6e15b0b9)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
-     </g>
-     <g id="line2d_2">
-      <defs>
-       <path id="mfc703bcd48" d="M 0 0 
->>>>>>> feature/jacobi-bisection-fix
+       <path id="m166643a749" d="M 0 0 
 L 0 3.5 
 " style="stroke: #000000; stroke-width: 0.8"/>
       </defs>
       <g>
-<<<<<<< HEAD
-       <use xlink:href="#m4afe082867" x="72" y="384.48" style="stroke: #000000; stroke-width: 0.8"/>
-=======
-       <use xlink:href="#mfc703bcd48" x="72" y="384.48" style="stroke: #000000; stroke-width: 0.8"/>
->>>>>>> feature/jacobi-bisection-fix
+       <use xlink:href="#m166643a749" x="92.290909" y="384.48" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_1">
       <!-- −10.0 -->
-      <g transform="translate(56.677344 399.078438) scale(0.1 -0.1)">
+      <g transform="translate(76.968253 399.078438) scale(0.1 -0.1)">
        <defs>
         <path id="DejaVuSans-2212" d="M 678 2272 
 L 4684 2272 
@@ -134,26 +118,18 @@ z
     </g>
     <g id="xtick_2">
      <g id="line2d_3">
-      <path d="M 127.8 384.48 
-L 127.8 51.84 
-<<<<<<< HEAD
-" clip-path="url(#p3db3fb6440)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
+      <path d="M 143.018182 384.48 
+L 143.018182 51.84 
+" clip-path="url(#pe695e74eee)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
      </g>
      <g id="line2d_4">
       <g>
-       <use xlink:href="#m4afe082867" x="127.8" y="384.48" style="stroke: #000000; stroke-width: 0.8"/>
-=======
-" clip-path="url(#p3f6e15b0b9)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
-     </g>
-     <g id="line2d_4">
-      <g>
-       <use xlink:href="#mfc703bcd48" x="127.8" y="384.48" style="stroke: #000000; stroke-width: 0.8"/>
->>>>>>> feature/jacobi-bisection-fix
+       <use xlink:href="#m166643a749" x="143.018182" y="384.48" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_2">
       <!-- −7.5 -->
-      <g transform="translate(115.658594 399.078438) scale(0.1 -0.1)">
+      <g transform="translate(130.876776 399.078438) scale(0.1 -0.1)">
        <defs>
         <path id="DejaVuSans-37" d="M 525 4666 
 L 3525 4666 
@@ -200,26 +176,18 @@ z
     </g>
     <g id="xtick_3">
      <g id="line2d_5">
-      <path d="M 183.6 384.48 
-L 183.6 51.84 
-<<<<<<< HEAD
-" clip-path="url(#p3db3fb6440)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
+      <path d="M 193.745455 384.48 
+L 193.745455 51.84 
+" clip-path="url(#pe695e74eee)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
      </g>
      <g id="line2d_6">
       <g>
-       <use xlink:href="#m4afe082867" x="183.6" y="384.48" style="stroke: #000000; stroke-width: 0.8"/>
-=======
-" clip-path="url(#p3f6e15b0b9)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
-     </g>
-     <g id="line2d_6">
-      <g>
-       <use xlink:href="#mfc703bcd48" x="183.6" y="384.48" style="stroke: #000000; stroke-width: 0.8"/>
->>>>>>> feature/jacobi-bisection-fix
+       <use xlink:href="#m166643a749" x="193.745455" y="384.48" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_3">
       <!-- −5.0 -->
-      <g transform="translate(171.458594 399.078438) scale(0.1 -0.1)">
+      <g transform="translate(181.604048 399.078438) scale(0.1 -0.1)">
        <use xlink:href="#DejaVuSans-2212"/>
        <use xlink:href="#DejaVuSans-35" x="83.789062"/>
        <use xlink:href="#DejaVuSans-2e" x="147.412109"/>
@@ -229,26 +197,18 @@ L 183.6 51.84
     </g>
     <g id="xtick_4">
      <g id="line2d_7">
-      <path d="M 239.4 384.48 
-L 239.4 51.84 
-<<<<<<< HEAD
-" clip-path="url(#p3db3fb6440)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
+      <path d="M 244.472727 384.48 
+L 244.472727 51.84 
+" clip-path="url(#pe695e74eee)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
      </g>
      <g id="line2d_8">
       <g>
-       <use xlink:href="#m4afe082867" x="239.4" y="384.48" style="stroke: #000000; stroke-width: 0.8"/>
-=======
-" clip-path="url(#p3f6e15b0b9)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
-     </g>
-     <g id="line2d_8">
-      <g>
-       <use xlink:href="#mfc703bcd48" x="239.4" y="384.48" style="stroke: #000000; stroke-width: 0.8"/>
->>>>>>> feature/jacobi-bisection-fix
+       <use xlink:href="#m166643a749" x="244.472727" y="384.48" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_4">
       <!-- −2.5 -->
-      <g transform="translate(227.258594 399.078438) scale(0.1 -0.1)">
+      <g transform="translate(232.331321 399.078438) scale(0.1 -0.1)">
        <defs>
         <path id="DejaVuSans-32" d="M 1228 531 
 L 3431 531 
@@ -286,19 +246,11 @@ z
      <g id="line2d_9">
       <path d="M 295.2 384.48 
 L 295.2 51.84 
-<<<<<<< HEAD
-" clip-path="url(#p3db3fb6440)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
+" clip-path="url(#pe695e74eee)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
      </g>
      <g id="line2d_10">
       <g>
-       <use xlink:href="#m4afe082867" x="295.2" y="384.48" style="stroke: #000000; stroke-width: 0.8"/>
-=======
-" clip-path="url(#p3f6e15b0b9)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
-     </g>
-     <g id="line2d_10">
-      <g>
-       <use xlink:href="#mfc703bcd48" x="295.2" y="384.48" style="stroke: #000000; stroke-width: 0.8"/>
->>>>>>> feature/jacobi-bisection-fix
+       <use xlink:href="#m166643a749" x="295.2" y="384.48" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_5">
@@ -312,26 +264,18 @@ L 295.2 51.84
     </g>
     <g id="xtick_6">
      <g id="line2d_11">
-      <path d="M 351 384.48 
-L 351 51.84 
-<<<<<<< HEAD
-" clip-path="url(#p3db3fb6440)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
+      <path d="M 345.927273 384.48 
+L 345.927273 51.84 
+" clip-path="url(#pe695e74eee)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
      </g>
      <g id="line2d_12">
       <g>
-       <use xlink:href="#m4afe082867" x="351" y="384.48" style="stroke: #000000; stroke-width: 0.8"/>
-=======
-" clip-path="url(#p3f6e15b0b9)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
-     </g>
-     <g id="line2d_12">
-      <g>
-       <use xlink:href="#mfc703bcd48" x="351" y="384.48" style="stroke: #000000; stroke-width: 0.8"/>
->>>>>>> feature/jacobi-bisection-fix
+       <use xlink:href="#m166643a749" x="345.927273" y="384.48" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_6">
       <!-- 2.5 -->
-      <g transform="translate(343.048437 399.078438) scale(0.1 -0.1)">
+      <g transform="translate(337.97571 399.078438) scale(0.1 -0.1)">
        <use xlink:href="#DejaVuSans-32"/>
        <use xlink:href="#DejaVuSans-2e" x="63.623047"/>
        <use xlink:href="#DejaVuSans-35" x="95.410156"/>
@@ -340,26 +284,18 @@ L 351 51.84
     </g>
     <g id="xtick_7">
      <g id="line2d_13">
-      <path d="M 406.8 384.48 
-L 406.8 51.84 
-<<<<<<< HEAD
-" clip-path="url(#p3db3fb6440)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
+      <path d="M 396.654545 384.48 
+L 396.654545 51.84 
+" clip-path="url(#pe695e74eee)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
      </g>
      <g id="line2d_14">
       <g>
-       <use xlink:href="#m4afe082867" x="406.8" y="384.48" style="stroke: #000000; stroke-width: 0.8"/>
-=======
-" clip-path="url(#p3f6e15b0b9)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
-     </g>
-     <g id="line2d_14">
-      <g>
-       <use xlink:href="#mfc703bcd48" x="406.8" y="384.48" style="stroke: #000000; stroke-width: 0.8"/>
->>>>>>> feature/jacobi-bisection-fix
+       <use xlink:href="#m166643a749" x="396.654545" y="384.48" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_7">
       <!-- 5.0 -->
-      <g transform="translate(398.848437 399.078438) scale(0.1 -0.1)">
+      <g transform="translate(388.702983 399.078438) scale(0.1 -0.1)">
        <use xlink:href="#DejaVuSans-35"/>
        <use xlink:href="#DejaVuSans-2e" x="63.623047"/>
        <use xlink:href="#DejaVuSans-30" x="95.410156"/>
@@ -368,26 +304,18 @@ L 406.8 51.84
     </g>
     <g id="xtick_8">
      <g id="line2d_15">
-      <path d="M 462.6 384.48 
-L 462.6 51.84 
-<<<<<<< HEAD
-" clip-path="url(#p3db3fb6440)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
+      <path d="M 447.381818 384.48 
+L 447.381818 51.84 
+" clip-path="url(#pe695e74eee)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
      </g>
      <g id="line2d_16">
       <g>
-       <use xlink:href="#m4afe082867" x="462.6" y="384.48" style="stroke: #000000; stroke-width: 0.8"/>
-=======
-" clip-path="url(#p3f6e15b0b9)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
-     </g>
-     <g id="line2d_16">
-      <g>
-       <use xlink:href="#mfc703bcd48" x="462.6" y="384.48" style="stroke: #000000; stroke-width: 0.8"/>
->>>>>>> feature/jacobi-bisection-fix
+       <use xlink:href="#m166643a749" x="447.381818" y="384.48" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_8">
       <!-- 7.5 -->
-      <g transform="translate(454.648438 399.078438) scale(0.1 -0.1)">
+      <g transform="translate(439.430256 399.078438) scale(0.1 -0.1)">
        <use xlink:href="#DejaVuSans-37"/>
        <use xlink:href="#DejaVuSans-2e" x="63.623047"/>
        <use xlink:href="#DejaVuSans-35" x="95.410156"/>
@@ -396,26 +324,18 @@ L 462.6 51.84
     </g>
     <g id="xtick_9">
      <g id="line2d_17">
-      <path d="M 518.4 384.48 
-L 518.4 51.84 
-<<<<<<< HEAD
-" clip-path="url(#p3db3fb6440)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
+      <path d="M 498.109091 384.48 
+L 498.109091 51.84 
+" clip-path="url(#pe695e74eee)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
      </g>
      <g id="line2d_18">
       <g>
-       <use xlink:href="#m4afe082867" x="518.4" y="384.48" style="stroke: #000000; stroke-width: 0.8"/>
-=======
-" clip-path="url(#p3f6e15b0b9)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
-     </g>
-     <g id="line2d_18">
-      <g>
-       <use xlink:href="#mfc703bcd48" x="518.4" y="384.48" style="stroke: #000000; stroke-width: 0.8"/>
->>>>>>> feature/jacobi-bisection-fix
+       <use xlink:href="#m166643a749" x="498.109091" y="384.48" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_9">
       <!-- 10.0 -->
-      <g transform="translate(507.267187 399.078438) scale(0.1 -0.1)">
+      <g transform="translate(486.976278 399.078438) scale(0.1 -0.1)">
        <use xlink:href="#DejaVuSans-31"/>
        <use xlink:href="#DejaVuSans-30" x="63.623047"/>
        <use xlink:href="#DejaVuSans-2e" x="127.246094"/>
@@ -451,322 +371,171 @@ z
    <g id="matplotlib.axis_2">
     <g id="ytick_1">
      <g id="line2d_19">
-<<<<<<< HEAD
-      <path d="M 72 333.02475 
-L 518.4 333.02475 
-" clip-path="url(#p3db3fb6440)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
+      <path d="M 72 368.164948 
+L 518.4 368.164948 
+" clip-path="url(#pe695e74eee)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
      </g>
      <g id="line2d_20">
       <defs>
-       <path id="m439c436e93" d="M 0 0 
-=======
-      <path d="M 72 353.988 
-L 518.4 353.988 
-" clip-path="url(#p3f6e15b0b9)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
-     </g>
-     <g id="line2d_20">
-      <defs>
-       <path id="m1c7c4ca14d" d="M 0 0 
->>>>>>> feature/jacobi-bisection-fix
+       <path id="m9eb5564ebd" d="M 0 0 
 L -3.5 0 
 " style="stroke: #000000; stroke-width: 0.8"/>
       </defs>
       <g>
-<<<<<<< HEAD
-       <use xlink:href="#m439c436e93" x="72" y="333.02475" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#m9eb5564ebd" x="72" y="368.164948" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_11">
-      <!-- −20 -->
-      <g transform="translate(43.895313 336.823969) scale(0.1 -0.1)">
+      <!-- −15 -->
+      <g transform="translate(43.895313 371.964167) scale(0.1 -0.1)">
        <use xlink:href="#DejaVuSans-2212"/>
-       <use xlink:href="#DejaVuSans-32" x="83.789062"/>
-       <use xlink:href="#DejaVuSans-30" x="147.412109"/>
-=======
-       <use xlink:href="#m1c7c4ca14d" x="72" y="353.988" style="stroke: #000000; stroke-width: 0.8"/>
-      </g>
-     </g>
-     <g id="text_11">
-      <!-- −7.5 -->
-      <g transform="translate(40.717187 357.787219) scale(0.1 -0.1)">
-       <use xlink:href="#DejaVuSans-2212"/>
-       <use xlink:href="#DejaVuSans-37" x="83.789062"/>
-       <use xlink:href="#DejaVuSans-2e" x="147.412109"/>
-       <use xlink:href="#DejaVuSans-35" x="179.199219"/>
->>>>>>> feature/jacobi-bisection-fix
+       <use xlink:href="#DejaVuSans-31" x="83.789062"/>
+       <use xlink:href="#DejaVuSans-35" x="147.412109"/>
       </g>
      </g>
     </g>
     <g id="ytick_2">
      <g id="line2d_21">
-<<<<<<< HEAD
-      <path d="M 72 275.85225 
-L 518.4 275.85225 
-" clip-path="url(#p3db3fb6440)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
+      <path d="M 72 321.661856 
+L 518.4 321.661856 
+" clip-path="url(#pe695e74eee)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
      </g>
      <g id="line2d_22">
       <g>
-       <use xlink:href="#m439c436e93" x="72" y="275.85225" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#m9eb5564ebd" x="72" y="321.661856" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_12">
       <!-- −10 -->
-      <g transform="translate(43.895313 279.651469) scale(0.1 -0.1)">
+      <g transform="translate(43.895313 325.461074) scale(0.1 -0.1)">
        <use xlink:href="#DejaVuSans-2212"/>
        <use xlink:href="#DejaVuSans-31" x="83.789062"/>
        <use xlink:href="#DejaVuSans-30" x="147.412109"/>
-=======
-      <path d="M 72 312.408 
-L 518.4 312.408 
-" clip-path="url(#p3f6e15b0b9)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
-     </g>
-     <g id="line2d_22">
-      <g>
-       <use xlink:href="#m1c7c4ca14d" x="72" y="312.408" style="stroke: #000000; stroke-width: 0.8"/>
-      </g>
-     </g>
-     <g id="text_12">
-      <!-- −5.0 -->
-      <g transform="translate(40.717187 316.207219) scale(0.1 -0.1)">
-       <use xlink:href="#DejaVuSans-2212"/>
-       <use xlink:href="#DejaVuSans-35" x="83.789062"/>
-       <use xlink:href="#DejaVuSans-2e" x="147.412109"/>
-       <use xlink:href="#DejaVuSans-30" x="179.199219"/>
->>>>>>> feature/jacobi-bisection-fix
       </g>
      </g>
     </g>
     <g id="ytick_3">
      <g id="line2d_23">
-<<<<<<< HEAD
-      <path d="M 72 218.67975 
-L 518.4 218.67975 
-" clip-path="url(#p3db3fb6440)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
+      <path d="M 72 275.158763 
+L 518.4 275.158763 
+" clip-path="url(#pe695e74eee)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
      </g>
      <g id="line2d_24">
       <g>
-       <use xlink:href="#m439c436e93" x="72" y="218.67975" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#m9eb5564ebd" x="72" y="275.158763" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_13">
-      <!-- 0 -->
-      <g transform="translate(58.6375 222.478969) scale(0.1 -0.1)">
-       <use xlink:href="#DejaVuSans-30"/>
-=======
-      <path d="M 72 270.828 
-L 518.4 270.828 
-" clip-path="url(#p3f6e15b0b9)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
-     </g>
-     <g id="line2d_24">
-      <g>
-       <use xlink:href="#m1c7c4ca14d" x="72" y="270.828" style="stroke: #000000; stroke-width: 0.8"/>
-      </g>
-     </g>
-     <g id="text_13">
-      <!-- −2.5 -->
-      <g transform="translate(40.717187 274.627219) scale(0.1 -0.1)">
+      <!-- −5 -->
+      <g transform="translate(50.257812 278.957982) scale(0.1 -0.1)">
        <use xlink:href="#DejaVuSans-2212"/>
-       <use xlink:href="#DejaVuSans-32" x="83.789062"/>
-       <use xlink:href="#DejaVuSans-2e" x="147.412109"/>
-       <use xlink:href="#DejaVuSans-35" x="179.199219"/>
->>>>>>> feature/jacobi-bisection-fix
+       <use xlink:href="#DejaVuSans-35" x="83.789062"/>
       </g>
      </g>
     </g>
     <g id="ytick_4">
      <g id="line2d_25">
-<<<<<<< HEAD
-      <path d="M 72 161.50725 
-L 518.4 161.50725 
-" clip-path="url(#p3db3fb6440)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
+      <path d="M 72 228.65567 
+L 518.4 228.65567 
+" clip-path="url(#pe695e74eee)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
      </g>
      <g id="line2d_26">
       <g>
-       <use xlink:href="#m439c436e93" x="72" y="161.50725" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#m9eb5564ebd" x="72" y="228.65567" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_14">
-      <!-- 10 -->
-      <g transform="translate(52.275 165.306469) scale(0.1 -0.1)">
-       <use xlink:href="#DejaVuSans-31"/>
-       <use xlink:href="#DejaVuSans-30" x="63.623047"/>
-      </g>
-     </g>
-    </g>
-    <g id="ytick_5">
-     <g id="line2d_27">
-      <path d="M 72 104.33475 
-L 518.4 104.33475 
-" clip-path="url(#p3db3fb6440)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
-=======
-      <path d="M 72 229.248 
-L 518.4 229.248 
-" clip-path="url(#p3f6e15b0b9)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
-     </g>
-     <g id="line2d_26">
-      <g>
-       <use xlink:href="#m1c7c4ca14d" x="72" y="229.248" style="stroke: #000000; stroke-width: 0.8"/>
-      </g>
-     </g>
-     <g id="text_14">
-      <!-- 0.0 -->
-      <g transform="translate(49.096875 233.047219) scale(0.1 -0.1)">
+      <!-- 0 -->
+      <g transform="translate(58.6375 232.454889) scale(0.1 -0.1)">
        <use xlink:href="#DejaVuSans-30"/>
-       <use xlink:href="#DejaVuSans-2e" x="63.623047"/>
-       <use xlink:href="#DejaVuSans-30" x="95.410156"/>
       </g>
      </g>
     </g>
     <g id="ytick_5">
      <g id="line2d_27">
-      <path d="M 72 187.668 
-L 518.4 187.668 
-" clip-path="url(#p3f6e15b0b9)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
+      <path d="M 72 182.152577 
+L 518.4 182.152577 
+" clip-path="url(#pe695e74eee)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
      </g>
      <g id="line2d_28">
       <g>
-       <use xlink:href="#m1c7c4ca14d" x="72" y="187.668" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#m9eb5564ebd" x="72" y="182.152577" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_15">
-      <!-- 2.5 -->
-      <g transform="translate(49.096875 191.467219) scale(0.1 -0.1)">
-       <use xlink:href="#DejaVuSans-32"/>
-       <use xlink:href="#DejaVuSans-2e" x="63.623047"/>
-       <use xlink:href="#DejaVuSans-35" x="95.410156"/>
+      <!-- 5 -->
+      <g transform="translate(58.6375 185.951796) scale(0.1 -0.1)">
+       <use xlink:href="#DejaVuSans-35"/>
       </g>
      </g>
     </g>
     <g id="ytick_6">
      <g id="line2d_29">
-      <path d="M 72 146.088 
-L 518.4 146.088 
-" clip-path="url(#p3f6e15b0b9)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
->>>>>>> feature/jacobi-bisection-fix
+      <path d="M 72 135.649485 
+L 518.4 135.649485 
+" clip-path="url(#pe695e74eee)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
      </g>
-     <g id="line2d_28">
+     <g id="line2d_30">
       <g>
-<<<<<<< HEAD
-       <use xlink:href="#m439c436e93" x="72" y="104.33475" style="stroke: #000000; stroke-width: 0.8"/>
-      </g>
-     </g>
-     <g id="text_15">
-      <!-- 20 -->
-      <g transform="translate(52.275 108.133969) scale(0.1 -0.1)">
-       <use xlink:href="#DejaVuSans-32"/>
-       <use xlink:href="#DejaVuSans-30" x="63.623047"/>
-      </g>
-     </g>
-    </g>
-    <g id="text_16">
-=======
-       <use xlink:href="#m1c7c4ca14d" x="72" y="146.088" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#m9eb5564ebd" x="72" y="135.649485" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_16">
-      <!-- 5.0 -->
-      <g transform="translate(49.096875 149.887219) scale(0.1 -0.1)">
-       <use xlink:href="#DejaVuSans-35"/>
-       <use xlink:href="#DejaVuSans-2e" x="63.623047"/>
-       <use xlink:href="#DejaVuSans-30" x="95.410156"/>
+      <!-- 10 -->
+      <g transform="translate(52.275 139.448703) scale(0.1 -0.1)">
+       <use xlink:href="#DejaVuSans-31"/>
+       <use xlink:href="#DejaVuSans-30" x="63.623047"/>
       </g>
      </g>
     </g>
     <g id="ytick_7">
      <g id="line2d_31">
-      <path d="M 72 104.508 
-L 518.4 104.508 
-" clip-path="url(#p3f6e15b0b9)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
+      <path d="M 72 89.146392 
+L 518.4 89.146392 
+" clip-path="url(#pe695e74eee)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
      </g>
      <g id="line2d_32">
       <g>
-       <use xlink:href="#m1c7c4ca14d" x="72" y="104.508" style="stroke: #000000; stroke-width: 0.8"/>
+       <use xlink:href="#m9eb5564ebd" x="72" y="89.146392" style="stroke: #000000; stroke-width: 0.8"/>
       </g>
      </g>
      <g id="text_17">
-      <!-- 7.5 -->
-      <g transform="translate(49.096875 108.307219) scale(0.1 -0.1)">
-       <use xlink:href="#DejaVuSans-37"/>
-       <use xlink:href="#DejaVuSans-2e" x="63.623047"/>
-       <use xlink:href="#DejaVuSans-35" x="95.410156"/>
-      </g>
-     </g>
-    </g>
-    <g id="ytick_8">
-     <g id="line2d_33">
-      <path d="M 72 62.928 
-L 518.4 62.928 
-" clip-path="url(#p3f6e15b0b9)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #808080; stroke-width: 0.5"/>
-     </g>
-     <g id="line2d_34">
-      <g>
-       <use xlink:href="#m1c7c4ca14d" x="72" y="62.928" style="stroke: #000000; stroke-width: 0.8"/>
-      </g>
-     </g>
-     <g id="text_18">
-      <!-- 10.0 -->
-      <g transform="translate(42.734375 66.727219) scale(0.1 -0.1)">
+      <!-- 15 -->
+      <g transform="translate(52.275 92.945611) scale(0.1 -0.1)">
        <use xlink:href="#DejaVuSans-31"/>
-       <use xlink:href="#DejaVuSans-30" x="63.623047"/>
-       <use xlink:href="#DejaVuSans-2e" x="127.246094"/>
-       <use xlink:href="#DejaVuSans-30" x="159.033203"/>
+       <use xlink:href="#DejaVuSans-35" x="63.623047"/>
       </g>
      </g>
     </g>
-    <g id="text_19">
->>>>>>> feature/jacobi-bisection-fix
+    <g id="text_18">
      <!-- x2 -->
-     <g transform="translate(34.6375 224.300625) rotate(-90) scale(0.1 -0.1)">
+     <g transform="translate(37.815625 224.300625) rotate(-90) scale(0.1 -0.1)">
       <use xlink:href="#DejaVuSans-78"/>
       <use xlink:href="#DejaVuSans-32" x="59.179688"/>
      </g>
     </g>
    </g>
-<<<<<<< HEAD
-   <g id="line2d_29">
-    <path d="M 72 51.84 
-L 518.4 384.48 
-L 518.4 384.48 
-" clip-path="url(#p3db3fb6440)" style="fill: none; stroke: #0000ff; stroke-width: 1.5; stroke-linecap: square"/>
+   <g id="line2d_33">
+    <path d="M 92.290909 66.96 
+L 498.109091 369.36 
+L 498.109091 369.36 
+" clip-path="url(#pe695e74eee)" style="fill: none; stroke: #0000ff; stroke-width: 1.5; stroke-linecap: square"/>
    </g>
-   <g id="line2d_30">
-    <path d="M 72 193.573565 
-L 518.4 243.288783 
-L 518.4 243.288783 
-" clip-path="url(#p3db3fb6440)" style="fill: none; stroke-dasharray: 5.55,2.4; stroke-dashoffset: 0; stroke: #ffa500; stroke-width: 1.5"/>
+   <g id="line2d_34">
+    <path d="M 92.290909 176.938767 
+L 498.109091 281.898012 
+L 498.109091 281.898012 
+" clip-path="url(#pe695e74eee)" style="fill: none; stroke-dasharray: 5.55,2.4; stroke-dashoffset: 0; stroke: #ffa500; stroke-width: 1.5"/>
    </g>
-   <g id="line2d_31">
-    <path d="M 72 218.67975 
-L 518.4 218.67975 
-" clip-path="url(#p3db3fb6440)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #000000; stroke-width: 0.5"/>
-   </g>
-   <g id="line2d_32">
-    <path d="M 295.2 384.48 
-L 295.2 51.84 
-" clip-path="url(#p3db3fb6440)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #000000; stroke-width: 0.5"/>
-=======
    <g id="line2d_35">
-    <path d="M 72 107.28 
-L 518.4 329.04 
-L 518.4 329.04 
-" clip-path="url(#p3f6e15b0b9)" style="fill: none; stroke: #0000ff; stroke-width: 1.5; stroke-linecap: square"/>
+    <path d="M 72 228.65567 
+L 518.4 228.65567 
+" clip-path="url(#pe695e74eee)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #000000; stroke-width: 0.5"/>
    </g>
    <g id="line2d_36">
-    <path d="M 72 51.84 
-L 518.4 384.48 
-L 518.4 384.48 
-" clip-path="url(#p3f6e15b0b9)" style="fill: none; stroke-dasharray: 5.55,2.4; stroke-dashoffset: 0; stroke: #ffa500; stroke-width: 1.5"/>
-   </g>
-   <g id="line2d_37">
-    <path d="M 72 229.248 
-L 518.4 229.248 
-" clip-path="url(#p3f6e15b0b9)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #000000; stroke-width: 0.5"/>
-   </g>
-   <g id="line2d_38">
     <path d="M 295.2 384.48 
 L 295.2 51.84 
-" clip-path="url(#p3f6e15b0b9)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #000000; stroke-width: 0.5"/>
->>>>>>> feature/jacobi-bisection-fix
+" clip-path="url(#pe695e74eee)" style="fill: none; stroke-dasharray: 1.85,0.8; stroke-dashoffset: 0; stroke: #000000; stroke-width: 0.5"/>
    </g>
    <g id="patch_3">
     <path d="M 72 384.48 
@@ -788,11 +557,7 @@ L 518.4 384.48
 L 518.4 51.84 
 " style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
-<<<<<<< HEAD
-   <g id="text_17">
-=======
-   <g id="text_20">
->>>>>>> feature/jacobi-bisection-fix
+   <g id="text_19">
     <!-- Gráfica del Sistema de Ecuaciones -->
     <g transform="translate(191.3625 45.84) scale(0.12 -0.12)">
      <defs>
@@ -1264,21 +1029,13 @@ Q 422.84375 89.19625 424.84375 89.19625
 z
 " style="fill: #ffffff; opacity: 0.8; stroke: #cccccc; stroke-linejoin: miter"/>
     </g>
-<<<<<<< HEAD
-    <g id="line2d_33">
-=======
-    <g id="line2d_39">
->>>>>>> feature/jacobi-bisection-fix
+    <g id="line2d_37">
      <path d="M 426.84375 64.938437 
 L 436.84375 64.938437 
 L 446.84375 64.938437 
 " style="fill: none; stroke: #0000ff; stroke-width: 1.5; stroke-linecap: square"/>
     </g>
-<<<<<<< HEAD
-    <g id="text_18">
-=======
-    <g id="text_21">
->>>>>>> feature/jacobi-bisection-fix
+    <g id="text_20">
      <!-- Ecuación 1 -->
      <g transform="translate(454.84375 68.438437) scale(0.1 -0.1)">
       <defs>
@@ -1322,21 +1079,13 @@ z
       <use xlink:href="#DejaVuSans-31" x="481.933594"/>
      </g>
     </g>
-<<<<<<< HEAD
-    <g id="line2d_34">
-=======
-    <g id="line2d_40">
->>>>>>> feature/jacobi-bisection-fix
+    <g id="line2d_38">
      <path d="M 426.84375 79.616562 
 L 436.84375 79.616562 
 L 446.84375 79.616562 
 " style="fill: none; stroke-dasharray: 5.55,2.4; stroke-dashoffset: 0; stroke: #ffa500; stroke-width: 1.5"/>
     </g>
-<<<<<<< HEAD
-    <g id="text_19">
-=======
-    <g id="text_22">
->>>>>>> feature/jacobi-bisection-fix
+    <g id="text_21">
      <!-- Ecuación 2 -->
      <g transform="translate(454.84375 83.116562) scale(0.1 -0.1)">
       <use xlink:href="#DejaVuSans-45"/>
@@ -1355,11 +1104,7 @@ L 446.84375 79.616562
   </g>
  </g>
  <defs>
-<<<<<<< HEAD
-  <clipPath id="p3db3fb6440">
-=======
-  <clipPath id="p3f6e15b0b9">
->>>>>>> feature/jacobi-bisection-fix
+  <clipPath id="pe695e74eee">
    <rect x="72" y="51.84" width="446.4" height="332.64"/>
   </clipPath>
  </defs>
