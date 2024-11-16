@@ -27,7 +27,7 @@ def gauss_seidel(request):
             for i in range(matrix_size):
                 row = []
                 for j in range(matrix_size):
-                    value = request.POST.get(f'A_{i}_{j}', 1)  # Valor por defecto de 1
+                    value = request.POST.get(f'A_{i}_{j}', 0)  # Valor por defecto de 1
                     try:
                         row.append(float(value))  # Convertir a float
                     except ValueError:
@@ -36,11 +36,11 @@ def gauss_seidel(request):
 
             # Procesar el vector b
             for i in range(matrix_size):
-                value_b = request.POST.get(f'b_{i}', 1) 
+                value_b = request.POST.get(f'b_{i}', 0) 
                 try:
                     b.append(float(value_b)) 
                 except ValueError:
-                    b.append(1.0)  
+                    b.append(0.0)  
 
             # Procesar el vector x0
             for i in range(matrix_size):
@@ -107,7 +107,7 @@ def gauss_seidel_method(A, b, x0, tol=1e-5, max_iter=20):
     while norm_val > tol and itr < max_iter:
         x_old = np.copy(x) 
         x_new = np.copy(x) 
-        
+        print(f'Iteración {itr}: {x_new}')
         for i in range(n):
             sigma = 0
             

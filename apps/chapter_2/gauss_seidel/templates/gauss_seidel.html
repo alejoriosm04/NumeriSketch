@@ -81,6 +81,10 @@
       <div>
         <h3>Radio Espectral:</h3>
         <p>{{ spectral_radius }}</p>
+        <div class="alert alert-primary">
+            <p>
+              El radio espectral en Gauss-Seidel indica si el método puede converger: si es menor que 1, garantiza convergencia. Sin embargo, en ciertos casos, el método puede converger aunque el radio espectral sea ligeramente mayor que 1, dependiendo de la matriz y las condiciones iniciales.</p>
+        </div>
       </div>
 
       <!-- Display Iterations -->
@@ -159,9 +163,23 @@
     {% endif %}
 
     {% if graph_path %}
-    <div class="mt-4 text-center">
+    <div class="mt-4 text-center mb-5">
       <h3>Gráfica del Sistema de Ecuaciones:</h3>
       <img src="{% static 'graphs/sistema.png' %}" alt="Gráfica del Sistema de Ecuaciones" class="img-fluid" />
+      
+      <div class="row">
+        <div class="col-lg-6">
+            <a class="btn btn-primary w-100 mt-3" href="{% static 'graphs/sistema.png' %}" download="gauss_seidel.png">
+                Descargar PNG
+            </a>
+        </div>
+        <div class="col-lg-6">
+            <a class="btn btn-primary w-100 mt-3" href="{% static 'graphs/sistema.svg' %}" download="gauss_seidel.svg">
+                Descargar SVG
+            </a>
+        </div>
+    </div>
+    
     </div>
     {% endif %}
 
