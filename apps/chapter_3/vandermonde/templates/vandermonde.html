@@ -1,0 +1,145 @@
+{% extends "base/base.html" %} {% load static %} {% block content %}
+
+<div class="container mt-5 pt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 text-center">
+      <h1 class="mt-5 section-t">Interpolación de vandermonde</h1>
+    </div>
+  </div>
+
+  <div class="max-w-3xl mx-auto mt-6 p-6 bg-white rounded-lg shadow-md">
+    {% if error %}
+    <p class="mb-4 mt-4 alert alert-danger">{{ error }}</p>
+    {% endif %}
+
+    <div class="mb-5 row flex justify-center">
+      <form method="post" class="space-y-4">
+        {% csrf_token %}
+        <div class="row flex mt-4 mx-4">
+          <label for="x_values" class="block text-lg font-semibold"
+            >Valores de x (separados por comas):</label
+          >
+          <input
+            type="text"
+            id="x_values"
+            name="x_values"
+            value="{{ x_values }}"
+            required
+            placeholder="0, 1, 2, 3, 4, 5, 6, 7"
+            class="form-control rounded shadow-sm"
+          />
+        </div>
+
+        <div class="row flex mt-4 mx-4">
+          <label for="y_values" class="block text-lg font-semibold"
+            >Valores de y (separados por comas):</label
+          >
+          <input
+            type="text"
+            id="y_values"
+            name="y_values"
+            value="{{ y_values }}"
+            required
+            placeholder="0, 1, 4, 9, 16, 25, 36, 49"
+            class="form-control rounded shadow-sm"
+          />
+        </div>
+
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary w-100 mt-3">
+            Calcular
+          </button>
+        </div>
+      </form>
+    </div>
+
+    {% if input %}
+    <table class="mt-4 table-auto table w-full mt-6">
+      <thead>
+        <tr class="bg-black text-white text-bold">
+          <th class="px-4 py-2">x</th>
+          <th class="px-4 py-2">y</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for x, y in paired_values %}
+        <tr>
+          <td class="px-4 py-2">{{ x }}</td>
+          <td class="px-4 py-2">{{ y }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% endif %} 
+
+    {% if string_polynomial %}
+    <div class="mt-6 mb-5">
+      <h2 class="text-2xl font-semibold">Polinomio Interpolante:</h2>
+      <p class="mt-2 text-xl alert alert-success">{{ string_polynomial }}</p>
+      <table class="mt-4 table-auto table w-full mt-6">
+        <thead>
+          <tr class="bg-black text-white text-bold">
+            <th class="px-4 py-2">Polinomio</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for coef in polynomial %}
+          <tr>
+            <td class="px-4 py-2">{{ coef }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      {% if graph %}
+      <h2 class="text-2xl font-semibold mt-6">Gráfica del Polinomio</h2>
+      <div class="mt-4 text-center">
+        <img
+          src="{% static 'graphs/vandermonde_interpolation.svg' %}"
+          alt="Gráfica del Polinomio de Vandermonde"
+          class="mx-auto shadow-lg rounded-md"
+        />
+      </div>
+
+      <div class="row mb-6 mt-6">
+        <div class="col-lg-6">
+          <a
+            class="btn btn-primary w-100 mt-3"
+            href="{% static 'graphs/vandermonde_interpolation.png' %}"
+            download="gauss_seidel.png"
+          >
+            Descargar PNG
+          </a>
+        </div>
+        <div class="col-lg-6">
+          <a
+            class="btn btn-primary w-100 mt-3"
+            href="{% static 'graphs/vandermonde_interpolation.svg' %}"
+            download="gauss_seidel.svg"
+          >
+            Descargar SVG
+          </a>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+
+  <div class="mb-5 mt-5 w-auto bg-gray-200 p-4 alert alert-warning rounded-lg">
+    <h2 class="text-xl font-semibold text-black">Consideraciones y Posibles Errores</h2>
+    <ul class="mt-4 list-inside list-disc text-lg text-gray-800">
+        <li><strong class="text-blue-600">Matrices Singulares:</strong> El método de Vandermonde puede fallar si la matriz generada a partir de los valores de x es singular, es decir, cuando sus filas son linealmente dependientes. Esto sucede generalmente si los valores de x no están bien distribuidos, como cuando hay valores duplicados o muy cercanos.</li>
+        <li><strong class="text-blue-600">Errores de Entrada:</strong> Asegúrate de que los valores de entrada para x y y sean numéricos y estén bien formateados. Por ejemplo, separar los números con comas es esencial. Si hay valores no numéricos o el formato es incorrecto, el cálculo fallará.</li>
+        <li><strong class="text-blue-600">Longitud de las Listas:</strong> El número de elementos en las listas de x y y debe ser igual. Si no es así, el algoritmo no podrá proceder correctamente.</li>
+        <li><strong class="text-blue-600">Valores de x:</strong> Si el número de valores en x supera los 8, el método podría volverse ineficiente debido al crecimiento exponencial de la matriz de Vandermonde. Además, si los valores de x son muy grandes o muy pequeños, podrían producirse errores numéricos.</li>
+        <li><strong class="text-blue-600">Errores en el Cálculo de Coeficientes:</strong> Al resolver el sistema de ecuaciones lineales, pueden surgir errores si la matriz de Vandermonde es mal condicionada o está mal planteada, lo que resulta en coeficientes que no tienen sentido físico o matemático.</li>
+        <li><strong class="text-blue-600">Valores de Y:</strong> La lista de valores y debe representar adecuadamente las salidas correspondientes a los valores de x, de lo contrario, el polinomio calculado no reflejará correctamente la relación entre las dos variables.</li>
+    </ul>
+    <p class="mt-4 text-lg text-gray-700">Revisa cuidadosamente las entradas y asegúrate de que los datos estén bien definidos para evitar estos problemas.</p>
+</div>
+
+
+
+</div>
+{% endblock %}
