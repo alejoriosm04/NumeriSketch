@@ -1,5 +1,5 @@
 import matplotlib
-matplotlib.use('Agg')  # Backend sin interfaz gráfica
+matplotlib.use('Agg') 
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -22,7 +22,6 @@ def bisection_graph(fun, xi, xs, root=None, png_path='static/graphs/bisection_gr
     plt.ylabel('f(x)')
     plt.legend()
 
-    # Guardar los gráficos en las rutas especificadas
     plt.savefig(png_path, format='png')
     plt.savefig(svg_path, format='svg')
     plt.close()
@@ -65,18 +64,15 @@ def bisection_view(request):
             niter = int(request.POST.get('niter', '').strip())
             fun = request.POST.get('fun', '').strip()
 
-            # Preprocesar la función
             fun = preprocess_function(fun)
 
-            # Validar expresión matemática
             try:
-                eval(fun, {"x": 1, **safe_math()})  # Prueba la función con x = 1
+                eval(fun, {"x": 1, **safe_math()})
             except Exception as eval_error:
                 raise ValueError(f"Expresión no válida: {eval_error}")
 
             root = None
             try:
-                # Intentar ejecutar el método de bisección
                 fm, E, root, iterations = bisection_method(xi, xs, tol, niter, fun, safe_math())
                 context['msg'] = ['Cálculo completado']
                 context['table'] = [{'iteration': i, 'x_n': fm[i], 'fx_n': fm[i], 'error': E[i]} for i in range(len(E))]
@@ -84,7 +80,6 @@ def bisection_view(request):
             except ValueError as ve:
                 context['msg'] = [f"Advertencia: {str(ve)}"]
 
-            # Generar gráficos independientemente de si se encuentra una raíz o no
             graph_paths = bisection_graph(fun, xi, xs, root)
 
             context.update({
