@@ -12,6 +12,27 @@
     <div class="col-lg-8 text-center">
       <h1 class="mt-5 section-t">Método de Jacobi</h1>
       <p class="lead">El método de Jacobi es un procedimiento iterativo para resolver sistemas de ecuaciones lineales.</p>
+      <!-- Botón de ayuda desplegable -->
+      <button class="btn btn-info mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#helpSection" aria-expanded="false" aria-controls="helpSection">
+        Mostrar Ayuda
+      </button>
+
+      <!-- Sección de ayuda desplegable -->
+      <div class="collapse mt-3" id="helpSection">
+        <div class="card card-body">
+          <h3 class="text-center">Consideraciones Importantes</h3>
+          <ul class="list-group list-group-flush text-center">
+            <li class="list-group-item">Si w = 1, el método es equivalente al de Gauss-Seidel.</li>
+            <li class="list-group-item">Si 0 < w < 1, se utiliza un método de sub-relajación, útil en sistemas donde Gauss-Seidel no converge.</li>
+            <li class="list-group-item">Si 1 < w < 2, se aplica un método de sobre-relajación, diseñado para acelerar la convergencia en algunos casos.</li>
+            <li class="list-group-item">El vector inicial no es crucial para el resultado.</li>
+            <li class="list-group-item">El determinante de la matriz no debe ser 0.</li>
+            <li class="list-group-item">La matriz no puede tener un 0 en su diagonal principal.</li>
+            <li class="list-group-item">El número de iteraciones debe ser positivo.</li>
+            <li class="list-group-item">La tolerancia también debe ser un valor positivo.</li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 
