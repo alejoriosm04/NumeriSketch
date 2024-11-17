@@ -3,73 +3,125 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import sympy as sp  # SymPy para derivadas simbólicas
-from io import BytesIO
-import base64
 from django.shortcuts import render
+import re
+
+def preprocess_function(fun):
+    """Preprocesa la función para convertir `^` a `**` y agregar multiplicaciones implícitas."""
+    fun = fun.replace('^', '**')
+    fun = re.sub(r'(\d)([a-zA-Z])', r'\1*\2', fun)
+    fun = re.sub(r'([a-zA-Z])(\d)', r'\1*\2', fun)
+    return fun
+
+def safe_math():
+    """Provee un entorno seguro con funciones matemáticas."""
+    return {
+        'sin': np.sin,
+        'cos': np.cos,
+        'tan': np.tan,
+        'pi': np.pi,
+        'e': np.e,
+        'log': np.log,
+        'log10': np.log10,
+        'log2': np.log2,
+        'exp': np.exp,
+        'sqrt': np.sqrt,
+        'abs': np.abs,
+        'asin': np.arcsin,
+        'acos': np.arccos,
+        'atan': np.arctan,
+        'atan2': np.arctan2,
+        'sinh': np.sinh,
+        'cosh': np.cosh,
+        'tanh': np.tanh,
+        'gamma': sp.gamma,
+        'lgamma': sp.loggamma
+    }
+
+def newton_graph(fun, xi, xf, root=None, png_path='static/graphs/newton_graph.png', svg_path='static/graphs/newton_graph.svg'):
+    """Genera y guarda la gráfica de la función para el método de Newton-Raphson."""
+    x_vals = np.linspace(xi, xf, 400)
+    y_vals = []
+    safe_dict = safe_math()
+    for val in x_vals:
+        try:
+            y = eval(fun, {"x": val, **safe_dict})
+        except:
+            y = np.nan  # Maneja puntos donde la función no está definida
+        y_vals.append(y)
+
+    plt.figure(figsize=(8, 6))
+    plt.plot(x_vals, y_vals, label='f(x)', color='blue')
+    plt.axhline(0, color='black', linewidth=0.5, linestyle='--')
+    if root is not None:
+        plt.axvline(root, color='red', linestyle='--', label='Raíz aproximada')
+    plt.grid(color='gray', linestyle='--', linewidth=0.5)
+    plt.title('Gráfica de f(x)')
+    plt.xlabel('x')
+    plt.ylabel('f(x)')
+    plt.legend()
+
+    plt.savefig(png_path, format='png')
+    plt.savefig(svg_path, format='svg')
+    plt.close()
+
+    return {'png': png_path, 'svg': svg_path}
 
 def newton_raphson(request):
     context = {}
 
-    # Diccionario seguro para evaluar expresiones matemáticas
-    safe_dict = {
-        'sin': math.sin,
-        'cos': math.cos,
-        'tan': math.tan,
-        'pi': math.pi,
-        'e': math.e,
-        'log': math.log,
-        'log10': math.log10,
-        'log2': math.log2,
-        'exp': math.exp,
-        'sqrt': math.sqrt,
-        'abs': abs,
-        'asin': math.asin,
-        'acos': math.acos,
-        'atan': math.atan,
-        'atan2': math.atan2,
-        'sinh': math.sinh,
-        'cosh': math.cosh,
-        'tanh': math.tanh,
-        'gamma': math.gamma,
-        'lgamma': math.lgamma
-    }
-
     if request.method == 'POST':
         try:
             # Obtener valores del formulario
-            x0 = float(request.POST.get('x0', ''))
-            tol = float(request.POST.get('tol', ''))
-            niter = int(request.POST.get('niter', ''))
-            fx = request.POST.get('fx', '').replace('^', '**')
-            dfx = request.POST.get('dfx', '').replace('^', '**')
-            error_type = request.POST.get('error_type', '')
+            x0 = float(request.POST.get('x0', '').strip())
+            tol = float(request.POST.get('tol', '').strip())
+            niter = int(request.POST.get('niter', '').strip())
+            fx = request.POST.get('fx', '').strip()
+            dfx = request.POST.get('dfx', '').strip()
+            error_type = request.POST.get('error_type', '').strip()
 
-            # Guardar el valor original de x0 para mostrarlo en el formulario después
-            original_x0 = x0
+            # Preprocesar la función
+            fx = preprocess_function(fx)
+            if dfx:
+                dfx = preprocess_function(dfx)
+
+            # Verificar la función
+            try:
+                eval(fx, {"x": x0, **safe_math()})
+            except Exception as eval_error:
+                raise ValueError(f"Expresión no válida en f(x): {eval_error}")
 
             # Si no se ingresó la derivada, calcularla usando SymPy
-            x = sp.Symbol('x')
+            x_sym = sp.Symbol('x')
             fx_sympy = sp.sympify(fx)
             if not dfx:
-                dfx_sympy = sp.diff(fx_sympy, x)
+                dfx_sympy = sp.diff(fx_sympy, x_sym)
                 dfx = str(dfx_sympy)
+
+            # Verificar la derivada
+            try:
+                eval(dfx, {"x": x0, **safe_math()})
+            except Exception as eval_error:
+                raise ValueError(f"Expresión no válida en f'(x): {eval_error}")
 
             # Inicializar variables para iteraciones
             iteration = 0
             xn = [x0]
-            fn = [eval(fx, {"x": x0, "math": math}, safe_dict)]
-            errors = [100]  # La primera iteración no tiene error
+            fn = [eval(fx, {"x": x0, **safe_math()})]
+            errors = [None]  # La primera iteración no tiene error
             error = None
             root = None
             unrounded_root = None  # Guardar la raíz sin redondeo
+            derivative_zero = False  # Bandera para derivada cero
 
             # Iterar usando el método de Newton-Raphson
             while iteration < niter:
-                f_value = eval(fx, {"x": x0, "math": math}, safe_dict)
-                df_value = eval(dfx, {"x": x0, "math": math}, safe_dict)
+                f_value = eval(fx, {"x": x0, **safe_math()})
+                df_value = eval(dfx, {"x": x0, **safe_math()})
 
                 if df_value == 0:
-                    context['msg'] = [f"La derivada es cero en x = {x0}, el método no puede continuar."]
+                    derivative_zero = True
+                    context['msg'] = [f"La derivada es cero en x = {x0}. La derivada en el punto debe ser diferente de cero."]
                     break
 
                 # Fórmula del método de Newton-Raphson
@@ -78,13 +130,16 @@ def newton_raphson(request):
                 # Calcular el error según el tipo de error seleccionado
                 if iteration >= 0:
                     if error_type == "relativo":
-                        error = abs((x1 - x0) / x1)
+                        if x1 != 0:
+                            error = abs((x1 - x0) / x1)
+                        else:
+                            error = abs(x1 - x0)
                     else:
                         error = abs(x1 - x0)
 
                 # Guardar valores de la iteración
                 xn.append(x1)
-                fn.append(eval(fx, {"x": x1, "math": math}, safe_dict))
+                fn.append(eval(fx, {"x": x1, **safe_math()}))
                 errors.append(error)
 
                 # Actualizar valor para la siguiente iteración
@@ -111,38 +166,36 @@ def newton_raphson(request):
             if unrounded_root is not None:
                 context['msg'] = [f"Raíz aproximada encontrada: {unrounded_root} con una tolerancia de {tol}."]
                 context['error'] = False
+            elif derivative_zero:
+                context['error'] = True
+                # No se agrega otro mensaje aquí porque ya se agregó anteriormente
             else:
                 context['msg'] = [f"No se encontró la raíz en {niter} iteraciones."]
                 context['error'] = True
 
             # Generar gráfico
-            fig, ax = plt.subplots()
-            x_vals = np.linspace(xn[0] - 2, xn[0] + 2, 400)
-            y_vals = [eval(fx, {"x": val, "math": math}, safe_dict) for val in x_vals]
-            ax.plot(x_vals, y_vals, label='f(x)')
-            ax.axhline(0, color='gray', lw=1)  # Línea en y = 0
+            if len(xn) > 1:
+                xi = min(xn)
+                xf = max(xn)
+            else:
+                xi = x0 - 2
+                xf = x0 + 2
+            delta = (xf - xi) * 0.1
+            xi -= delta
+            xf += delta
 
-            # Mostrar la raíz si se encontró
-            if unrounded_root is not None:
-                ax.axvline(unrounded_root, color='red', linestyle='--', label='Raíz encontrada')
+            graph_paths = newton_graph(fx, xi, xf, root)
 
-            ax.legend()
-            buf = BytesIO()
-            plt.savefig(buf, format='png')
-            plt.close(fig)
-            buf.seek(0)
-            img_base64 = base64.b64encode(buf.read()).decode('utf-8')
-
-            context['graph'] = img_base64
-
-            # Guardar valores del formulario en el contexto
             context.update({
-                'x0': original_x0,  # Mantener el valor original de x0 ingresado por el usuario
-                'tol': tol,
-                'niter': niter,
                 'fx': fx,
                 'dfx': dfx,
-                'error_type': error_type,
+                'graph_png': graph_paths['png'],
+                'graph_svg': graph_paths['svg'],
+                'error_type': 'Error Relativo' if error_type == "relativo" else 'Error Absoluto',
+                'x0': request.POST.get('x0', ''),
+                'tol': tol,
+                'niter': niter,
+                'error_type_selected': error_type,
                 'root': unrounded_root,  # Mostrar la raíz sin redondear
             })
 

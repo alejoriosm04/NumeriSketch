@@ -1,15 +1,10 @@
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-import numpy as np
-import json
 from django.shortcuts import render
 import numpy as np
-import matplotlib.pyplot as plt  # Asegúrate de importar matplotlib
-
+import matplotlib.pyplot as plt
 
 def gauss_seidel(request):
     context = {
-        'range_matrices': range(2, 7), 
+        'range_matrices': range(2, 7),
     }
     max_matrix_size = 6
 
@@ -27,114 +22,110 @@ def gauss_seidel(request):
             for i in range(matrix_size):
                 row = []
                 for j in range(matrix_size):
-                    value = request.POST.get(f'A_{i}_{j}', 0)  # Valor por defecto de 1
+                    value = request.POST.get(f'A_{i}_{j}', 0)  # Valor por defecto de 0
                     try:
                         row.append(float(value))  # Convertir a float
                     except ValueError:
-                        row.append(1.0)  # Si falla, usar valor por defecto
+                        row.append(0.0)  # Si falla, usar valor por defecto
                 A.append(row)
 
             # Procesar el vector b
             for i in range(matrix_size):
-                value_b = request.POST.get(f'b_{i}', 0) 
+                value_b = request.POST.get(f'b_{i}', 0)
                 try:
-                    b.append(float(value_b)) 
+                    b.append(float(value_b))
                 except ValueError:
-                    b.append(0.0)  
+                    b.append(0.0)
 
             # Procesar el vector x0
             for i in range(matrix_size):
-                value_x0 = request.POST.get(f'x0_{i}', 0)  
+                value_x0 = request.POST.get(f'x0_{i}', 0)
                 try:
                     x0.append(float(value_x0))
                 except ValueError:
-                    x0.append(0.0) 
-
-            print(f'A:\n{A}')
-            print(f'b:\n{b}')
-            print(f'x0:\n{x0}')
+                    x0.append(0.0)
 
             spectral_radius = np.max(np.abs(np.linalg.eigvals(A)))
 
-
             solution, error, matrices_by_iteration, iteration_table = gauss_seidel_method(A, b, x0, tol, niter)
 
-            graph_path = None
+            # Generar gráfica si el tamaño de la matriz es 2x2
+            graph_paths = None
             if matrix_size == 2:
-                graph_path = 'static/graphs/sistema.png'
-                svg_path = 'static/graphs/sistema.svg'
-                graph_system(A, b, graph_path, svg_path)  # Graficar el sistema
+                graph_paths = graph_system(A, b)
 
             context = {
-                'matrix_size': matrix_size,
+                'matrix_size': range(matrix_size),
                 'original_matrix': A,
-                'matrix_data': {'A': A, 'b': b, 'x0': x0},
-                'matrices_by_iteration': matrices_by_iteration,
+                'b_values': b,
+                'x0_values': x0,
                 'solution': solution,
                 'relative_error': error,
                 'iteration_table': iteration_table,
-                'table_size': len(iteration_table),
+                'result_message': f"Convergió exitosamente en {len(iteration_table)} iteraciones.",
                 'spectral_radius': spectral_radius,
                 'range_matrices': range(2, 7),
-                'graph_path': graph_path, 
                 'niter': niter,
+                'tol': tol,
+                'graph_png': graph_paths['png'] if graph_paths else None,
+                'graph_svg': graph_paths['svg'] if graph_paths else None,
             }
 
+            # Verificar si el método no convergió
+            if len(iteration_table) >= niter:
+                context['error'] = f"El método no convergió en {niter} iteraciones."
+                context['result_message'] = f"El método no convergió en {niter} iteraciones."
+
         except Exception as e:
-            context['error'] = str(e)
+            context['error'] = f"Error: {str(e)}"
+
     else:
-        context['matrix_size'] = max_matrix_size
+        context['matrix_size'] = range(max_matrix_size)
         context['matrix_data'] = {'A': [], 'b': [], 'x0': []}
 
-    context['range'] = range(2, 7) 
-    
     return render(request, 'gauss_seidel.html', context)
 
 
 def gauss_seidel_method(A, b, x0, tol=1e-5, max_iter=20):
-
     A = np.array(A, dtype=float)
     b = np.array(b, dtype=float)
     x = np.array(x0, dtype=float)
     n = len(b)
-    
-    norm_val = np.inf
-    itr = 0 
 
-    matrices_by_iteration = []
-    iteration_table = []
+    norm_val = np.inf
+    itr = 0
+
+    iteration_table = [(0, x.tolist(), None)]  # Iteración inicial
 
     while norm_val > tol and itr < max_iter:
-        x_old = np.copy(x) 
-        x_new = np.copy(x) 
-        print(f'Iteración {itr}: {x_new}')
+        x_old = np.copy(x)
+        x_new = np.copy(x)
+
         for i in range(n):
             sigma = 0
-            
-            for j in range(i):
-                sigma += A[i, j] * x_new[j]
-            
-            for j in range(i + 1, n):
-                sigma += A[i, j] * x_old[j]
 
-            x_new[i] = (1 / A[i, i]) * (b[i] - sigma)
+            for j in range(n):
+                if j != i:
+                    sigma += A[i, j] * x_new[j]  # Usar x_new para Gauss-Seidel
 
-        norm_val = np.linalg.norm(x_new - x, ord=np.inf)  # Norma infinita
-        if norm_val < tol:
-            print("Iteration table: ", iteration_table)
-            return x_new, norm_val, matrices_by_iteration, iteration_table
-        
+            x_new[i] = (b[i] - sigma) / A[i, i]
+
+        norm_val = np.linalg.norm(x_new - x_old, ord=np.inf)  # Norma infinita
+        error = norm_val
+
         x = np.copy(x_new)
-        itr += 1 
+        itr += 1
+
+        iteration_table.append((itr, x_new.tolist(), error))
+
+        if norm_val < tol:
+            return x_new.tolist(), error, None, iteration_table
+
+    return x.tolist(), error, None, iteration_table
 
 
-        iteration_table.append((itr, x_new.copy(), norm_val)) 
-        matrices_by_iteration.append(x.copy())
-
-    return x, norm_val, matrices_by_iteration, iteration_table
-
-
-def graph_system(A, b, path_png='static/graphs/sistema.png', path_svg='static/graphs/sistema.svg'):
+def graph_system(A, b, png_path='static/graphs/gauss_seidel_system.png', svg_path='static/graphs/gauss_seidel_system.svg'):
+    """Genera y guarda la gráfica del sistema de ecuaciones lineales."""
     m1, m2 = A[0]
     m3, m4 = A[1]
 
@@ -142,30 +133,19 @@ def graph_system(A, b, path_png='static/graphs/sistema.png', path_svg='static/gr
     y1_vals = (b[0] - m1 * x_vals) / m2
     y2_vals = (b[1] - m3 * x_vals) / m4
 
-    x_min = min(x_vals)
-    x_max = max(x_vals)
-    y_min = min(min(y1_vals), min(y2_vals))
-    y_max = max(max(y1_vals), max(y2_vals))
-
     plt.figure(figsize=(8, 6))
     plt.plot(x_vals, y1_vals, label='Ecuación 1', color='blue')
     plt.plot(x_vals, y2_vals, label='Ecuación 2', color='orange', linestyle='--')
-
-    plt.xlim(x_min, x_max)
-    plt.ylim(y_min, y_max)
-    plt.axhline(0, color='black', linewidth=0.5, ls='--')
-    plt.axvline(0, color='black', linewidth=0.5, ls='--')
+    plt.axhline(0, color='black', linewidth=0.5, linestyle='--')
+    plt.axvline(0, color='black', linewidth=0.5, linestyle='--')
     plt.grid(color='gray', linestyle='--', linewidth=0.5)
     plt.title('Gráfica del Sistema de Ecuaciones')
     plt.xlabel('x1')
     plt.ylabel('x2')
     plt.legend()
 
-    # Guardar la gráfica como PNG
-    plt.savefig(path_png)
-
-    # Guardar la gráfica como SVG
-    plt.savefig(path_svg, format='svg')
-
+    plt.savefig(png_path, format='png')
+    plt.savefig(svg_path, format='svg')
     plt.close()
 
+    return {'png': png_path, 'svg': svg_path}

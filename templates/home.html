@@ -62,30 +62,42 @@
 
       <div class="col-lg-4 col-md-6 icon-box">
         <div class="icon"><i class="bi bi-diagram-3"></i></div>
-        <h4 class="title"><a href="">Método de Gauss-Seidel</a></h4>
+        <h4 class="title"><a href="{% url 'gauss_seidel' %}">Método de Gauss-Seidel</a></h4>
         <p class="description">Solución iterativa de sistemas de ecuaciones lineales usando el método de Gauss-Seidel.</p>
       </div>
 
       <div class="col-lg-4 col-md-6 icon-box">
         <div class="icon"><i class="bi bi-diagram-3"></i></div>
-        <h4 class="title"><a href="">Método SOR</a></h4>
+        <h4 class="title"><a href="{% url 'sor' %}">Método SOR</a></h4>
         <p class="description">Método de Sobrerrelajación Sucesiva (SOR) para resolver sistemas de ecuaciones lineales.</p>
       </div>
     </div>
 
     <!-- Capítulo 3: Otros Métodos -->
-    <h3 class="text-center mt-5" style="font-family: 'Poppins', sans-serif;">Capítulo 3</h3>
+    <h3 class="text-center mt-5" style="font-family: 'Poppins', sans-serif;">Capítulo 3: Métodos de Interpolación</h3>
     <div class="row">
       <div class="col-lg-4 col-md-6 icon-box">
         <div class="icon"><i class="bi bi-hourglass-split"></i></div>
-        <h4 class="title"><a href="#">Método 1</a></h4>
-        <p class="description">Descripción del Método 1 (Próximamente).</p>
+        <h4 class="title"><a href="{% url 'vandermonde' %}">Método de Valdermonde</a></h4>
+        <p class="description">Interpolación polinómica basada en diferencias divididas entre puntos conocidos.</p>
       </div>
 
       <div class="col-lg-4 col-md-6 icon-box">
         <div class="icon"><i class="bi bi-hourglass-split"></i></div>
-        <h4 class="title"><a href="#">Método 2</a></h4>
-        <p class="description">Descripción del Método 2 (Próximamente).</p>
+        <h4 class="title"><a href="{% url 'newton_int' %}">Método de Interpolación de Newton</a></h4>
+        <p class="description">Interpolación polinómica basada en diferencias divididas progresivas o regresivas.</p>
+      </div>
+
+      <div class="col-lg-4 col-md-6 icon-box">
+        <div class="icon"><i class="bi bi-hourglass-split"></i></div>
+        <h4 class="title"><a href="{% url 'lagrange' %}">Método de Lagrange</a></h4>
+        <p class="description">Interpolación polinómica mediante combinación lineal de polinomios base.</p>
+      </div>
+
+      <div class="col-lg-4 col-md-6 icon-box">
+        <div class="icon"><i class="bi bi-hourglass-split"></i></div>
+        <h4 class="title"><a href="{% url 'spline' %}">Método Spline</a></h4>
+        <p class="description">Interpolación mediante segmentos polinómicos garantizando suavidad en puntos.</p>
       </div>
     </div>
   </div>

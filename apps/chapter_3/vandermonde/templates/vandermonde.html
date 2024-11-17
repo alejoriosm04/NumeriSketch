@@ -1,131 +1,147 @@
-{% extends "base/base.html" %} {% load static %} {% block content %}
+{% extends "base/base.html" %}
+{% load static %}
+{% block content %}
 
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Page Content -->
 <div class="container mt-5 pt-5">
   <div class="row justify-content-center">
     <div class="col-lg-8 text-center">
-      <h1 class="mt-5 section-t">Interpolación de vandermonde</h1>
+      <h1 class="mt-5 section-t font-weight-bold">Interpolación de Vandermonde</h1>
+      <p class="lead">Calcula el polinomio de interpolación mediante el método de Vandermonde.</p>
+      <!-- Botón de ayuda desplegable -->
+      <button class="btn btn-info mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#helpSection">
+        Mostrar Ayuda
+      </button>
+      <!-- Sección de ayuda desplegable -->
+      <div class="collapse mt-3" id="helpSection">
+        <div class="card card-body">
+          <p>Ingresa los puntos (x, y) para calcular el polinomio interpolador mediante el método de Vandermonde.</p>
+          <ul>
+            <li>El polinomio resultante será el de grado más bajo que pase por todos los puntos dados.</li>
+            <li>No se permiten más de 8 puntos para evitar problemas de rendimiento y precisión.</li>
+            <li>Asegúrate de que los valores de x sean únicos para evitar divisiones por cero.</li>
+            <li>Todos los campos deben ser numéricos. Si introduces valores no válidos, recibirás un mensaje de error.</li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="max-w-3xl mx-auto mt-6 p-6 bg-white rounded-lg shadow-md">
-    {% if error %}
-    <p class="mb-4 mt-4 alert alert-danger">{{ error }}</p>
-    {% endif %}
-
-    <div class="mb-5 row flex justify-center">
-      <form method="post" class="space-y-4">
-        {% csrf_token %}
-        <div class="row flex mt-4 mx-4">
-          <label for="x_values" class="block text-lg font-semibold"
-            >Valores de x (separados por comas):</label
-          >
-          <input
-            type="text"
-            id="x_values"
-            name="x_values"
-            value="{{ x_values }}"
-            required
-            placeholder="0, 1, 2, 3, 4, 5, 6, 7"
-            class="form-control rounded shadow-sm"
-          />
-        </div>
-
-        <div class="row flex mt-4 mx-4">
-          <label for="y_values" class="block text-lg font-semibold"
-            >Valores de y (separados por comas):</label
-          >
-          <input
-            type="text"
-            id="y_values"
-            name="y_values"
-            value="{{ y_values }}"
-            required
-            placeholder="0, 1, 4, 9, 16, 25, 36, 49"
-            class="form-control rounded shadow-sm"
-          />
-        </div>
-
-        <div class="text-center">
-          <button type="submit" class="btn btn-primary w-100 mt-3">
-            Calcular
-          </button>
-        </div>
-      </form>
-    </div>
-
-    {% if input %}
-    <table class="mt-4 table-auto table w-full mt-6">
-      <thead>
-        <tr class="bg-black text-white text-bold">
-          <th class="px-4 py-2">x</th>
-          <th class="px-4 py-2">y</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for x, y in paired_values %}
-        <tr>
-          <td class="px-4 py-2">{{ x }}</td>
-          <td class="px-4 py-2">{{ y }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-    {% endif %} 
-
-    {% if string_polynomial %}
-    <div class="mt-6 mb-5">
-      <h2 class="text-2xl font-semibold">Polinomio Interpolante:</h2>
-      <p class="mt-2 text-xl alert alert-success">{{ string_polynomial }}</p>
-      <table class="mt-4 table-auto table w-full mt-6">
-        <thead>
-          <tr class="bg-black text-white text-bold">
-            <th class="px-4 py-2">Polinomio</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for coef in polynomial %}
-          <tr>
-            <td class="px-4 py-2">{{ coef }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-
-      {% if graph %}
-      <h2 class="text-2xl font-semibold mt-6">Gráfica del Polinomio</h2>
-      <div class="mt-4 text-center">
-        <img
-          src="{% static 'graphs/vandermonde_interpolation.svg' %}"
-          alt="Gráfica del Polinomio de Vandermonde"
-          class="mx-auto shadow-lg rounded-md"
-        />
+  <!-- Mostrar mensaje de error -->
+  {% if error %}
+  <div class="row justify-content-center mt-4">
+    <div class="col-lg-8">
+      <div class="alert alert-danger" role="alert">
+        {{ error }}
       </div>
-
-      <div class="row mb-6 mt-6">
-        <div class="col-lg-6">
-          <a
-            class="btn btn-primary w-100 mt-3"
-            href="{% static 'graphs/vandermonde_interpolation.png' %}"
-            download="gauss_seidel.png"
-          >
-            Descargar PNG
-          </a>
-        </div>
-        <div class="col-lg-6">
-          <a
-            class="btn btn-primary w-100 mt-3"
-            href="{% static 'graphs/vandermonde_interpolation.svg' %}"
-            download="gauss_seidel.svg"
-          >
-            Descargar SVG
-          </a>
-        </div>
-      </div>
-      {% endif %}
     </div>
-    {% endif %}
+  </div>
+  {% endif %}
+
+  <!-- Formulario de Entrada Dinámico -->
+  <div class="row justify-content-center mt-4">
+    <div class="col-lg-8">
+      <div class="card p-4 shadow-lg">
+        <form method="POST" id="vandermondeForm">
+          {% csrf_token %}
+          <h4 class="font-weight-bold text-center mb-3">Puntos de Entrada</h4>
+          <table class="table table-bordered text-center">
+            <thead class="table-light">
+              <tr>
+                <th>X</th>
+                <th>Y</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="points-container">
+              {% for x, y in paired_values %}
+              <tr class="point-row">
+                <td>
+                  <input type="text" name="x[]" class="form-control" placeholder="Ingrese X" value="{{ x }}" required>
+                </td>
+                <td>
+                  <input type="text" name="y[]" class="form-control" placeholder="Ingrese Y" value="{{ y }}" required>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-danger remove-row">-</button>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <button type="button" class="btn btn-success add-point">Añadir Punto</button>
+          <button type="submit" class="btn btn-primary btn-lg w-100 mt-3">Calcular</button>
+        </form>
+      </div>
+    </div>
   </div>
 
+  <!-- Tabla de Puntos Ingresados -->
+  {% if paired_values %}
+  <div class="row justify-content-center mt-4">
+    <div class="col-lg-8">
+      <div class="card p-4 shadow-lg">
+        <h4 class="font-weight-bold text-center">Puntos Ingresados:</h4>
+        <table class="table table-bordered text-center">
+          <thead class="table-dark">
+            <tr>
+              <th>X</th>
+              <th>Y</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for x, y in paired_values %}
+            <tr>
+              <td>{{ x }}</td>
+              <td>{{ y }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Polinomio Interpolador -->
+  {% if polynomial_latex %}
+  <div class="row justify-content-center mt-4">
+    <div class="col-lg-8">
+      <div class="card p-4 shadow-lg text-center">
+        <h4 class="font-weight-bold">Polinomio Interpolador:</h4>
+        <p>\[ {{ polynomial_latex|safe }} \]</p>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Gráfica -->
+  {% if graph_png and graph_svg %}
+  <div class="row justify-content-center mt-4">
+    <div class="col-lg-8">
+      <div class="card p-4 shadow-lg text-center">
+        <h4 class="font-weight-bold">Gráfica del Polinomio:</h4>
+        <img src="{% static 'graphs/vandermonde_interpolation.svg' %}" class="img-fluid mb-3" alt="Gráfica del Polinomio de Vandermonde">
+        <div class="row">
+          <div class="col-lg-6">
+            <a href="{% static 'graphs/vandermonde_interpolation.png' %}" download="vandermonde_interpolation.png" class="btn btn-custom btn-primary me-2">Descargar PNG</a>
+          </div>
+          <div class="col-lg-6">
+            <a href="{% static 'graphs/vandermonde_interpolation.svg' %}" download="vandermonde_interpolation.svg" class="btn btn-custom btn-orange">Descargar SVG</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Consideraciones y Posibles Errores -->
   <div class="mb-5 mt-5 w-auto bg-gray-200 p-4 alert alert-warning rounded-lg">
     <h2 class="text-xl font-semibold text-black">Consideraciones y Posibles Errores</h2>
     <ul class="mt-4 list-inside list-disc text-lg text-gray-800">
@@ -139,7 +155,167 @@
     <p class="mt-4 text-lg text-gray-700">Revisa cuidadosamente las entradas y asegúrate de que los datos estén bien definidos para evitar estos problemas.</p>
 </div>
 
-
-
 </div>
+<br></br>
+
+<!-- Custom Styles for Matrix and Hover Effects -->
+<style>
+  /* Aplicar la fuente Poppins globalmente */
+  body,
+  .card,
+  h1,
+  p,
+  label,
+  .form-control,
+  button {
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .btn-custom {
+    width: 220px;
+    height: 50px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 5px;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    border: none;
+  }
+
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+
+  .btn-orange {
+    background-color: #ff9800;
+    color: white;
+    border: none;
+  }
+
+  .btn-orange:hover {
+    background-color: #e68900;
+  }
+
+  .btn-success {
+    background-color: #28a745;
+    color: white;
+    border: none;
+  }
+
+  .btn-danger {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+  }
+
+  .card {
+    border-radius: 1rem;
+  }
+
+  .table-bordered th, .table-bordered td {
+    border: 1px solid #dee2e6;
+  }
+
+  .table-dark th {
+    color: white !important;
+  }
+
+  th {
+    background-color: #f8f9fa;
+    color: #212529 !important;
+  }
+
+  .table-bordered th {
+    font-weight: bold;
+  }
+
+  h4 {
+    margin-bottom: 20px;
+  }
+
+  .section-t {
+    font-size: 2rem;
+  }
+
+  input::placeholder {
+    font-style: italic;
+  }
+
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+
+  .table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    background-color: transparent;
+  }
+
+  .table th,
+  .table td {
+    white-space: nowrap;
+  }
+
+  .alert-success {
+    background-color: #d4edda;
+    color: #155724;
+  }
+
+  .alert-warning {
+    background-color: #fff3cd;
+    color: #856404;
+  }
+
+  .alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+
+  .alert-info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+  }
+
+  .alert {
+    border-radius: 0.25rem;
+  }
+
+  .shadow-lg {
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  }
+</style>
+
+<script>
+  // Funciones para añadir y eliminar filas dinámicamente en el formulario de puntos
+  document.querySelector('.add-point').addEventListener('click', function() {
+    const container = document.querySelector('#points-container');
+    const newRow = `
+      <tr class="point-row">
+        <td>
+          <input type="number" step="any" name="x[]" class="form-control" placeholder="Ingrese X" required>
+        </td>
+        <td>
+          <input type="number" step="any" name="y[]" class="form-control" placeholder="Ingrese Y" required>
+        </td>
+        <td><button type="button" class="btn btn-danger remove-row">-</button></td>
+      </tr>`;
+    container.insertAdjacentHTML('beforeend', newRow);
+  });
+
+  document.querySelector('#points-container').addEventListener('click', function(e) {
+    if (e.target.classList.contains('remove-row')) {
+      e.target.closest('.point-row').remove();
+    }
+  });
+</script>
+
 {% endblock %}
