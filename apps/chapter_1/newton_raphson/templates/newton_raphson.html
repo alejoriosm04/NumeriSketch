@@ -73,8 +73,8 @@
           <div class="form-group mb-3">
             <label for="error_type">Tipo de Error:</label>
             <select id="error_type" name="error_type" class="form-control shadow-sm">
-              <option value="absoluto" {% if error_type == "absoluto" %}selected{% endif %}>Absoluto</option>
-              <option value="relativo" {% if error_type == "relativo" %}selected{% endif %}>Relativo</option>
+              <option value="absoluto" {% if error_type == "absoluto" %}selected{% endif %}>Decimales Correctos</option>
+              <option value="relativo" {% if error_type == "relativo" %}selected{% endif %}>Cifras Significativas</option>
             </select>
           </div>
 
@@ -115,10 +115,15 @@
         {% endif %}
       </div>
 
-      <!-- Gráfico -->
-      {% if graph %}
-      <div class="plot mt-4">
-        <img src="data:image/png;base64,{{ graph }}" class="img-fluid shadow" alt="Graph of f(x)">
+      <!-- Mostrar gráfica si está disponible -->
+      {% if graph_png and graph_svg %}
+      <div class="mt-4 text-center">
+        <h3>Gráfica de la Función:</h3>
+        <img src="{% static 'graphs/newton_graph.png' %}" alt="Gráfica de la Función" class="img-fluid" />
+        <div class="mt-3">
+          <a href="{% static 'graphs/newton_graph.png' %}" download="newton_graph.png" class="btn btn-custom btn-primary me-2">Descargar como PNG</a>
+          <a href="{% static 'graphs/newton_graph.svg' %}" download="newton_graph.svg" class="btn btn-custom btn-orange">Descargar como SVG</a>
+        </div>
       </div>
       {% endif %}
     </div>
@@ -128,15 +133,15 @@
   {% if table %}
   <div class="row justify-content-center mt-5">
     <div class="col-lg-8">
-      <h4>Tabla de Iteraciones (Error {{ error_type }}):</h4>
+      <h4>Tabla de Iteraciones ({{ error_type }}):</h4>
       <div class="table-responsive">
-        <table class="table table-bordered mx-auto" style="width: auto;">
+        <table class="table table-striped table-hover shadow-sm">
           <thead class="table-dark">
             <tr>
               <th>Iteración</th>
               <th>x_n</th>
               <th>f(x_n)</th>
-              <th>Error {{ error_type }}</th>
+              <th>{{ error_type }}</th>
             </tr>
           </thead>
           <tbody>
@@ -155,6 +160,7 @@
   </div>
   {% endif %}
 
+  <!-- Mostrar ejemplos -->
   <!-- Mostrar ejemplos -->
   <div class="examples mt-5">
     <div class="row">
@@ -262,22 +268,17 @@
           Tenga en cuenta que para operar una constante por una variable
           debe usar el operador "*" <b>Ejemplo: </b><code>3*x</code>
         </p>
+        <h4>
+          A continuación, se muestran algunos ejemplos de funciones válidas
+          que puedes usar:
+        </h4>
         <div class="example">
           <h4>Ejemplos para f(x):</h4>
           <ul>
-            <li><code>sin(x) + x^2 - 3*x</code></li>
-            <li><code>cos(x) - x^2 + 2*x</code></li>
-            <li><code>log(x + 1) + sqrt(x)</code></li>
-            <li><code>exp(x) - pi*x</code></li>
-          </ul>
-        </div>
-        <div class="example">
-          <h4>Ejemplos para f'(x):</h4>
-          <ul>
-            <li><code>2*x + cos(x)</code></li>
-            <li><code>-sin(x) - 2*x</code></li>
-            <li><code>1/(x + 1) + 1/(2*sqrt(x))</code></li>
-            <li><code>exp(x) - pi</code></li>
+            <li><code>x^3 - 4*x - 9</code></li>
+            <li><code>x^2 - 5</code></li>
+            <li><code>sin(x) - 0.5</code></li>
+            <li><code>sqrt(x) - x + 1</code></li>
           </ul>
         </div>
       </div>
@@ -315,6 +316,38 @@
   .btn-primary {
     background-color: #007bff;
     border-color: #007bff;
+  }
+  .btn-custom {
+    width: 220px; 
+    height: 50px; 
+    font-size: 16px; 
+    font-weight: bold;
+    text-align: center;
+    border-radius: 5px;
+  }
+
+  .btn-primary {
+    background-color: #007bff; /* Azul */
+    border: none;
+  }
+
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+
+  .btn-orange {
+    background-color: #ff9800; 
+    color: white;
+    border: none;
+  }
+
+  .btn-orange:hover {
+    background-color: #e68900; 
+  }
+
+  .btn-orange:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(255, 152, 0, 0.5);
   }
 </style>
 
