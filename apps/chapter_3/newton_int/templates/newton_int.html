@@ -1,0 +1,270 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block content %}
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Contenido de la Página -->
+<div class="container mt-5 pt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 text-center">
+      <h1 class="mt-5 section-t font-weight-bold">Método de Newton</h1>
+      <p class="lead">Calcula el polinomio de interpolación mediante el método de Newton.</p>
+      <button class="btn btn-info mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#helpSection">
+        Mostrar Ayuda
+      </button>
+      <div class="collapse mt-3" id="helpSection">
+        <div class="card card-body">
+            <p>Ingresa al menos 2 puntos (X, Y) para calcular el polinomio interpolador.</p>
+            <ul>
+                <li>El polinomio resultante será el de grado más bajo que pase por todos los puntos dados.</li>
+                <li>Puedes añadir o quitar puntos según sea necesario.</li>
+            </ul>
+            <ul>
+                <li>Asegúrate de ingresar al menos dos puntos. Si se ingresan menos, no se podrá calcular el polinomio.</li>
+                <li>No se permiten valores repetidos en el campo X para evitar divisiones por cero.</li>
+                <li>Todos los campos deben ser numéricos. Si introduces valores no válidos, recibirás un mensaje de error.</li>
+            </ul>
+        </div>
+    </div>
+    </div>
+  </div>
+
+  <!-- Formulario -->
+  <div class="row justify-content-center mt-4">
+    <div class="col-lg-8">
+      <div class="card p-4 shadow-lg">
+        <form method="POST" id="newtonForm">
+          {% csrf_token %}
+          <h4 class="font-weight-bold text-center mb-3">Puntos de Entrada</h4>
+          <table class="table table-bordered text-center">
+            <thead class="table-light">
+              <tr>
+                <th>X</th>
+                <th>Y</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="points-container">
+              {% for x, y in points %}
+              <tr class="point-row">
+                <td>
+                  <input type="text" name="x[]" class="form-control" placeholder="Ingrese X" value="{{ x }}" required>
+                </td>
+                <td>
+                  <input type="text" name="y[]" class="form-control" placeholder="Ingrese Y" value="{{ y }}" required>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-danger remove-row">-</button>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <button type="button" class="btn btn-success add-point">+</button>
+          <button type="submit" class="btn btn-primary btn-lg w-100 mt-3">Calcular</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Puntos Ingresados -->
+  {% if points %}
+  <div class="row justify-content-center mt-4">
+      <div class="col-lg-8">
+          <div class="card p-4 shadow-lg">
+              <h4 class="font-weight-bold text-center">Puntos Ingresados:</h4>
+              <table class="table table-bordered text-center">
+                  <thead class="table-dark">
+                      <tr>
+                          <th>X</th>
+                          <th>Y</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {% for x, y in points %}
+                      <tr>
+                          <td>{{ x }}</td>
+                          <td>{{ y }}</td>
+                      </tr>
+                      {% endfor %}
+                  </tbody>
+              </table>
+          </div>
+      </div>
+  </div>
+  {% endif %}
+
+  <!-- Tabla de Diferencias Divididas -->
+  {% if divided_differences %}
+  <div class="row justify-content-center mt-4">
+    <div class="col-lg-8">
+      <div class="card p-4 shadow-lg">
+        <h4 class="font-weight-bold text-center">Tabla de Diferencias Divididas:</h4>
+        <table class="table table-bordered text-center">
+          <thead class="table-dark">
+            <tr>
+              <th>X</th>
+              <th>f[X]</th>
+              {% for i in x_values|slice:"1:" %}
+                <th>Orden {{ forloop.counter }}</th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in divided_differences %}
+            <tr>
+              {% for value in row %}
+                <td>{{ value }}</td>
+              {% endfor %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Polinomio Interpolador -->
+  {% if polynomial_latex %}
+  <div class="row justify-content-center mt-4">
+    <div class="col-lg-8">
+      <div class="card p-4 shadow-lg text-center">
+        <h4 class="font-weight-bold">Polinomio Interpolador:</h4>
+        <p>\[ {{ polynomial_latex|safe }} \]</p>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Error -->
+  {% if error %}
+  <div class="row justify-content-center mt-3">
+    <div class="col-lg-8">
+      <div class="alert alert-danger text-center">
+        <strong>Error:</strong> {{ error }}
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Gráfica -->
+  {% if graph_png and graph_svg %}
+  <div class="row justify-content-center mt-4">
+    <div class="col-lg-8">
+      <div class="card p-4 shadow-lg text-center">
+        <h4 class="font-weight-bold">Gráfica del Polinomio:</h4>
+        <img src="{% static 'graphs/newton_plot.png' %}" class="img-fluid mb-3" alt="Gráfica del Polinomio">
+        <div>
+          <a href="{% static 'graphs/newton_plot.png' %}" download="newton_plot.png" class="btn btn-custom btn-primary me-2">Descargar PNG</a>
+          <a href="{% static 'graphs/newton_plot.svg' %}" download="newton_plot.svg" class="btn btn-custom btn-orange">Descargar SVG</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+</div>
+<br></br>
+
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .btn-custom {
+    width: 220px;
+    height: 50px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 5px;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+  }
+
+  .btn-orange {
+    background-color: #ff9800;
+  }
+
+  .btn-success {
+    background-color: #28a745;
+  }
+
+  .btn-danger {
+    background-color: #dc3545;
+  }
+
+  .card {
+    border-radius: 1rem;
+  }
+
+  .table-bordered th, .table-bordered td {
+    border: 1px solid #dee2e6;
+  }
+
+  th {
+    background-color: #f8f9fa; 
+    color: #212529 !important; 
+  }
+
+  .table-bordered th {
+    font-weight: bold;
+  }
+
+  h4 {
+    margin-bottom: 20px;
+  }
+
+  .section-t {
+    font-size: 2rem;
+  }
+
+  input::placeholder {
+    font-style: italic;
+  }
+
+  input[type="text"]::-webkit-outer-spin-button,
+  input[type="text"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+
+  input[type="text"] {
+    -moz-appearance: textfield;
+  }
+  .table-dark th {
+    color: white !important; 
+  }
+</style>
+
+<script>
+  document.querySelector('.add-point').addEventListener('click', function() {
+    const container = document.querySelector('#points-container');
+    const newRow = `
+      <tr class="point-row">
+        <td>
+          <input type="text" name="x[]" class="form-control" placeholder="Ingrese X" required>
+        </td>
+        <td>
+          <input type="text" name="y[]" class="form-control" placeholder="Ingrese Y" required>
+        </td>
+        <td><button type="button" class="btn btn-danger remove-row">-</button></td>
+      </tr>`;
+    container.insertAdjacentHTML('beforeend', newRow);
+  });
+
+  document.querySelector('#points-container').addEventListener('click', function(e) {
+    if (e.target.classList.contains('remove-row')) {
+      e.target.closest('.point-row').remove();
+    }
+  });
+</script>
+
+{% endblock %}
