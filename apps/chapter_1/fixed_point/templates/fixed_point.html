@@ -74,10 +74,10 @@
           </div>
 
           <div class="form-group mb-3">
-            <label for="error_type">Tipo de Error:</label>
+            <label for="error_type">Tipo de Precisión:</label>
             <select id="error_type" name="error_type" class="form-control shadow-sm">
-              <option value="absolute" {% if error_type == "absolute" %}selected{% endif %}>Absoluto</option>
-              <option value="relative" {% if error_type == "relative" %}selected{% endif %}>Relativo</option>
+              <option value="relative" {% if error_type == "relative" %}selected{% endif %}>Cifras Significativas</option>
+              <option value="absolute" {% if error_type == "absolute" %}selected{% endif %}>Decimales Correctos</option>
             </select>
           </div>
 
