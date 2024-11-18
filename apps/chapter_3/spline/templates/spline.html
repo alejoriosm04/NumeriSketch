@@ -13,46 +13,45 @@
   <div class="row justify-content-center">
     <div class="col-lg-8 text-center">
       <h1 class="mt-5 section-t font-weight-bold">Método de Interpolación Spline</h1>
-      <p class="lead">Calcula el polinomio de interpolación mediante el método de spline.</p>
+      <p class="lead">Calcula la interpolación spline (lineal o cuadrática) para un conjunto de puntos dados.</p>
       <button class="btn btn-info mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#helpSection">
         Mostrar Ayuda
       </button>
       <div class="collapse mt-3" id="helpSection">
         <div class="card card-body">
-            <p>Ingresa al menos 2 puntos (X, Y) para calcular el polinomio interpolador.</p>
-            <ul>
-                <li>Selecciona el tipo de spline que deseas usar (lineal, cuadrático, cúbico).</li>
-                <li>Puedes añadir o quitar puntos según sea necesario.</li>
-            </ul>
-            <ul>
-                <li>Asegúrate de ingresar al menos dos puntos. Si se ingresan menos, no se podrá calcular el polinomio.</li>
-                <li>No se permiten valores repetidos en el campo X para evitar divisiones por cero.</li>
-                <li>Todos los campos deben ser numéricos. Si introduces valores no válidos, recibirás un mensaje de error.</li>
-            </ul>
+          <p>Ingresa al menos 2 puntos (X, Y) para calcular la interpolación spline.</p>
+          <ul>
+            <li>Puedes elegir entre spline lineal o cuadrático.</li>
+            <li>Puedes añadir o quitar puntos según sea necesario.</li>
+          </ul>
+          <ul>
+            <li>Asegúrate de ingresar los puntos en orden ascendente de X para obtener resultados correctos.</li>
+            <li>No se permiten valores repetidos en el campo X.</li>
+            <li>Todos los campos deben ser numéricos.</li>
+          </ul>
         </div>
-    </div>
-    
+      </div>
     </div>
   </div>
 
-  <!-- Formulario -->
+  <!-- Mostrar mensaje de error -->
+  {% if error %}
+  <div class="row justify-content-center mt-4">
+    <div class="col-lg-8">
+      <div class="alert alert-danger" role="alert">
+        {{ error }}
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Formulario de Entrada Dinámico -->
   <div class="row justify-content-center mt-4">
     <div class="col-lg-8">
       <div class="card p-4 shadow-lg">
         <form method="POST" id="splineForm">
           {% csrf_token %}
           <h4 class="font-weight-bold text-center mb-3">Puntos de Entrada</h4>
-          
-          <!-- Selección de tipo de spline -->
-          <div class="mb-3">
-            <label for="splineType" class="form-label">Selecciona el tipo de spline:</label>
-            <select name="spline_type" id="splineType" class="form-select" required>
-              <option value="" disabled selected>Elige un tipo de spline</option>
-              <option value="lineal">Spline Lineal</option>
-              <option value="cuadratico">Spline Cuadrático</option>
-            </select>
-          </div>
-
           <table class="table table-bordered text-center">
             <thead class="table-light">
               <tr>
@@ -65,10 +64,10 @@
               {% for x, y in points %}
               <tr class="point-row">
                 <td>
-                  <input type="text" name="x[]" class="form-control" placeholder="Ingrese X" value="{{ x }}" required>
+                  <input type="number" step="any" name="x[]" class="form-control" placeholder="Ingrese X" value="{{ x }}" required>
                 </td>
                 <td>
-                  <input type="text" name="y[]" class="form-control" placeholder="Ingrese Y" value="{{ y }}" required>
+                  <input type="number" step="any" name="y[]" class="form-control" placeholder="Ingrese Y" value="{{ y }}" required>
                 </td>
                 <td>
                   <button type="button" class="btn btn-danger remove-row">-</button>
@@ -77,89 +76,110 @@
               {% endfor %}
             </tbody>
           </table>
-          <button type="button" class="btn btn-success add-point">+</button>
+          <button type="button" class="btn btn-success add-point">Añadir Punto</button>
+
+          <!-- Selección del tipo de spline -->
+          <div class="form-group mt-3">
+            <label for="spline_type">Tipo de Spline:</label>
+            <select id="spline_type" name="spline_type" class="form-control">
+              <option value="lineal" {% if spline_type == 'lineal' %}selected{% endif %}>Lineal</option>
+              <option value="cuadratico" {% if spline_type == 'cuadratico' %}selected{% endif %}>Cuadrático</option>
+            </select>
+          </div>
+
           <button type="submit" class="btn btn-primary btn-lg w-100 mt-3">Calcular</button>
         </form>
       </div>
     </div>
   </div>
 
-  <!-- Puntos Ingresados -->
+  <!-- Tabla de Puntos Ingresados -->
   {% if points %}
-  <div class="row justify-content-center mt -4">
+  <div class="row justify-content-center mt-4">
     <div class="col-lg-8">
-        <div class="card p-4 shadow-lg">
-            <h4 class="font-weight-bold text-center">Puntos Ingresados:</h4>
-            <table class="table table-bordered text-center">
-                <thead class="table-dark">
-                    <tr>
-                        <th>X</th>
-                        <th>Y</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for x, y in points %}
-                    <tr>
-                        <td>{{ x }}</td>
-                        <td>{{ y }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-{% endif %}
-
-<!-- Resultados -->
-<!-- Segmentos de la Spline -->
-{% if spline_segments %}
-<div class="row justify-content-center mt-4">
-  <div class="col-lg-8">
-    <div class="card p-4 shadow-lg text-center">
-      <h4 class="font-weight-bold">Segmentos de la Spline:</h4>
-      <ul class="list-unstyled">
-        {% for segment in spline_segments %}
-          <li>\[ {{ segment|safe }} \]</li>
-        {% endfor %}
-      </ul>
-    </div>
-  </div>
-</div>
-{% endif %}
-
-<!-- Error -->
-{% if error %}
-<div class="row justify-content-center mt-3">
-  <div class="col-lg-8">
-    <div class="alert alert-danger text-center">
-      <strong>Error:</strong> {{ error }}
-    </div>
-  </div>
-</div>
-{% endif %}
-
-<!-- Gráfica -->
-{% if graph_png and graph_svg %}
-<div class="row justify-content-center mt-4">
-  <div class="col-lg-8">
-    <div class="card p-4 shadow-lg text-center">
-      <h4 class="font-weight-bold">Gráfica del Polinomio:</h4>
-      <img src="{% static 'graphs/spline_plot.png' %}" class="img-fluid mb-3" alt="Gráfica del Polinomio">
-      <div>
-        <a href="{% static 'graphs/spline_plot.png' %}" download="spline_plot.png" class="btn btn-custom btn-primary me-2">Descargar PNG</a>
-        <a href="{% static 'graphs/spline_plot.svg' %}" download="spline_plot.svg" class="btn btn-custom btn-orange">Descargar SVG</a>
+      <div class="card p-4 shadow-lg">
+        <h4 class="font-weight-bold text-center">Puntos Ingresados:</h4>
+        <table class="table table-bordered text-center">
+          <thead class="table-dark">
+            <tr>
+              <th>X</th>
+              <th>Y</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for x, y in points %}
+            <tr>
+              <td>{{ x }}</td>
+              <td>{{ y }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
-</div>
-{% endif %}
+  {% endif %}
+
+  <!-- Resultados -->
+  {% if splines %}
+  <div class="row justify-content-center mt-4">
+    <div class="col-lg-8">
+      <div class="card p-4 shadow-lg">
+        <h4 class="font-weight-bold text-center">Splines Calculados:</h4>
+        {% for spline in splines %}
+        <p>\[ {{ spline|safe }} \]</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Gráfica -->
+  {% if graph_png and graph_svg %}
+  <div class="row justify-content-center mt-4">
+    <div class="col-lg-8">
+      <div class="card p-4 shadow-lg text-center">
+        <h4 class="font-weight-bold">Gráfica del Spline:</h4>
+        <img src="{% static 'graphs/spline_plot.svg' %}" class="img-fluid mb-3" alt="Gráfica del Spline">
+        <div class="row">
+          <div class="col-lg-6">
+            <a href="{% static 'graphs/spline_plot.png' %}" download="spline_plot.png" class="btn btn-custom btn-primary me-2">Descargar PNG</a>
+          </div>
+          <div class="col-lg-6">
+            <a href="{% static 'graphs/spline_plot.svg' %}" download="spline_plot.svg" class="btn btn-custom btn-orange">Descargar SVG</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Consideraciones y Posibles Errores -->
+  <div class="mb-5 mt-5 w-auto bg-gray-200 p-4 alert alert-warning rounded-lg">
+    <h2 class="text-xl font-semibold text-black">Consideraciones y Posibles Errores</h2>
+    <ul class="mt-4 list-inside list-disc text-lg text-gray-800">
+        <li><strong class="text-blue-600">Orden de los Puntos:</strong> Es fundamental que los puntos ingresados estén ordenados en orden ascendente de X para evitar problemas en el cálculo del spline.</li>
+        <li><strong class="text-blue-600">Valores de x Únicos:</strong> No se permiten valores duplicados en el campo X, ya que esto puede causar divisiones por cero y matrices singulares.</li>
+        <li><strong class="text-blue-600">Número de Puntos:</strong> Se recomienda ingresar un número razonable de puntos. Demasiados puntos pueden llevar a una sobreajuste y a problemas de precisión numérica.</li>
+        <li><strong class="text-blue-600">Tipo de Spline:</strong> Asegúrate de seleccionar el tipo de spline adecuado según tus necesidades. Los splines cuadráticos ofrecen una mayor suavidad pero requieren más condiciones de continuidad.</li>
+        <li><strong class="text-blue-600">Errores de Entrada:</strong> Todos los campos deben ser numéricos. Si introduces valores no válidos, recibirás un mensaje de error.</li>
+    </ul>
+    <p class="mt-4 text-lg text-gray-700">Revisa cuidadosamente las entradas y asegúrate de que los datos estén bien definidos para evitar estos problemas.</p>
+  </div>
 
 </div>
 <br></br>
 
+<!-- Custom Styles for Matrix and Hover Effects -->
 <style>
-  body {
+  /* Aplicar la fuente Poppins globalmente */
+  body,
+  .card,
+  h1,
+  p,
+  label,
+  .form-control,
+  button {
     font-family: 'Poppins', sans-serif;
   }
 
@@ -174,18 +194,33 @@
 
   .btn-primary {
     background-color: #007bff;
+    border: none;
+  }
+
+  .btn-primary:hover {
+    background-color: #0056b3;
   }
 
   .btn-orange {
     background-color: #ff9800;
+    color: white;
+    border: none;
+  }
+
+  .btn-orange:hover {
+    background-color: #e68900;
   }
 
   .btn-success {
     background-color: #28a745;
+    color: white;
+    border: none;
   }
 
   .btn-danger {
     background-color: #dc3545;
+    color: white;
+    border: none;
   }
 
   .card {
@@ -217,12 +252,12 @@
     font-style: italic;
   }
 
-  input[type="text"]::-webkit-outer-spin-button,
-  input[type="text"]::-webkit-inner-spin-button {
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
   }
 
-  input[type="text"] {
+  input[type="number"] {
     -moz-appearance: textfield;
   }
   .table-dark th {
@@ -231,26 +266,27 @@
 </style>
 
 <script>
-    document.querySelector('.add-point').addEventListener('click', function() {
-      const container = document.querySelector('#points-container');
-      const newRow = `
-        <tr class="point-row">
-          <td>
-            <input type="text" name="x[]" class="form-control" placeholder="Ingrese X" required>
-          </td>
-          <td>
-            <input type="text" name="y[]" class="form-control" placeholder="Ingrese Y" required>
-          </td>
-          <td><button type="button" class="btn btn-danger remove-row">-</button></td>
-        </tr>`;
-      container.insertAdjacentHTML('beforeend', newRow);
-    });
-  
-    document.querySelector('#points-container').addEventListener('click', function(e) {
-      if (e.target.classList.contains('remove-row')) {
-        e.target.closest('.point-row').remove();
-      }
-    });
-  </script>
-  
-  {% endblock %}
+  // Funciones para añadir y eliminar filas dinámicamente en el formulario de puntos
+  document.querySelector('.add-point').addEventListener('click', function() {
+    const container = document.querySelector('#points-container');
+    const newRow = `
+      <tr class="point-row">
+        <td>
+          <input type="number" step="any" name="x[]" class="form-control" placeholder="Ingrese X" required>
+        </td>
+        <td>
+          <input type="number" step="any" name="y[]" class="form-control" placeholder="Ingrese Y" required>
+        </td>
+        <td><button type="button" class="btn btn-danger remove-row">-</button></td>
+      </tr>`;
+    container.insertAdjacentHTML('beforeend', newRow);
+  });
+
+  document.querySelector('#points-container').addEventListener('click', function(e) {
+    if (e.target.classList.contains('remove-row')) {
+      e.target.closest('.point-row').remove();
+    }
+  });
+</script>
+
+{% endblock %}
