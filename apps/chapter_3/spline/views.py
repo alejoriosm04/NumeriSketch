@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from django.shortcuts import render
+import time  # Importar el módulo time para generar timestamps
 
 def spline_view(request):
     initial_x = [0, 1, 2, 3, 4]
@@ -15,6 +16,7 @@ def spline_view(request):
         'graph_svg': None,
         'error': None,
         'points': zip(initial_x, initial_y),
+        'timestamp': None,  # Añadido para el cache busting
     }
 
     if request.method == 'POST':
@@ -47,6 +49,10 @@ def spline_view(request):
                 splines = quadratic_spline(x_values, y_values)
 
             context['splines'] = splines
+
+            # Generar un timestamp único para el cache busting
+            timestamp = int(time.time())
+            context['timestamp'] = timestamp
 
             graph_paths = plot_spline(x_values, y_values, splines, spline_type)
             context.update(graph_paths)
@@ -148,7 +154,9 @@ def plot_spline(x, y, splines, spline_type, png_path='static/graphs/spline_plot.
             b = y[i] - m * x[i]
             x_range = x_vals[(x_vals >= xi) & (x_vals <= xi1)]
             y_range = m * x_range + b
-            plt.plot(x_range, y_range, color='blue', label="Spline Lineal" if i == 0 else "")
+            # Añadir etiqueta solo una vez para la leyenda
+            label = "Spline Lineal" if i == 0 else ""
+            plt.plot(x_range, y_range, color='blue', label=label)
     else:
         # Obtener los coeficientes nuevamente para graficar
         n = len(x)
@@ -192,7 +200,9 @@ def plot_spline(x, y, splines, spline_type, png_path='static/graphs/spline_plot.
             xi, xi1 = x[i], x[i+1]
             x_range = x_vals[(x_vals >= xi) & (x_vals <= xi1)]
             y_range = a * x_range**2 + b * x_range + c
-            plt.plot(x_range, y_range, color='green', label="Spline Cuadrático" if i == 0 else "")
+            # Añadir etiqueta solo una vez para la leyenda
+            label = "Spline Cuadrático" if i == 0 else ""
+            plt.plot(x_range, y_range, color='green', label=label)
 
     plt.scatter(x, y, color='red', label="Puntos dados")
     plt.title(f"Interpolación Spline {spline_type.capitalize()}")

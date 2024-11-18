@@ -140,13 +140,15 @@
     <div class="col-lg-8">
       <div class="card p-4 shadow-lg text-center">
         <h4 class="font-weight-bold">Gráfica del Spline:</h4>
-        <img src="{% static 'graphs/spline_plot.svg' %}" class="img-fluid mb-3" alt="Gráfica del Spline">
+        <!-- Añadir el parámetro único al URL de la imagen SVG -->
+        <img src="{% static 'graphs/spline_plot.svg' %}?{{ timestamp }}" class="img-fluid mb-3" alt="Gráfica del Spline">
         <div class="row">
           <div class="col-lg-6">
-            <a href="{% static 'graphs/spline_plot.png' %}" download="spline_plot.png" class="btn btn-custom btn-primary me-2">Descargar PNG</a>
+            <!-- Añadir el parámetro único al URL de la imagen PNG -->
+            <a href="{% static 'graphs/spline_plot.png' %}?{{ timestamp }}" download="spline_plot.png" class="btn btn-custom btn-primary me-2">Descargar PNG</a>
           </div>
           <div class="col-lg-6">
-            <a href="{% static 'graphs/spline_plot.svg' %}" download="spline_plot.svg" class="btn btn-custom btn-orange">Descargar SVG</a>
+            <a href="{% static 'graphs/spline_plot.svg' %}?{{ timestamp }}" download="spline_plot.svg" class="btn btn-custom btn-orange">Descargar SVG</a>
           </div>
         </div>
       </div>
