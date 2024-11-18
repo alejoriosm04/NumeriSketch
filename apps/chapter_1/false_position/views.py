@@ -1,158 +1,157 @@
 import matplotlib
-matplotlib.use('Agg')  # Backend sin interfaz gráfica
+matplotlib.use('Agg') 
 
 import matplotlib.pyplot as plt
 import numpy as np
-from io import BytesIO
-import base64
 from django.shortcuts import render
 import math
+import re
+
+def falseposition_graph(fun, xi, xs, root=None, png_path='static/graphs/falseposition.png', svg_path='static/graphs/falseposition.svg'):
+    x_vals = np.linspace(xi, xs, 400)
+    y_vals = [eval(fun, {"x": val, **safe_math()}) for val in x_vals]
+
+    plt.figure(figsize=(8, 6))
+    plt.plot(x_vals, y_vals, label='f(x)', color='blue')
+    plt.axhline(0, color='black', linewidth=0.5, linestyle='--')
+    if root is not None:
+        plt.axvline(root, color='red', linestyle='--', label='Raíz aproximada')
+    plt.grid(color='gray', linestyle='--', linewidth=0.5)
+    plt.title('Gráfica de f(x)')
+    plt.xlabel('x')
+    plt.ylabel('f(x)')
+    plt.legend()
+
+    plt.savefig(png_path, format='png')
+    plt.savefig(svg_path, format='svg')
+    plt.close()
+
+    return {'png': png_path, 'svg': svg_path}
+
+def preprocess_function(fun):
+    """Preprocesa la función para convertir `^` a `**` y agregar multiplicaciones implícitas."""
+    fun = fun.replace('^', '**')
+    fun = re.sub(r'(\d)([a-zA-Z])', r'\1*\2', fun)
+    fun = re.sub(r'([a-zA-Z])(\d)', r'\1*\2', fun)
+    return fun
+
+def safe_math():
+    """Provee un entorno seguro con funciones matemáticas."""
+    return {
+        'sin': np.sin,
+        'cos': np.cos,
+        'tan': np.tan,
+        'pi': np.pi,
+        'e': np.e,
+        'log': np.log,
+        'log10': np.log10,
+        'log2': np.log2,
+        'exp': np.exp,
+        'sqrt': np.sqrt,
+        'abs': np.abs,
+        'sinh': np.sinh,
+        'cosh': np.cosh,
+        'tanh': np.tanh
+    }
 
 def falseposition_view(request):
     context = {}
-
-    # Diccionario seguro para evaluar expresiones matemáticas
-    safe_dict = {
-        'sin': math.sin,
-        'cos': math.cos,
-        'tan': math.tan,
-        'pi': math.pi,
-        'e': math.e,
-        'log': math.log,
-        'log10': math.log10,
-        'log2': math.log2,
-        'exp': math.exp,
-        'sqrt': math.sqrt,
-        'abs': abs,
-        'asin': math.asin,
-        'acos': math.acos,
-        'atan': math.atan,
-        'atan2': math.atan2,
-        'sinh': math.sinh,
-        'cosh': math.cosh,
-        'tanh': math.tanh,
-        'gamma': math.gamma,
-        'lgamma': math.lgamma
-    }
-
     if request.method == 'POST':
         try:
-            # Obtener los valores del formulario
-            xi = float(request.POST.get('xi', ''))
-            xs = float(request.POST.get('xs', ''))
-            tol = float(request.POST.get('tol', ''))
-            niter = int(request.POST.get('niter', ''))
-            fun = request.POST.get('fun', '')
+            xi = float(request.POST.get('xi', '').strip())
+            xs = float(request.POST.get('xs', '').strip())
+            tol = float(request.POST.get('tol', '').strip())
+            niter = int(request.POST.get('niter', '').strip())
+            fun = request.POST.get('fun', '').strip()
 
-            # Reemplazar '^' con '**' para la sintaxis de potencia en Python
-            fun = fun.replace('^', '**')
+            fun = preprocess_function(fun)
 
-            precision_type = request.POST.get('precision_type', '')
-            precision_value = int(request.POST.get('precision_value', ''))
+            try:
+                eval(fun, {"x": 1, **safe_math()})
+            except Exception as eval_error:
+                raise ValueError(f"Expresión no válida: {eval_error}")
 
-            # Ejecutar el método de bisección
-            fm, E, root, iterations = falseposition_method(xi, xs, tol, niter, fun, safe_dict)
+            root = None
+            try:
+                fm, E, root, iterations = falseposition_method(xi, xs, tol, niter, fun, safe_math())
+                context['msg'] = ['Cálculo completado']
+                context['table'] = [{'iteration': i, 'x_n': fm[i], 'fx_n': fm[i], 'error': E[i]} for i in range(len(E))]
+                context['root'] = root
+            except ValueError as ve:
+                context['msg'] = [f"Advertencia: {str(ve)}"]
 
-            # Definir el tipo de error a mostrar en la tabla
-            error_type = 'Error Relativo' if precision_type == 'significant_figures' else 'Error Absoluto'
+            graph_paths = falseposition_graph(fun, xi, xs, root)
 
-            # Generar gráfico
-            fig, ax = plt.subplots()
-            x_vals = np.linspace(xi, xs, 100)
-            y_vals = [eval(fun, {"x": val, "math": math}, safe_dict) for val in x_vals]
-            ax.plot(x_vals, y_vals)
-            ax.axhline(0, color='gray', lw=1)  # línea en y = 0
-
-            # Si se encuentra la raíz, ajustar con la precisión solicitada
-            if root is not None:
-                if precision_type == 'significant_figures':
-                    fm = [round_to_significant_figures(f, precision_value) for f in fm]
-                    root = round_to_significant_figures(root, precision_value)
-                    E = [round_to_significant_figures(e, precision_value) for e in E]
-                elif precision_type == 'decimal_places':
-                    fm = [round(f, precision_value) for f in fm]
-                    root = round(root, precision_value)
-                    E = [round(e, precision_value) for e in E]
-
-                ax.axvline(root, color='red', linestyle='--')
-
-            buf = BytesIO()
-            plt.savefig(buf, format='png')
-            plt.close(fig)
-            buf.seek(0)
-            img_base64 = base64.b64encode(buf.read()).decode('utf-8')
-
-            # Crear contexto con los resultados
-            context = {
+            context.update({
                 'fx': fun,
-                'msg': ['Cálculo completado'],
-                'graph': img_base64,
-                'table': [{'iteration': i, 'x_n': fm[i], 'fx_n': fm[i], 'error': E[i]} for i in range(iterations)],
-                'error_type': error_type,
-                'root': root,
-                # Valores del formulario para que se mantengan en la vista
+                'graph_png': graph_paths['png'],
+                'graph_svg': graph_paths['svg'],
+                'error_type': 'Error Absoluto',
                 'xi': xi,
                 'xs': xs,
                 'tol': tol,
                 'niter': niter,
                 'fun': fun,
-                'precision_type': precision_type,
-                'precision_value': precision_value,
-            }
+            })
 
+        except ValueError as e:
+            context.update({
+                'msg': [f"Error de entrada: {str(e)}"],
+                'xi': request.POST.get('xi', ''),
+                'xs': request.POST.get('xs', ''),
+                'tol': request.POST.get('tol', ''),
+                'niter': request.POST.get('niter', ''),
+                'fun': request.POST.get('fun', ''),
+            })
         except Exception as e:
-            context['msg'] = [f"Error: {str(e)}"]
+            context.update({
+                'msg': [f"Error inesperado: {str(e)}"],
+                'xi': request.POST.get('xi', ''),
+                'xs': request.POST.get('xs', ''),
+                'tol': request.POST.get('tol', ''),
+                'niter': request.POST.get('niter', ''),
+                'fun': request.POST.get('fun', ''),
+            })
 
     return render(request, 'falseposition.html', context)
-
-def round_to_significant_figures(value, sig_figs):
-    if value == 0:
-        return 0
-    else:
-        return round(value, sig_figs - int(np.floor(np.log10(abs(value)))) - 1)
 
 def falseposition_method(Xi, Xs, Tol, Niter, Fun, safe_dict):
     fm = []
     E = []
     x = Xi
-    fi = eval(Fun, {"x": Xi, "math": math}, safe_dict)
+    fi = eval(Fun, {"x": Xi}, safe_dict)
     x = Xs
-    fs = eval(Fun, {"x": Xs, "math": math}, safe_dict)
+    fs = eval(Fun, {"x": Xs}, safe_dict)
 
     if fi == 0:
-        return [], [], Xi, 0
+        return [Xi], [0], Xi, 1
     elif fs == 0:
-        return [], [], Xs, 0
+        return [Xs], [0], Xs, 1
     elif fs * fi < 0:
         c = 0
         Xm = Xs - (fs * (Xi - Xs)) / (fi - fs)
         x = Xm
-        fe = eval(Fun, {"x": Xm, "math": math}, safe_dict)
+        fe = eval(Fun, {"x": Xm}, safe_dict)
         fm.append(fe)
-        E.append(100)
+        E.append(abs(Xs - Xi))
 
         while E[c] > Tol and fe != 0 and c < Niter:
             if fi * fe < 0:
                 Xs = Xm
-                x = Xs
-                fs = eval(Fun, {"x": Xs, "math": math}, safe_dict)
             else:
                 Xi = Xm
-                x = Xi
-                fs = eval(Fun, {"x": Xi, "math": math}, safe_dict)
-
             Xa = Xm
             Xm = Xs - (fs * (Xi - Xs)) / (fi - fs)
             x = Xm
-            fe = eval(Fun, {"x": Xm, "math": math}, safe_dict)
+            fe = eval(Fun, {"x": Xm}, safe_dict)
             fm.append(fe)
             Error = abs(Xm - Xa)
             E.append(Error)
             c += 1
 
-        if fe == 0 or Error < Tol:
-            return fm, E, Xm, c
+        if fe == 0 or E[c] < Tol:
+            return fm, E, Xm, c + 1
         else:
-            return fm, E, Xm, Niter
+            return fm, E, Xm, c + 1
     else:
-        return [], [], None, None
+        raise ValueError("El intervalo proporcionado no contiene una raíz. Verifique que la función cambie de signo en el intervalo seleccionado.")
