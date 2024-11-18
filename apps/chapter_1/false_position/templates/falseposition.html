@@ -13,7 +13,7 @@
       <!-- Título -->
       <h1 class="mt-5 section-t">Método de Regla Falsa</h1>
       <p class="lead">
-        Es un procedimiento numérico utilizado para encontrar raíces de funciones continuas. Se basa en utilizar la interpolación lineal entre los puntos extremos de un intervalo. En cada iteración, se calcula un nuevo punto intermedio y se selecciona el subintervalo donde ocurre el cambio de signo de la función, garantizando la existencia de una raíz en ese subintervalo. Es un método eficiente que puede converger rápidamente cuando la función tiene un comportamiento lineal o cercano a lineal en la región del intervalo. Sin embargo, en funciones con comportamientos no uniformes, la convergencia puede ralentizarse.
+        Es un procedimiento numérico utilizado para encontrar raíces de funciones continuas. Se basa en utilizar la interpolación lineal entre los puntos extremos de un intervalo. En cada iteración, se calcula un nuevo punto intermedio y se selecciona el subintervalo donde ocurre el cambio de signo de la función, garantizando la existencia de una raíz en ese subintervalo. Es un método eficiente que puede converger rápidamente cuando la función tiene un comportamiento lineal o cercano a lineal en la región del intervalo.
       </p>
 
       <!-- Botón para mostrar/ocultar ayuda -->
@@ -80,11 +80,7 @@
               <option value="decimal_places" {% if precision_type == "decimal_places" %}selected{% endif %}>Decimales Correctos</option>
             </select>
           </div>
-          <div class="form-group mb-3">
-            <label for="precision_value">Número de Cifras/Decimales:</label>
-            <input type="number" id="precision_value" name="precision_value" class="form-control rounded shadow-sm" min="1"
-                   step="1" placeholder="Ejemplo: 5" value="{{ precision_value|default:'' }}" required>
-          </div>
+          
 
           <!-- Botón de calcular -->
           <button type="submit" class="btn btn-primary btn-lg w-100 shadow-sm">Calcular</button>
@@ -124,11 +120,17 @@
       </div>
 
       <!-- Gráfico -->
-      {% if graph %}
-      <div class="plot mt-4">
-        <img src="data:image/png;base64,{{ graph }}" class="img-fluid shadow" alt="Graph of f(x)">
-      </div>
-      {% endif %}
+{% if graph_png and graph_svg %}
+<div class="mt-4 text-center">
+  <h3>Gráfica de la Función:</h3>
+  <img src="{% static 'graphs/falseposition.png' %}" alt="Gráfica de la Función" class="img-fluid" />
+  <div class="mt-3">
+    <a href="{% static 'graphs/falseposition.png' %}" download="falseposition_graph.png" class="btn btn-custom btn-primary me-2">Descargar como PNG</a>
+    <a href="{% static 'graphs/falseposition.svg' %}" download="falseposition_graph.svg" class="btn btn-custom btn-orange">Descargar como SVG</a>
+  </div>
+</div>
+{% endif %}
+      
     </div>
   </div>
 
@@ -307,6 +309,53 @@
     background-color: #007bff;
     border-color: #007bff;
   }
+  .btn-custom {
+    width: 220px; 
+    height: 50px; 
+    font-size: 16px; 
+    font-weight: bold;
+    text-align: center;
+    border-radius: 5px;
+  }
+
+  .btn-primary {
+    background-color: #007bff; /* Azul */
+    border: none;
+  }
+
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+
+  .btn-orange {
+    background-color: #ff9800; 
+    color: white;
+    border: none;
+  }
+
+  .btn-orange:hover {
+    background-color: #e68900; 
+  }
+
+  .btn-orange:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(255, 152, 0, 0.5);
+  }
 </style>
+<script>
+  function resetFormInputs() {
+    document.querySelectorAll('form input, form select').forEach(input => {
+      if (input.type === 'number' || input.type === 'text') {
+        input.value = '';  
+      } else if (input.tagName === 'SELECT') {
+        input.selectedIndex = 0;  
+      }
+    });
+
+  
+    document.querySelectorAll('.alert').forEach(alert => alert.remove());
+  }
+</script>
+
 
 {% endblock %}
