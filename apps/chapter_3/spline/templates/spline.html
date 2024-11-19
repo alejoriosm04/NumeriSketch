@@ -140,11 +140,9 @@
     <div class="col-lg-8">
       <div class="card p-4 shadow-lg text-center">
         <h4 class="font-weight-bold">Gráfica del Spline:</h4>
-        <!-- Añadir el parámetro único al URL de la imagen SVG -->
         <img src="{% static 'graphs/spline_plot.svg' %}?{{ timestamp }}" class="img-fluid mb-3" alt="Gráfica del Spline">
         <div class="row">
           <div class="col-lg-6">
-            <!-- Añadir el parámetro único al URL de la imagen PNG -->
             <a href="{% static 'graphs/spline_plot.png' %}?{{ timestamp }}" download="spline_plot.png" class="btn btn-custom btn-primary me-2">Descargar PNG</a>
           </div>
           <div class="col-lg-6">
@@ -268,27 +266,34 @@
 </style>
 
 <script>
-  // Funciones para añadir y eliminar filas dinámicamente en el formulario de puntos
   document.querySelector('.add-point').addEventListener('click', function() {
-    const container = document.querySelector('#points-container');
+    const container = document.querySelectorAll('#points-container .point-row');
+    if (container.length >= 8) {
+        alert("Usted puede agregar hasta 8 puntos.");
+        return;
+    }
+    
     const newRow = `
       <tr class="point-row">
         <td>
-          <input type="number" step="any" name="x[]" class="form-control" placeholder="Ingrese X" required>
+          <input type="text" name="x[]" class="form-control" placeholder="Ingrese X" required>
         </td>
         <td>
-          <input type="number" step="any" name="y[]" class="form-control" placeholder="Ingrese Y" required>
+          <input type="text" name="y[]" class="form-control" placeholder="Ingrese Y" required>
         </td>
         <td><button type="button" class="btn btn-danger remove-row">-</button></td>
       </tr>`;
-    container.insertAdjacentHTML('beforeend', newRow);
-  });
+      
+    document.querySelector('#points-container').insertAdjacentHTML('beforeend', newRow);
+});
 
-  document.querySelector('#points-container').addEventListener('click', function(e) {
+// Eliminar filas
+document.querySelector('#points-container').addEventListener('click', function(e) {
     if (e.target.classList.contains('remove-row')) {
-      e.target.closest('.point-row').remove();
+        e.target.closest('.point-row').remove();
     }
-  });
+});
+
 </script>
 
 {% endblock %}
