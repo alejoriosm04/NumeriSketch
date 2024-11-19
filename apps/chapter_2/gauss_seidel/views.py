@@ -40,7 +40,7 @@ def gauss_seidel(request):
                 try:
                     b.append(float(value_b)) 
                 except ValueError:
-                    b.append(0.0)  
+                    b.append(1.0)  
 
             # Procesar el vector x0
             for i in range(matrix_size):
