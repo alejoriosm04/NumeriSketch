@@ -52,12 +52,12 @@ def sor_view(request):
             context['spectral_radius'] = spectral_radius
 
             if spectral_radius < 1:
-                context['convergence_message'] = "El radio espectral en el método SOR indica la rapidez de convergencia. Para que el método sea eficiente, este valor debe ser menor que 1, ya que garantiza la disminución progresiva del error en cada iteración. Ajustar el parámetro de relajación ω permite minimizar el radio espectral y optimizar la velocidad de convergencia."
+                context['convergence_message'] = "El radio espectral en el método SOR indica la rapidez de convergencia. Al ser menor que 1 garantiza la disminución progresiva del error en cada iteración. Ajustar el parámetro de relajación ω permite minimizar el radio espectral y optimizar la velocidad de convergencia."
             else:
                 context['convergence_message'] = "El método SoR no convergerá ya que el radio espectral es mayor o igual a 1."
 
             if "Fracasó" in message and warning:
-                context['warning_message'] = "Advertencia: La matriz puede no ser adecuada para la convergencia."
+                context['warning_message'] = "Advertencia: La matriz puede no ser adecuada para la convergencia (consulte el radio espectral). Si no es el caso, intente: modificar ω, agregar iteraciones y/o disminuir la tolerancia."
 
             if matrix_size == 2:
                 graph_paths = graph_system(A, b)
