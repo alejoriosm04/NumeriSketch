@@ -52,7 +52,7 @@ def sor_view(request):
             context['spectral_radius'] = spectral_radius
 
             if spectral_radius < 1:
-                context['convergence_message'] = "El radio espectral en el método SOR indica la rapidez de convergencia. Al ser menor que 1 garantiza la disminución progresiva del error en cada iteración. Ajustar el parámetro de relajación ω permite minimizar el radio espectral y optimizar la velocidad de convergencia."
+                context['convergence_message'] = "El método SoR convergerá ya que el radio espectral es menor a 1. El radio espectral en el método SOR indica la rapidez de convergencia. Al ser menor que 1 garantiza la disminución progresiva del error en cada iteración. Ajustar el parámetro de relajación ω permite minimizar el radio espectral y optimizar la velocidad de convergencia."
             else:
                 context['convergence_message'] = "El método SoR no convergerá ya que el radio espectral es mayor o igual a 1."
 
