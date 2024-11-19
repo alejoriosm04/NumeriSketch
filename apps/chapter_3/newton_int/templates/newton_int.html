@@ -159,7 +159,7 @@
     <div class="col-lg-8">
       <div class="card p-4 shadow-lg text-center">
         <h4 class="font-weight-bold">Gráfica del Polinomio:</h4>
-        <img src="{% static 'graphs/newton_plot.png' %}" class="img-fluid mb-3" alt="Gráfica del Polinomio">
+        <img src="{% static 'graphs/newton_plot.svg' %}" class="img-fluid mb-3" alt="Gráfica del Polinomio">
         <div>
           <a href="{% static 'graphs/newton_plot.png' %}" download="newton_plot.png" class="btn btn-custom btn-primary me-2">Descargar PNG</a>
           <a href="{% static 'graphs/newton_plot.svg' %}" download="newton_plot.svg" class="btn btn-custom btn-orange">Descargar SVG</a>
@@ -246,7 +246,12 @@
 
 <script>
   document.querySelector('.add-point').addEventListener('click', function() {
-    const container = document.querySelector('#points-container');
+    const container = document.querySelectorAll('#points-container .point-row');
+    if (container.length >= 8) {
+        alert("Usted puede agregar hasta 8 puntos.");
+        return;
+    }
+    
     const newRow = `
       <tr class="point-row">
         <td>
@@ -257,13 +262,15 @@
         </td>
         <td><button type="button" class="btn btn-danger remove-row">-</button></td>
       </tr>`;
-    container.insertAdjacentHTML('beforeend', newRow);
-  });
+      
+    document.querySelector('#points-container').insertAdjacentHTML('beforeend', newRow);
+});
 
+  // Eliminar filas
   document.querySelector('#points-container').addEventListener('click', function(e) {
-    if (e.target.classList.contains('remove-row')) {
-      e.target.closest('.point-row').remove();
-    }
+      if (e.target.classList.contains('remove-row')) {
+          e.target.closest('.point-row').remove();
+      }
   });
 </script>
 

@@ -8,7 +8,7 @@
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- Page Content -->
+<!-- Contenido de la Página -->
 <div class="container mt-5 pt-5">
   <div class="row justify-content-center">
     <div class="col-lg-8 text-center">
@@ -63,10 +63,10 @@
               {% for x, y in paired_values %}
               <tr class="point-row">
                 <td>
-                  <input type="text" name="x[]" class="form-control" placeholder="Ingrese X" value="{{ x }}" required>
+                  <input type="number" step="any" name="x[]" class="form-control" placeholder="Ingrese X" value="{{ x }}" required>
                 </td>
                 <td>
-                  <input type="text" name="y[]" class="form-control" placeholder="Ingrese Y" value="{{ y }}" required>
+                  <input type="number" step="any" name="y[]" class="form-control" placeholder="Ingrese Y" value="{{ y }}" required>
                 </td>
                 <td>
                   <button type="button" class="btn btn-danger remove-row">-</button>
@@ -153,7 +153,7 @@
         <li><strong class="text-blue-600">Valores de Y:</strong> La lista de valores y debe representar adecuadamente las salidas correspondientes a los valores de x, de lo contrario, el polinomio calculado no reflejará correctamente la relación entre las dos variables.</li>
     </ul>
     <p class="mt-4 text-lg text-gray-700">Revisa cuidadosamente las entradas y asegúrate de que los datos estén bien definidos para evitar estos problemas.</p>
-</div>
+  </div>
 
 </div>
 <br></br>
@@ -297,7 +297,14 @@
 <script>
   // Funciones para añadir y eliminar filas dinámicamente en el formulario de puntos
   document.querySelector('.add-point').addEventListener('click', function() {
-    const container = document.querySelector('#points-container');
+    const container = document.querySelectorAll('#points-container .point-row');
+    if (container.length >= 8) {
+        alert("Usted puede agregar hasta 8 puntos.");
+        // Deshabilitar el botón para evitar añadir más puntos
+        this.disabled = true;
+        return;
+    }
+    
     const newRow = `
       <tr class="point-row">
         <td>
@@ -308,14 +315,26 @@
         </td>
         <td><button type="button" class="btn btn-danger remove-row">-</button></td>
       </tr>`;
-    container.insertAdjacentHTML('beforeend', newRow);
-  });
+      
+    document.querySelector('#points-container').insertAdjacentHTML('beforeend', newRow);
 
-  document.querySelector('#points-container').addEventListener('click', function(e) {
-    if (e.target.classList.contains('remove-row')) {
-      e.target.closest('.point-row').remove();
+    // Verificar nuevamente después de añadir
+    const updatedContainer = document.querySelectorAll('#points-container .point-row');
+    if (updatedContainer.length >= 8) {
+        this.disabled = true;
     }
-  });
+});
+
+// Eliminar filas y reactivar el botón si el número de puntos es menor a 8
+document.querySelector('#points-container').addEventListener('click', function(e) {
+    if (e.target.classList.contains('remove-row')) {
+        e.target.closest('.point-row').remove();
+        const container = document.querySelectorAll('#points-container .point-row');
+        if (container.length < 8) {
+            document.querySelector('.add-point').disabled = false;
+        }
+    }
+});
 </script>
 
 {% endblock %}
