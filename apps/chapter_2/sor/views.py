@@ -15,14 +15,13 @@ def sor_view(request):
         'iteration_table': None,
         'result_message': None,
         'warning_message': None,
-        'spectral_radius': None,  # Agregar radio espectral al contexto
+        'spectral_radius': None,  
         'graph_png': None,
         'graph_svg': None
     }
 
     if request.method == 'POST':
         try:
-            # Datos del formulario
             matrix_size = int(request.POST.get('matrix_size', 3))
             context['matrix_size'] = range(matrix_size)
 
@@ -43,7 +42,7 @@ def sor_view(request):
                 'x0_values': x0,
                 'tol': tol,
                 'niter': niter,
-                'w': w  # Agregar el factor de relajación al contexto
+                'w': w 
             })
 
             # Llamada al método de SoR
@@ -52,10 +51,14 @@ def sor_view(request):
             context['result_message'] = message
             context['spectral_radius'] = spectral_radius
 
+            if spectral_radius < 1:
+                context['convergence_message'] = "El radio espectral en el método SOR indica la rapidez de convergencia. Para que el método sea eficiente, este valor debe ser menor que 1, ya que garantiza la disminución progresiva del error en cada iteración. Ajustar el parámetro de relajación ω permite minimizar el radio espectral y optimizar la velocidad de convergencia."
+            else:
+                context['convergence_message'] = "El método SoR no convergerá ya que el radio espectral es mayor o igual a 1."
+
             if "Fracasó" in message and warning:
                 context['warning_message'] = "Advertencia: La matriz puede no ser adecuada para la convergencia."
 
-            # Generar gráfica si es 2x2
             if matrix_size == 2:
                 graph_paths = graph_system(A, b)
                 context.update({
