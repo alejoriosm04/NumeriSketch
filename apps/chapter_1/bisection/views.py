@@ -51,7 +51,13 @@ def safe_math():
         'abs': np.abs,
         'sinh': np.sinh,
         'cosh': np.cosh,
-        'tanh': np.tanh
+        'tanh': np.tanh,
+        'asin': np.arcsin,
+        'acos': np.arccos,
+        'atan': np.arctan,
+        'gamma': math.gamma,
+        'lgamma': math.lgamma,
+        'atan2': np.arctan2,
     }
 
 def bisection_view(request):
