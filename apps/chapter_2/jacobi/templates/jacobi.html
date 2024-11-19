@@ -51,7 +51,7 @@
   <div class="row justify-content-center mt-4">
     <div class="col-lg-8">
       <div class="card p-4 shadow-lg">
-        <form method="POST" action="{% url 'jacobi' %}">
+        <form method="POST" action="{% url 'jacobi' %}" onsubmit="return validateAndSubmit()">
           {% csrf_token %}
           <div class="form-group mb-3">
             <label for="matrix_size">Tamaño de la Matriz:</label>

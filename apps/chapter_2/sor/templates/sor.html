@@ -51,7 +51,7 @@
   <div class="row justify-content-center mt-4">
     <div class="col-lg-8">
       <div class="card p-4 shadow-lg">
-        <form method="POST" action="{% url 'sor' %}"> <!-- Cambiar la URL a 'sor' -->
+        <form method="POST" action="{% url 'sor' %}" onsubmit="return validateAndSubmit()"> <!-- Cambiar la URL a 'sor' -->
           {% csrf_token %}
           <div class="form-group mb-3">
             <label for="matrix_size">Tamaño de la Matriz:</label>
