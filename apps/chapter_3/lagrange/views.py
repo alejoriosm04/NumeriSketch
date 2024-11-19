@@ -27,7 +27,10 @@ def lagrange_view(request):
                 raise ValueError("Debes ingresar al menos dos puntos para realizar la interpolación.")
 
             if len(x_values) != len(set(x_values)):
-                raise ValueError("Los valores de X o Y no deben repetirse para evitar divisiones por cero.")
+                raise ValueError("Los valores de X no deben repetirse para evitar divisiones por cero.")
+
+            if len(x_values) > 8:
+                raise ValueError("Solo puedes ingresar hasta 8 puntos.")
 
             context['x_values'] = x_values
             context['y_values'] = y_values
@@ -38,7 +41,6 @@ def lagrange_view(request):
             context['lagrange_terms'] = lagrange_terms
             context['points'] = list(zip(x_values, y_values))
 
-
             graph_paths = plot_lagrange(x_values, y_values, polynomial)
             context.update(graph_paths)
 
@@ -48,6 +50,7 @@ def lagrange_view(request):
             context['error'] = f"Error inesperado: {e}"
 
     return render(request, 'lagrange.html', context)
+
 
 
 

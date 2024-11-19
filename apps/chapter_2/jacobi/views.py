@@ -2,7 +2,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from django.shortcuts import render
 
-# Modificación en jacobi_view para mostrar advertencias solo si no converge
 def jacobi_view(request):
     context = {
         'range_matrices': range(2, 7),
@@ -15,14 +14,14 @@ def jacobi_view(request):
         'iteration_table': None,
         'result_message': None,
         'warning_message': None,
-        'spectral_radius': None,  # Agregar radio espectral al contexto
+        'spectral_radius': None,  
+        'convergence_message': None, 
         'graph_png': None,
         'graph_svg': None
     }
 
     if request.method == 'POST':
         try:
-            # Datos del formulario
             matrix_size = int(request.POST.get('matrix_size', 3))
             context['matrix_size'] = range(matrix_size)
 
@@ -44,16 +43,19 @@ def jacobi_view(request):
                 'niter': niter
             })
 
-            # Llamada al método de Jacobi
             solution, error, message, iteration_table, warning, spectral_radius = jacobi_method(A, b, x0, tol, niter)
             context['iteration_table'] = iteration_table
             context['result_message'] = message
             context['spectral_radius'] = spectral_radius
 
+            if spectral_radius < 1:
+                context['convergence_message'] = "El método de Jacobi convergerá ya que el radio espectral es menor que 1."
+            else:
+                context['convergence_message'] = "El método de Jacobi no convergerá ya que el radio espectral es mayor o igual a 1."
+
             if "Fracasó" in message and warning:
                 context['warning_message'] = "Advertencia: La matriz no es diagonal dominante. Esto puede afectar la convergencia."
 
-            # Generar gráfica si es 2x2
             if matrix_size == 2:
                 graph_paths = graph_system(A, b)
                 context.update({
@@ -67,6 +69,7 @@ def jacobi_view(request):
             context['result_message'] = f"Error inesperado: {e}"
 
     return render(request, 'jacobi.html', context)
+
 
 
 

@@ -193,6 +193,15 @@
   </div>
 </div>
 {% endif %}
+{% if convergence_message %}
+<div class="row justify-content-center mt-4">
+  <div class="col-lg-8">
+    <div class="alert alert-info text-center" role="alert">
+      <strong>{{ convergence_message }}</strong>
+    </div>
+  </div>
+</div>
+{% endif %}
 
 
  <!-- Mostrar Tabla de Iteraciones -->
