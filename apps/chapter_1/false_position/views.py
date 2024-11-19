@@ -154,4 +154,4 @@ def falseposition_method(Xi, Xs, Tol, Niter, Fun, safe_dict):
         else:
             return fm, E, Xm, c + 1
     else:
-        raise ValueError("El intervalo proporcionado no contiene una raíz. Verifique que la función cambie de signo en el intervalo seleccionado.")
+        raise ValueError("Error del intervalo seleccionado: El intervalo proporcionado puede no contener una raíz (F(x0)*F(Xs) ≥ 0). Utilice la gráfica para verificar que una linea recta entre los puntos (x0, F(x0)) y (xs, F(xs)) atraviesa el eje x.")
