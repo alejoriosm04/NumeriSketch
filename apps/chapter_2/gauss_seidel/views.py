@@ -45,7 +45,7 @@ def gauss_seidel(request):
                 except ValueError:
                     x0.append(0.0)
 
-            spectral_radius = np.max(np.abs(np.linalg.eigvals(A)))
+            spectral_radius = compute_spectral_radius(A)
 
             solution, error, matrices_by_iteration, iteration_table = gauss_seidel_method(A, b, x0, tol, niter)
 
@@ -84,6 +84,19 @@ def gauss_seidel(request):
         context['matrix_data'] = {'A': [], 'b': [], 'x0': []}
 
     return render(request, 'gauss_seidel.html', context)
+
+def compute_spectral_radius(A):
+    D = np.diag(np.diag(A))
+    L = np.tril(A, -1)
+    U = np.triu(A, 1)
+    
+    # Matriz iterativa T
+    T = -np.linalg.inv(D + L) @ U
+    
+    # Radio espectral de T
+    spectral_radius = np.max(np.abs(np.linalg.eigvals(T)))
+    return spectral_radius
+
 
 
 def gauss_seidel_method(A, b, x0, tol=1e-5, max_iter=20):
